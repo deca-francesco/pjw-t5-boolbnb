@@ -32,7 +32,7 @@ function show(req, res) {
 
     // db query for owner
     const owner_sql = `
-    select * 
+    select proprietari.*
     from proprietari
     join appartamenti
     on appartamenti.id_proprietario = proprietari.id
