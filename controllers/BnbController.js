@@ -95,7 +95,6 @@ function show(req, res) {
                 })
             })
         })
-
     })
 }
 
