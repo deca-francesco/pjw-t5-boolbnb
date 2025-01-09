@@ -34,8 +34,13 @@ function show(req, res) {
     connection.query(apartment_sql, [id], (err, results) => {
        if (err) return res.status(500).json({ err: err })
 
-            if (results.length == 0) return res.status(404).json({ err: 'apartment not found'
-    })
+            if (results.length == 0) return res.status(404).json({ err: 'apartment not found' })
+
+            const apartment= {
+        
+         }
+            
+                res.json(apartment)
 
     
 })
