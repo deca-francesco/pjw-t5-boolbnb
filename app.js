@@ -2,6 +2,7 @@ const express = require('express');
 const server = express();
 const BnbRouter = require('./routes/BnbRoutes')
 const cors = require('cors')
+const NotFound = require('./middleware/NotFound')
 
 server.use(cors());
 
@@ -15,6 +16,10 @@ server.listen(PORT, () => {
 server.get('/', (req, res) => {
     res.send('Server is up and running')
 })
+server.use(express.json());
 
 // BnB Routes
 server.use('/appartamenti', BnbRouter)
+
+// Gestione errore 404
+server.use(NotFound)
