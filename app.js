@@ -3,6 +3,7 @@ const server = express();
 const BnbRouter = require('./routes/BnbRoutes')
 const cors = require('cors')
 const NotFound = require('./middleware/NotFound')
+const ServerErrorsHandler = require('./middlewares/ServerErrorsHandler')
 
 server.use(cors());
 
@@ -23,3 +24,6 @@ server.use('/appartamenti', BnbRouter)
 
 // Gestione errore 404
 server.use(NotFound)
+
+// gestire gli errori generali del server (500)
+server.use(ServerErrorsHandler)
