@@ -16,7 +16,7 @@ function index(req, res) {
         // response object
         res.status(200).json({
             data: results,
-            count: results.lenght
+            count: results.length
         })
     })
 }
