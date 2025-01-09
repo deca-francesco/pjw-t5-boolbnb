@@ -1,14 +1,13 @@
-//import express
+// import express
 const express = require('express');
 
-//create router
+// create router
 const router = express.Router();
 
-//import controller
+// import controller
 const BnbController = require('../controllers/BnbController');
 
-//index route
-
+// index route
 router.get('/', BnbController.index)
 
 module.exports = router;
