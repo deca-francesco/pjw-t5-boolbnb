@@ -68,6 +68,7 @@ function show(req, res) {
         connection.query(owner_sql, Number([id]), (err, owner_results) => {
             // handle errors
             if (err) return res.status(500).json({ err: err })
+            console.log(owner_results)
             // save results as a property of apartment
             apartment.owner = owner_results
         })
@@ -76,6 +77,7 @@ function show(req, res) {
         connection.query(services_sql, Number([id]), (err, services_results) => {
             // handle errors
             if (err) return res.status(500).json({ err: err })
+            console.log(services_results)
             // save results as a property of apartment
             apartment.services = services_results
         })
@@ -84,6 +86,7 @@ function show(req, res) {
         connection.query(reviews_sql, Number([id]), (err, reviews_results) => {
             // handle errors
             if (err) return res.status(500).json({ err: err })
+            console.log(reviews_results)
             // save results as a property of apartment
             apartment.reviews = reviews_results
         })
