@@ -1,6 +1,6 @@
 const express = require('express');
 const server = express();
-const BnbRouter = require()
+const BnbRouter = require('./routes/bnbRoutes')
 const cors = require('cors')
 
 const HOST = process.env.HOST
