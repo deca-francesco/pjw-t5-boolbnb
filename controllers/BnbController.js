@@ -125,7 +125,7 @@ function create (req, res) {
 
     // take owner id from request parameters
     const owner_id = Number(req.params.id)
-    console.log(owner_id);
+    
     
 
     // take values from request body
