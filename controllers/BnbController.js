@@ -119,9 +119,38 @@ function review(req, res) {
     })
 }
 
+// create apartment
+
+function create (req, res) {
+
+    // take owner id from request parameters
+    const owner_id = Number(req.params.id)
+    console.log(owner_id);
+    
+
+    // take values from request body
+    const { titolo_riepilogativo,numero_stanze, numero_letti, numero_bagni, metri_quadri, indirizzo, immagine_appartamento } =  req.body
+
+    // sql query for new apartment
+    const new_apartment_sql = `INSERT INTO appartamenti SET titolo_riepilogativo = ?, numero_stanze = ?, numero_letti = ? , numero_bagni = ?, metri_quadri = ?, indirizzo = ?, immagine_appartamento = ?, id_proprietario = ?` 
+
+
+    // execute query
+    connection.query(new_apartment_sql, [ titolo_riepilogativo, numero_stanze, numero_letti, numero_bagni, metri_quadri, indirizzo, immagine_appartamento, owner_id ], (err, result) => {
+        if (err) return res.status(500).json({ error: err })
+
+        return res.status(201).json({ success: true })
+    })
+
+
+}
+
+
+
 
 module.exports = {
     index,
     show,
-    review
+    review,
+    create
 }
