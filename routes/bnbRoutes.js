@@ -16,4 +16,7 @@ router.get('/:id', BnbController.show)
 // review route
 router.post("/:id/recensione", BnbController.review)
 
+// create apartment route
+router.post('/nuovo/:id', BnbController.create )
+
 module.exports = router;
