@@ -64,7 +64,7 @@ function show(req, res) {
             if (err) return res.status(500).json({ err: err })
 
             // save results as a property of apartment
-            apartment.owner = owner_results[0]
+            apartment.proprietario = owner_results[0]
 
             // execute query for services
             connection.query(services_sql, Number([id]), (err, services_results) => {
@@ -73,7 +73,7 @@ function show(req, res) {
 
                 // save results as a property of apartment
                 const services_labels = services_results.map(service => service.label)
-                apartment.services = services_labels
+                apartment.servizi = services_labels
 
                 // execute query for reviews
                 connection.query(reviews_sql, Number([id]), (err, reviews_results) => {
@@ -81,7 +81,7 @@ function show(req, res) {
                     if (err) return res.status(500).json({ err: err })
 
                     // save results as a property of apartment
-                    apartment.reviews = reviews_results
+                    apartment.recensioni = reviews_results
 
                     // create the response
                     const responseData = {
