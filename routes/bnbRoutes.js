@@ -13,6 +13,9 @@ router.get('/', BnbController.index)
 // show route
 router.get('/:id', BnbController.show)
 
+// review route
+router.post("/:id/recensione", BnbController.review)
+
 
 
 module.exports = router;

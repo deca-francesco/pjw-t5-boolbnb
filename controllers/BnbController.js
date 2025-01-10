@@ -20,6 +20,8 @@ function index(req, res) {
     })
 }
 
+
+// show
 function show(req, res) {
 
     // get apartment id from request params
@@ -99,7 +101,27 @@ function show(req, res) {
 }
 
 
+// review
+function review(req, res) {
+    // take apartment id from request parameters
+    const apartment_id = Number(req.params.id)
+
+    // take values from request body
+    const { username, recensione, giorni_permanenza } = req.body
+
+    // sql query
+    const review_sql = `INSERT INTO recensioni SET id_appartamento = ?, username = ?, recensione = ?, data = CURRENT_DATE, giorni_permanenza = ?`
+
+    // execute query
+    connection.query(review_sql, [apartment_id, username, recensione, giorni_permanenza], (err, result) => {
+        if (err) return res.status(500).json({ error: err })
+        return res.status(201).json({ success: true })
+    })
+}
+
+
 module.exports = {
     index,
-    show
+    show,
+    review
 }
