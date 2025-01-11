@@ -15,7 +15,7 @@ function show(req, res) {
     console.log(`email: ${email}. password: ${password} ${req.body.password}`);
 
     // create the sql query
-    const sql = `SELECT * FROM proprietari WHERE email= ? AND password= ?`
+    const sql = `SELECT * FROM owners WHERE email= ? AND password= ?`
 
     // execute the query
     connection.query(sql, [email, password], (err, result) => {
@@ -29,21 +29,21 @@ function show(req, res) {
 function store(req, res) {
 
     // take values from the request body
-    const { nome, cognome, email, password, numero_telefonico } = req.body
+    const { name, last_name, email, password, phone_number } = req.body
 
     // using sha1 and md5 to hash the password
     const hashedPassword = sha1(md5(password))
 
     // validation for important fields
-    if (!nome || !cognome || !email || !password) {
+    if (!name || !last_name || !email || !password) {
         return res.status(400).json({ error: 'Non hai inserito tutti i campi obbligatori!' })
     }
 
     // create the sql query
-    const sql = `INSERT INTO proprietari SET nome= ?, cognome= ?, email= ?, password= ?, numero_telefonico= ? `;
+    const sql = `INSERT INTO owners SET name= ?, last_name= ?, email= ?, password= ?, phone_number= ? `;
 
     // execute the query
-    connection.query(sql, [nome, cognome, email, hashedPassword, numero_telefonico], (err, result) => {
+    connection.query(sql, [name, last_name, email, hashedPassword, phone_number], (err, result) => {
         if (err) return res.status(500).json({ error: err })
         return res.status(201).json({ success: true })
     })

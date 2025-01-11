@@ -1,6 +1,6 @@
 const express = require('express');
 const server = express();
-const BnbRouter = require('./routes/BnbRoutes')
+const ApartmentsRoutes = require('./routes/apartmentsRoutes')
 const ownerRoutes = require('./routes/ownerRoutes')
 const cors = require('cors')
 const NotFound = require('./middleware/NotFound')
@@ -22,10 +22,10 @@ server.get('/', (req, res) => {
 })
 
 // apartments' Routes
-server.use('/appartamenti', BnbRouter)
+server.use('/apartments', ApartmentsRoutes)
 
 // Owners' Routes
-server.use('/proprietari', ownerRoutes)
+server.use('/owners', ownerRoutes)
 
 // Handle 404 errors
 server.use(NotFound)

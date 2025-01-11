@@ -5,7 +5,7 @@ const connection = require('../database/connection');
 function index(req, res) {
 
     // db query 
-    const sql = `SELECT * FROM appartamenti`;
+    const sql = `SELECT * FROM apartments`;
 
     // execute the sql query
     connection.query(sql, (err, results) => {
@@ -20,7 +20,6 @@ function index(req, res) {
     })
 }
 
-
 // show
 function show(req, res) {
 
@@ -28,54 +27,58 @@ function show(req, res) {
     const id = req.params.id
 
     // db query for single apartment
-    const apartment_sql = `SELECT * FROM appartamenti WHERE id = ? `
+    const apartment_sql = `SELECT * FROM apartments WHERE id = ? `
 
     // db query for owner
     const owner_sql = `
-    select proprietari.*
-    from proprietari
-    join appartamenti
-    on appartamenti.id_proprietario = proprietari.id
-    where appartamenti.id = ? `
+    select owners.*
+    from owners
+    join apartments
+    on apartments.owner_id = owners.id
+    where apartments.id = ? `
 
     // db query for services
     const services_sql = `
-    select servizi.label
-    from servizi
-    join servizi_appartamento
-    on servizi.id = servizi_appartamento.id_servizio
-    where servizi_appartamento.id_appartamento = ? `
+    select services.label
+    from services
+    join services_apartments
+    on services.id = services_apartments.service_id
+    where services_apartments.apartment_id = ? `
 
     // db query for reviews
     const reviews_sql = `
     select *
-    from recensioni
-    where id_appartamento = ? `
+    from reviews
+    where apartment_id = ? `
 
     // execute the apartment_sql query
     connection.query(apartment_sql, Number([id]), (err, results) => {
+
         // handle errors
         if (err) return res.status(500).json({ err: err })
         if (!results[0]) return res.status(404).json({ err: '404! Apartment not found' })
+
         // save result
         const apartment = results[0]
 
         // execute query for owner
         connection.query(owner_sql, Number([id]), (err, owner_results) => {
+
             // handle errors
             if (err) return res.status(500).json({ err: err })
 
             // save results as a property of apartment
-            apartment.proprietario = owner_results[0]
+            apartment.owner = owner_results[0]
 
             // execute query for services
             connection.query(services_sql, Number([id]), (err, services_results) => {
+
                 // handle errors
                 if (err) return res.status(500).json({ err: err })
 
                 // save results as a property of apartment
                 const services_labels = services_results.map(service => service.label)
-                apartment.servizi = services_labels
+                apartment.services = services_labels
 
                 // execute query for reviews
                 connection.query(reviews_sql, Number([id]), (err, reviews_results) => {
@@ -83,7 +86,7 @@ function show(req, res) {
                     if (err) return res.status(500).json({ err: err })
 
                     // save results as a property of apartment
-                    apartment.recensioni = reviews_results
+                    apartment.reviews = reviews_results
 
                     // create the response
                     const responseData = {
@@ -103,17 +106,18 @@ function show(req, res) {
 
 // review
 function review(req, res) {
+
     // take apartment id from request parameters
     const apartment_id = Number(req.params.id)
 
     // take values from request body
-    const { username, recensione, giorni_permanenza } = req.body
+    const { username, review, days } = req.body
 
     // sql query
-    const review_sql = `INSERT INTO recensioni SET id_appartamento = ?, username = ?, recensione = ?, data = CURRENT_DATE, giorni_permanenza = ?`
+    const review_sql = `INSERT INTO reviews SET apartment_id = ?, username = ?, review = ?, date = CURRENT_DATE, days = ?`
 
     // execute query
-    connection.query(review_sql, [apartment_id, username, recensione, giorni_permanenza], (err, result) => {
+    connection.query(review_sql, [apartment_id, username, review, days], (err, result) => {
         if (err) return res.status(500).json({ error: err })
         return res.status(201).json({ success: true })
     })
@@ -121,32 +125,25 @@ function review(req, res) {
 
 // create apartment
 
-function create (req, res) {
+function create(req, res) {
 
     // take owner id from request parameters
     const owner_id = Number(req.params.id)
-    
-    
 
     // take values from request body
-    const { titolo_riepilogativo,numero_stanze, numero_letti, numero_bagni, metri_quadri, indirizzo, immagine_appartamento } =  req.body
+    const { title, rooms, beds, bathrooms, square_meters, address, image } = req.body
 
     // sql query for new apartment
-    const new_apartment_sql = `INSERT INTO appartamenti SET titolo_riepilogativo = ?, numero_stanze = ?, numero_letti = ? , numero_bagni = ?, metri_quadri = ?, indirizzo = ?, immagine_appartamento = ?, id_proprietario = ?` 
-
+    const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, image = ?`
 
     // execute query
-    connection.query(new_apartment_sql, [ titolo_riepilogativo, numero_stanze, numero_letti, numero_bagni, metri_quadri, indirizzo, immagine_appartamento, owner_id ], (err, result) => {
+    connection.query(new_apartment_sql, [owner_id, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
         if (err) return res.status(500).json({ error: err })
 
         return res.status(201).json({ success: true })
     })
 
-
 }
-
-
-
 
 module.exports = {
     index,
