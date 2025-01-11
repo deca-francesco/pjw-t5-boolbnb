@@ -1,6 +1,7 @@
 const connection = require('../database/connection');
 const sha1 = require('sha1')
 const md5 = require('md5')
+const Joi = require('joi')
 
 // show function
 function show(req, res) {
@@ -25,8 +26,26 @@ function show(req, res) {
     })
 }
 
+
+
 // function store to add a new owner
 function store(req, res) {
+
+    // validation datas for a new owner
+
+    const schema = Joi.object({
+        name: Joi.string().min(3).required(),
+        last_name: Joi.string().min(3).required(),
+        email: Joi.string().email().required(),
+        password: Joi.string().min(8).required(),
+        phone_number: Joi.string().optional()
+    })
+
+    const { error } = schema.validate(req.body)
+
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message })
+    }
 
     // take values from the request body
     const { name, last_name, email, password, phone_number } = req.body
@@ -44,7 +63,15 @@ function store(req, res) {
 
     // execute the query
     connection.query(sql, [name, last_name, email, hashedPassword, phone_number], (err, result) => {
-        if (err) return res.status(500).json({ error: err })
+        if (err) {
+            if (err.code === 'ER_DUP_ENTRY') {
+                return res.status(400).json({ error: `L'email è già registrata` })
+            }
+
+            return res.status(500).json({ error: err })
+
+        }
+
         return res.status(201).json({ success: true })
     })
 }
