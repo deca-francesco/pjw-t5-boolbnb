@@ -200,10 +200,7 @@ function vote(req, res) {
     // execute query
     connection.query(vote_sql, [id], (err, result) => {
         if (err) return res.status(500).json({ error: err })
-        index()
-        return res.status(201).json({
-            success: true
-        })
+        index(req, res)
     })
 }
 
