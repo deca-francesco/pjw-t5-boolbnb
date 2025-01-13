@@ -3,8 +3,8 @@ const JWT_SECRET = process.env.JWT_SECRET
 
 // Middleware to check the token
 function verifyToken(req, res, next) {
-    const token = req.header('Authorization')
-    if (!token) return res.status(401).json({ message: 'Accesso negato!', err })
+    const token = req.header('Authorization')?.split(' ')[1]
+    if (!token) return res.status(401).json({ message: 'Accesso negato!' })
 
     try {
         const verified = jwt.verify(token, JWT_SECRET)

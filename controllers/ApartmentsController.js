@@ -143,6 +143,15 @@ function review(req, res) {
 // create apartment
 function create(req, res) {
 
+    // verification token
+    const { id: userId } = req.user
+
+    // verification that the owner who creates the new apartment is the same of the token given
+    const owner_id = Number(req.params.id)
+    if (userId !== owner_id) {
+        return res.status(403).json({ error: 'Non puoi inserire un nuovo appartamento' })
+    }
+
     // validate data input
     const schema = Joi.object({
         title: Joi.string().min(3).required(),
@@ -159,9 +168,6 @@ function create(req, res) {
     if (error) {
         return res.status(400).json({ error: error.details[0].message })
     }
-
-    // take owner id from request parameters
-    const owner_id = Number(req.params.id)
 
     // take values from request body
     const { title, rooms, beds, bathrooms, square_meters, address, image } = req.body
