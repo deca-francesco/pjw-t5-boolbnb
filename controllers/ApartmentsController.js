@@ -21,6 +21,7 @@ function index(req, res) {
     })
 }
 
+
 // show
 function show(req, res) {
 
@@ -180,9 +181,31 @@ function create(req, res) {
 
 }
 
+
+// vote
+function vote(req, res) {
+
+    // get id from request_params
+    const id = Number(req.params.id)
+
+    // vote +1 query
+    const vote_sql = `UPDATE apartments SET vote = vote + 1 WHERE id = ?`
+
+    // execute query
+    connection.query(vote_sql, [id], (err, result) => {
+        if (err) return res.status(500).json({ error: err })
+        index()
+        return res.status(201).json({
+            success: true
+        })
+    })
+}
+
+
 module.exports = {
     index,
     show,
     review,
-    create
+    create,
+    vote
 }
