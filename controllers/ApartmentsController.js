@@ -145,10 +145,10 @@ function create(req, res) {
     // validate data input
     const schema = Joi.object({
         title: Joi.string().min(3).required(),
-        rooms: Joi.number().integer().positive().required(),
-        beds: Joi.number().integer().positive().required(),
-        bathrooms: Joi.number().integer().positive().required(),
-        square_meters: Joi.number().positive().required(),
+        rooms: Joi.number().integer().min(1).required(),
+        beds: Joi.number().integer().min(1).required(),
+        bathrooms: Joi.number().integer().min(1).required(),
+        square_meters: Joi.number().min(1).required(),
         address: Joi.string().required(),
         image: Joi.string()
     })
