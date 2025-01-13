@@ -111,13 +111,13 @@ function review(req, res) {
     const apartment_id = Number(req.params.id)
 
     // take values from request body
-    const { username, review, days } = req.body
+    const { username, email, review, days } = req.body
 
     // sql query
-    const review_sql = `INSERT INTO reviews SET apartment_id = ?, username = ?, review = ?, date = CURRENT_DATE, days = ?`
+    const review_sql = `INSERT INTO reviews SET apartment_id = ?, username = ?, email = ?, review = ?, date = CURRENT_DATE, days = ?`
 
     // execute query
-    connection.query(review_sql, [apartment_id, username, review, days], (err, result) => {
+    connection.query(review_sql, [apartment_id, username, email, review, days], (err, result) => {
         if (err) return res.status(500).json({ error: err })
         return res.status(201).json({ success: true })
     })
