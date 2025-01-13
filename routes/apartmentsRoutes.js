@@ -1,6 +1,9 @@
 // import express
 const express = require('express');
 
+// import middleware for token validation
+const verifyToken = require('../middleware/TokenValidation')
+
 // create router
 const router = express.Router();
 
@@ -17,6 +20,6 @@ router.get('/:id', ApartmentsController.show)
 router.post("/review/:id", ApartmentsController.review)
 
 // create apartment route
-router.post('/new/:id', ApartmentsController.create)
+router.post('/new/:id', verifyToken, ApartmentsController.create)
 
 module.exports = router;

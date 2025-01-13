@@ -1,6 +1,10 @@
 const connection = require('../database/connection');
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
 const Joi = require('joi')
+
+// secret key
+const JWT_SECRET = process.env.JWT_SECRET
 
 // show function
 function show(req, res) {
@@ -11,6 +15,7 @@ function show(req, res) {
     // console log to check the email and the passwords
     console.log(`email: ${email}. password: ${password}`);
 
+    // check if the user add an email and a password
     if (!email || !password) {
         return res.status(400).json({ error: 'Email e Password sono obbligatori' })
     }
@@ -23,20 +28,30 @@ function show(req, res) {
         if (err) return res.status(err).json({ error: err.message })
         if (!result[0]) return res.status(404).json({ message: 'Email o Password sbagliati', err })
 
+        // save the data
         const owner = result[0]
 
+        // bcrypt compare the password in the request body with the password in the database
         const match = bcrypt.compareSync(password, owner.password)
 
+        // check if they match
         if (!match) {
             return res.status(404).json({ message: 'Email o Password sbagliati' })
         }
 
+        // create a token JWT
+        const token = jwt.sign(
+            { id: owner.id, email: owner.email },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        )
+
+        // saves the data without the hashed password and give the token to the owner
         const ownerWithoutPassword = { ...owner }
 
         delete ownerWithoutPassword.password
 
-
-        res.status(200).json({ utente: ownerWithoutPassword })
+        res.status(200).json({ utente: ownerWithoutPassword, token })
     })
 
 }
@@ -63,7 +78,7 @@ function store(req, res) {
     // take values from the request body
     const { name, last_name, email, password, phone_number } = req.body
 
-    // using sha1 and md5 to hash the password
+    // using bcrypt to hash the password
     const hashedPassword = bcrypt.hashSync(password, 10)
 
     // validation for important fields
@@ -85,7 +100,13 @@ function store(req, res) {
 
         }
 
-        return res.status(201).json({ success: true })
+        const token = jwt.sign(
+            { id: result.insertId, email: email },
+            JWT_SECRET,
+            { expiresIn: '1h' }
+        )
+
+        return res.status(201).json({ new_owner: result, token })
     })
 }
 
