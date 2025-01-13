@@ -5,7 +5,7 @@ const connection = require('../database/connection');
 function index(req, res) {
 
     // db query 
-    const sql = `SELECT * FROM apartments`;
+    const sql = `SELECT * FROM apartments ORDER BY vote DESC`;
 
     // execute the sql query
     connection.query(sql, (err, results) => {
