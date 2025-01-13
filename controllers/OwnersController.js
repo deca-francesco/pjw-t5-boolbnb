@@ -106,7 +106,15 @@ function store(req, res) {
             { expiresIn: '1h' }
         )
 
-        return res.status(201).json({ new_owner: result, token })
+        const newOwner = {
+            id: result.insertId,
+            name,
+            last_name,
+            email,
+            phone_number
+        };
+
+        res.status(200).json({ utente: newOwner, token })
     })
 }
 
