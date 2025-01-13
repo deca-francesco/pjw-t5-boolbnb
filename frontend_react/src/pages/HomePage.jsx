@@ -1,9 +1,13 @@
 import ApartmentCard from '../components/ApartmentCard';
 import { useState, useEffect } from 'react'
+
+
 export default function HomePage(){
 
+
     // url api
-        const base_apartment_api_url= 'http://localhost:3000/apartments'
+        const base_api_url= import.meta.env.EXPRESS_API_SERVER
+        const apartment_api_url= `${base_api_url}apartments`
         const [ apartments, setApartments ] = useState([]);
 
 
@@ -11,7 +15,7 @@ export default function HomePage(){
 
             //make a fetch request to the base api endpoint
 
-        fetch(base_apartment_api_url)
+        fetch(apartment_api_url)
         .then(res => {
             if (!res.ok) {
                 throw new Error(`HTTP error! Status: ${res.status}`);
