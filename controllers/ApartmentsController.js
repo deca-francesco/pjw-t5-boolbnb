@@ -123,8 +123,8 @@ function review(req, res) {
     })
 }
 
-// create apartment
 
+// create apartment
 function create(req, res) {
 
     // take owner id from request parameters
@@ -140,7 +140,10 @@ function create(req, res) {
     connection.query(new_apartment_sql, [owner_id, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
         if (err) return res.status(500).json({ error: err })
 
-        return res.status(201).json({ success: true })
+        return res.status(201).json({
+            success: true,
+            new_apartment_id: result.insertId
+        })
     })
 
 }
