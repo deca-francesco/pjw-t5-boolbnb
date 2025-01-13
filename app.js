@@ -6,8 +6,10 @@ const cors = require('cors')
 const NotFound = require('./middleware/NotFound')
 const ServerErrorsHandler = require('./middleware/ServerErrorsHandler')
 
-server.use(cors());
+// cors policy unlock only for this domain
+server.use(cors({ origin: process.env.WEBAPP_FRONT_ORIGIN }))
 
+// body parser
 server.use(express.json());
 
 const HOST = process.env.HOST
