@@ -33,7 +33,7 @@ function show(req, res) {
 
     // db query for owner
     const owner_sql = `
-    select owners.*
+    select owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
     from owners
     join apartments
     on apartments.owner_id = owners.id
