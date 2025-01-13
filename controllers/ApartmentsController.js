@@ -1,4 +1,5 @@
 // import connection
+const Joi = require('joi');
 const connection = require('../database/connection');
 
 // index
@@ -107,6 +108,20 @@ function show(req, res) {
 // review
 function review(req, res) {
 
+    // validate data input
+    const schema = Joi.object({
+        username: Joi.string().min(3).required(),
+        email: Joi.string().email().required(),
+        review: Joi.string().min(3).required(),
+        days: Joi.number().min(1).required()
+    })
+
+    const { error } = schema.validate(req.body)
+
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message })
+    }
+
     // take apartment id from request parameters
     const apartment_id = Number(req.params.id)
 
@@ -126,6 +141,23 @@ function review(req, res) {
 
 // create apartment
 function create(req, res) {
+
+    // validate data input
+    const schema = Joi.object({
+        title: Joi.string().min(3).required(),
+        rooms: Joi.number().integer().positive().required(),
+        beds: Joi.number().integer().positive().required(),
+        bathrooms: Joi.number().integer().positive().required(),
+        square_meters: Joi.number().positive().required(),
+        address: Joi.string().required(),
+        image: Joi.string()
+    })
+
+    const { error } = schema.validate(req.body)
+
+    if (error) {
+        return res.status(400).json({ error: error.details[0].message })
+    }
 
     // take owner id from request parameters
     const owner_id = Number(req.params.id)
