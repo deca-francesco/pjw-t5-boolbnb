@@ -22,4 +22,8 @@ router.post("/review/:id", ApartmentsController.review)
 // create apartment route
 router.post('/new/:id', verifyToken, ApartmentsController.create)
 
+// vote route
+router.get("/vote/:id", ApartmentsController.vote)
+
+
 module.exports = router;
