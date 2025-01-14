@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import LoginButton from './LoginButton'
+import LoginButton from '../LoginComponents/LoginButton'
 
 export default function Header() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
     const navigate = useNavigate()
 
+    // If the token is found in the localStorage it means that the user is authenticated
     useEffect(() => {
         const token = localStorage.getItem('authToken')
         if (token) {
@@ -16,21 +17,20 @@ export default function Header() {
         }
     }, [])
 
+    // Logout function
     const handleLogout = () => {
-        localStorage.removeItem('authToken')
-        setIsAuthenticated(false)
+        localStorage.removeItem('authToken');
+        setIsAuthenticated(false);
+        navigate('/');
+    };
 
-        navigate('/')
-    }
-
+    // Function to go back to HomePage when the logo is pressed
     const handleHomeClick = (e) => {
         e.preventDefault();  // Previeni il comportamento di navigazione predefinito
 
         if (isAuthenticated) {
-            // Se l'utente è loggato, rimani su '/protected'
             navigate('/protected', { replace: true });
         } else {
-            // Se non è loggato, vai alla homepage
             navigate('/');
         }
     };
@@ -61,15 +61,9 @@ export default function Header() {
 
                             <LoginButton setIsAuthenticated={setIsAuthenticated} />
 
-                            /* altri link navigazione */
-
                         )}
                     </ul>
                 </nav>
-
-                {/* componente searchbar */}
-
-
             </div>
         </header>
 

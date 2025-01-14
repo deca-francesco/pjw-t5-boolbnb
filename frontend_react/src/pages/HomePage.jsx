@@ -1,6 +1,5 @@
-import ApartmentCard from '../components/ApartmentCard';
+import ApartmentCard from '../components/ApartmentsComponents/ApartmentCard';
 import { useState, useEffect } from 'react'
-import LoginButton from '../components/LoginButton'
 
 
 export default function HomePage() {

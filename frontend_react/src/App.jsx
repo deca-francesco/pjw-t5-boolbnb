@@ -4,9 +4,10 @@ import AppLayout from './layout/AppLayuot'
 import HomePage from './pages/HomePage'
 import ProtectedHomePage from './pages/ProtectedHomePage'
 import SingleApartmentPage from './pages/SingleApartmentPage'
-import PrivateRoute from './components/privateRoute'
-function App() {
+import PrivateRoute from './components/LoginComponents/PrivateRoute'
+import LoginPage from './pages/Loginpage'
 
+function App() {
 
   return (
     <>
@@ -20,6 +21,7 @@ function App() {
               <PrivateRoute>
                 <ProtectedHomePage />
               </PrivateRoute>} />
+            <Route path='/login' element={<LoginPage />} />
           </Route>
 
         </Routes>

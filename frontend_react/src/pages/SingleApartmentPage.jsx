@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import SingleApartment from "../components/SingleApartment"
-import OwnerSingleApartment from "../components/OwnerSingleApartment"
-import ReviewFormCard from "../components/ReviewFormCard";
-import ContactOwner from "../components/ContactOwner";
+import SingleApartment from '../components/ApartmentsComponents/SingleApartment'
+import OwnerSingleApartment from "../components/ApartmentsComponents/OwnerSingleApartment"
+import ReviewFormCard from "../components/ApartmentsComponents/ReviewFormCard";
+import ContactOwner from "../components/ApartmentsComponents/ContactOwner";
 
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.

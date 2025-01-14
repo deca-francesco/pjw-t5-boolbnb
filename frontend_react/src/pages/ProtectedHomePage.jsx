@@ -1,4 +1,4 @@
-import ApartmentCard from '../components/ApartmentCard';
+import ApartmentCard from '../components/ApartmentsComponents/ApartmentCard';
 import { useState, useEffect } from 'react'
 
 export default function ProtectedHomePage() {
