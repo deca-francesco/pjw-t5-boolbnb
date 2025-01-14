@@ -11,7 +11,11 @@ function verifyToken(req, res, next) {
         req.user = verified
         next()
     } catch (err) {
-        return res.status(400).json({ message: 'Token non valido', err })
+        if (err.name === 'TokenExpiredError') {
+            return res.status(401).json({ message: `Sessione scaduta! effettua nuovamente l'accesso ` })
+        }
+
+        return res.status(400).json({ message: 'Accesso negato!' })
     }
 }
 

@@ -11,13 +11,6 @@ export default function HomePage() {
     const apartment_api_url = base_api_url + '/apartments'
     const [apartments, setApartments] = useState([]);
 
-    console.log(apartment_api_url);
-
-
-
-
-
-
     useEffect(() => {
 
         //make a fetch request to the base api endpoint
