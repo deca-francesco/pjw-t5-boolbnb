@@ -1,25 +1,28 @@
-// import { useState } from 'react'
+export default function HeartIconVote({ data_apartment_id, setApartments }) {
 
-export default function HeartIconVote() {
-
-    // const [loading, setLoading] = useState(false)
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
+    const url = `${base_api_url}/apartments/vote/${data_apartment_id}`
 
     const handleHeartClick = async (e) => {
         e.preventDefault()
-        const cardId = e.target.getAttribute("data-card-id")
-        // setLoading(true)
+
         try {
-            const response = await fetch(`${base_api_url}/vote/${cardId}`,)
-            const data = await response.json()
-            console.log("Fetch successful: ", data)
+            const response = await fetch(url)
+            console.log(url);
+
+            if (response.ok) {
+                const data = await response.json()
+                console.log("Fetch successful: ", data.data)
+                setApartments(data.data)
+            } else {
+                console.error("Error fetching data: ", response.statusText)
+            }
         } catch (error) { console.error("Error fetching data: ", error); }
-        // setLoading(false)
     }
 
     return (
         <>
-            <button><i class="bi bi-heart" onClick={handleHeartClick}></i></button>
+            <i className="bi bi-heart" onClick={handleHeartClick}></i>
         </>
     )
 }
