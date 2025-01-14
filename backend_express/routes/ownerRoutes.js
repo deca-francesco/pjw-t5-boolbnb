@@ -8,7 +8,7 @@ const router = express.Router();
 const OwnersController = require('../controllers/OwnersController')
 
 // show owner route
-router.get('/', OwnersController.show)
+router.get('/login', OwnersController.show)
 
 // store owner route
 router.post('/new', OwnersController.store)
