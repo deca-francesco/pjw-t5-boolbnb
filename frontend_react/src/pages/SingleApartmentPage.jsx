@@ -11,7 +11,7 @@ export default function SingleApartmentPage() {
 
     //useEffect to load apartment details
     useEffect(() => {
-        fetch(`${apiUrl}apartments/${id}`)
+        fetch(`${apiUrl}/apartments/${id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
