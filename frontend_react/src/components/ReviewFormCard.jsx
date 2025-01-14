@@ -80,9 +80,21 @@ export default function ReviewFormCard({apartment_id, success}) {
                             <textarea  className='w-100'name="review" id="review" value={review} onChange={(e)=> setReview(e.target.value)}></textarea>
                         </div>
                         
-                        <div className="mb-3">
-                        <input name="days" id="days" type="number" className="form-control" placeholder="days" value={days} onChange={(e)=> setDays(e.target.value)} />
-                        </div>
+                        <input 
+                            name="days" 
+                            id="days" 
+                            type="number" 
+                            className="form-control" 
+                            placeholder="days" 
+                            value={days} 
+                            onChange={(e) => {
+                                const value = e.target.value;
+                                if (value >= 0) {
+                                    setDays(value);
+                                }
+                            }} 
+                        />
+
 
                         <button type="submit" className="btn btn-primary "><strong>Send</strong></button>
                         </form>
