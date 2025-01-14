@@ -40,15 +40,15 @@ export default function Header() {
         <header className="bg-dark py-3 px-4 shadow ">
             <div className="container d-flex justify-content-between align-items-center">
                 <div className="logo">
-                    <h1 className="text-white">BoolB&b</h1>
+                    <a className="text-decoration-none" href="/"><h1 className="text-white">BoolB&b</h1></a>
                 </div>
 
                 <nav className="nav">
                     <ul className="d-flex list-unstyled m-0">
+      
                         <li className="mx-3">
                             <a href="/protected" className="text-white text-decoration-none" onClick={handleHomeClick}>Home</a>
                         </li>
-
 
                         {isAuthenticated ? (
                             <>
