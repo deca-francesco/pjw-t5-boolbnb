@@ -4,8 +4,8 @@ export default function Footer() {
         <>
             <footer className="bg-dark py-5 text-white d-flex justify-content-between">
                 <div className="container">
-                    <div className="row">
-                        <div className="about col-md">
+                    <div className="row row-cols-md-3 row-cols-lg-3 row-cols-sm-1">
+                        <div className="about col">
                             <nav>
                                 <h5 className="mb-3">ABOUT US</h5>
                                 <ul className="list-unstyled">
@@ -14,7 +14,7 @@ export default function Footer() {
                                 </ul>
                             </nav>
                         </div>
-                        <div className="contact-info col-md">
+                        <div className="contact-info col">
                             <h5 className="mb-3">CONTACT US</h5>
                             <p><i className="bi bi-geo-alt"></i> 1234 Main Street, Cityville, Country</p>
                             <p><i className="bi bi-envelope"></i> contact@example.com</p>
@@ -22,17 +22,17 @@ export default function Footer() {
                         </div>
 
 
-                        <div className="social col-md">
+                        <div id="social" className="col d-flex flex-column align-items-center">
                             <h5 className="mb-3">FOLLOW US</h5>
                             <ul className="list-unstyled">
                                 <li className="mb-2">
-                                    <a className="text-decoration-none text-white" href="/"><i className="m-2 bi bi-facebook"></i> <strong>Facebook</strong> </a>
+                                    <a className="text-decoration-none text-white" href="/"><i className="me-2 bi bi-facebook"></i> <strong>Facebook</strong> </a>
                                 </li>
                                 <li className="mb-2">
-                                    <a className="text-decoration-none text-white" href="/"><i className="m-2 bi bi-twitter"></i> <strong>Twitter</strong> </a>
+                                    <a className="text-decoration-none text-white" href="/"><i className="me-2 bi bi-twitter"></i> <strong>Twitter</strong> </a>
                                 </li>
                                 <li className="mb-2">
-                                    <a className="text-decoration-none text-white" href="/"><i className="m-2 bi bi-instagram"></i> <strong>Instagram</strong></a>
+                                    <a className="text-decoration-none text-white" href="/"><i className="me-2 bi bi-instagram"></i> <strong>Instagram</strong></a>
                                 </li>
                             </ul>
                         </div>
