@@ -43,7 +43,7 @@ export default function SingleApartmentPage() {
                   <btn className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
                     {showForm ? 'Close' : 'Add Review'}
                   </btn>
-                  {showForm && <ReviewFormCard movie_id={id} />}
+                  {showForm && <ReviewFormCard apartment_id={id} />}
             </div>
 
         </>
