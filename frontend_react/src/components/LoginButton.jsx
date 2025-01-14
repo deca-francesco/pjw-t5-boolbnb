@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
 
-export default function LoginButton() {
+export default function LoginButton({ setIsAuthenticated }) {
 
     // State for open or close form
     const [showForm, setShowForm] = useState(false);
@@ -83,6 +83,10 @@ export default function LoginButton() {
                 if (data.token) {
                     // Save the token in localStorage
                     localStorage.setItem("authToken", data.token);
+
+                    // Update the authentication state
+                    setIsAuthenticated(true)
+
                     alert(isLogin ? "Login effettuato con successo" : "Registrazione completata con successo");
 
                     // If the registration is ok, you will be redirected to login form
@@ -116,103 +120,105 @@ export default function LoginButton() {
     return (
         <div>
             {/* Button for the form */}
-            <button onClick={() => setShowForm(!showForm)}>
+            <button onClick={() => setShowForm(!showForm)} className="btn btn-light" style={{ zIndex: 10 }}>
                 {showForm ? "Chiudi Form" : "Login / Registrati"}
             </button>
 
             {/* If the form is opened, show the correct one */}
-            {showForm && (
-                <div>
-                    {/* Login form */}
-                    {isLogin ? (
-                        <form onSubmit={handleSubmit}>
-                            <h2>Login</h2>
-                            <div>
-                                <label>Email:</label>
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Password:</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <button type="submit">Accedi</button>
-                            <button type="button" onClick={() => setIsLogin(false)}>
-                                Non hai un account? Registrati
-                            </button>
-                        </form>
-                    ) : (
-                        /* Registration form */
-                        <form onSubmit={handleSubmit}>
-                            <h2>Registrazione</h2>
-                            <div>
-                                <label>Nome:</label>
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Cognome:</label>
-                                <input
-                                    type="text"
-                                    name="last_name"
-                                    value={formData.last_name}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Email:</label>
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Password:</label>
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label>Numero di telefono:</label>
-                                <input
-                                    type="text"
-                                    name="phone_number"
-                                    value={formData.phone_number}
-                                    onChange={handleChange}
-                                />
-                            </div>
-                            <button type="submit">Registrati</button>
-                            <button type="button" onClick={() => setIsLogin(true)}>
-                                Hai già un account? Accedi
-                            </button>
-                        </form>
-                    )}
-                </div>
-            )}
-        </div>
+            {
+                showForm && (
+                    <div>
+                        {/* Login form */}
+                        {isLogin ? (
+                            <form onSubmit={handleSubmit}>
+                                <h2>Login</h2>
+                                <div>
+                                    <label>Email:</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label>Password:</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <button type="submit" className="btn btn-light">Accedi</button>
+                                <button type="button" className="btn btn-light" onClick={() => setIsLogin(false)}>
+                                    Non hai un account? Registrati
+                                </button>
+                            </form>
+                        ) : (
+                            /* Registration form */
+                            <form onSubmit={handleSubmit}>
+                                <h2>Registrazione</h2>
+                                <div>
+                                    <label>Nome:</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        value={formData.name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label>Cognome:</label>
+                                    <input
+                                        type="text"
+                                        name="last_name"
+                                        value={formData.last_name}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label>Email:</label>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label>Password:</label>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={formData.password}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+                                <div>
+                                    <label>Numero di telefono:</label>
+                                    <input
+                                        type="text"
+                                        name="phone_number"
+                                        value={formData.phone_number}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <button type="submit">Registrati</button>
+                                <button type="button" onClick={() => setIsLogin(true)}>
+                                    Hai già un account? Accedi
+                                </button>
+                            </form>
+                        )}
+                    </div>
+                )
+            }
+        </div >
     );
 }
