@@ -16,8 +16,8 @@ export default function SingleApartmentPage() {
             .then(data => {
                 console.log(data);
 
-                setApartment(data)
-                console.log(movie);
+                setApartment(data);
+
 
             }).catch(err => console.error(err))
     }, [id])
