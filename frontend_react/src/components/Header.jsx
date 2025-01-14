@@ -14,7 +14,14 @@ export default function Header() {
                                 <a href="/" className="text-white text-decoration-none">Home</a>
                             </li>
                         </ul>
+                        {/* altri link di navigazione */}
+
+
                     </nav>
+
+                    {/* componente searchbar */}
+
+
                 </div>
             </header>
         </>

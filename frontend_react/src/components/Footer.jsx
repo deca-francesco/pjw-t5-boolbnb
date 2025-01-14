@@ -7,7 +7,7 @@ export default function Footer() {
                     <div className="row">
                         <div className="about col-md">
                             <nav>
-                                <h5>ABOUT US</h5>
+                                <h5 className="mb-3">ABOUT US</h5>
                                 <ul className="list-unstyled">
                                     <li> <a href="/" className="text-white text-decoration-none"> <strong>Chi siamo</strong> </a> </li>
                                     <li> <a href="/" className="text-white text-decoration-none"> <strong>Privacy Policy</strong></a> </li>
@@ -15,7 +15,7 @@ export default function Footer() {
                             </nav>
                         </div>
                         <div className="contact-info col-md">
-                            <h5>CONTACT US</h5>
+                            <h5 className="mb-3">CONTACT US</h5>
                             <p><i className="bi bi-geo-alt"></i> 1234 Main Street, Cityville, Country</p>
                             <p><i className="bi bi-envelope"></i> contact@example.com</p>
                             <p><i className="bi bi-phone"></i> +1 234 567 890</p>
@@ -23,7 +23,7 @@ export default function Footer() {
 
 
                         <div className="social col-md">
-                            <h5>FOLLOW US</h5>
+                            <h5 className="mb-3">FOLLOW US</h5>
                             <ul className="list-unstyled">
                                 <li className="mb-2">
                                     <a className="text-decoration-none text-white" href="/"><i className="m-2 bi bi-facebook"></i> <strong>Facebook</strong> </a>
