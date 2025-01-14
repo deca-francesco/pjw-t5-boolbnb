@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import AppLayout from './layout/AppLayuot'
 import HomePage from './pages/HomePage'
+import SingleApartmentPage from './pages/SingleApartmentPage'
 function App() {
 
   return (
@@ -11,7 +12,7 @@ function App() {
           <Route element={<AppLayout />}>
 
             <Route path='/' element={<HomePage />} />
-
+            <Route path="/apartment/:id" element={<SingleApartmentPage />} />
           </Route>
 
         </Routes>
