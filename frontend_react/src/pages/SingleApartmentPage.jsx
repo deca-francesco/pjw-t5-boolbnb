@@ -4,14 +4,14 @@ import { useParams } from "react-router-dom";
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
     const { id } = useParams()
-    const base_apartment_api_url = `http://127.0.0.1:3000/apartments/${id}`
+    const apiUrl = import.meta.env.VITE_API_SERVER
 
     const [apartment, setApartment] = useState(null)
 
 
     //useEffect to load apartment details
     useEffect(() => {
-        fetch(base_apartment_api_url)
+        fetch(`${apiUrl}/apartments/${id}`)
             .then(res => res.json())
             .then(data => {
                 console.log(data);
