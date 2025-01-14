@@ -51,6 +51,9 @@ function show(req, res) {
 
         delete ownerWithoutPassword.password
 
+        console.log(ownerWithoutPassword);
+
+
         res.status(200).json({ utente: ownerWithoutPassword, token })
     })
 

@@ -8,6 +8,9 @@ export default function ProtectedHomePage() {
     const apartment_api_url = base_api_url + '/apartments'
     const [apartments, setApartments] = useState([]);
 
+    console.log(apartment_api_url);
+
+
     useEffect(() => {
 
         //make a fetch request to the base api endpoint
@@ -19,7 +22,7 @@ export default function ProtectedHomePage() {
                 return res.json();
             })
             .then(data => {
-                console.log(data.data);
+                console.log(data);
                 setApartments(data.data);
 
             }).catch(err => console.log(err))
@@ -30,7 +33,7 @@ export default function ProtectedHomePage() {
         <>
             <section className='d-flex justify-content-around'>
                 <div className='container'>
-                    <div className='row row-cols-3 p-5 g-5'>
+                    <div className='row row-cols-3 p-5 g-5 mt-0'>
 
                         {
                             apartments && apartments.map(apartment => (<div className='col' key={apartment.id}><ApartmentCard apartment={apartment} /> </div>))

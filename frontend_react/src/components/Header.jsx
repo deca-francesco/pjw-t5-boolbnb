@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 import LoginButton from './LoginButton'
 
 export default function Header() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const navigate = useNavigate()
 
     useEffect(() => {
         const token = localStorage.getItem('authToken')
@@ -18,8 +20,20 @@ export default function Header() {
         localStorage.removeItem('authToken')
         setIsAuthenticated(false)
 
-        window.location.href = '/'
+        navigate('/')
     }
+
+    const handleHomeClick = (e) => {
+        e.preventDefault();  // Previeni il comportamento di navigazione predefinito
+
+        if (isAuthenticated) {
+            // Se l'utente è loggato, rimani su '/protected'
+            navigate('/protected', { replace: true });
+        } else {
+            // Se non è loggato, vai alla homepage
+            navigate('/');
+        }
+    };
 
     return (
 
@@ -31,8 +45,10 @@ export default function Header() {
 
                 <nav className="nav">
                     <ul className="d-flex list-unstyled m-0">
-
-
+      
+                        <li className="mx-3">
+                            <a href="/protected" className="text-white text-decoration-none" onClick={handleHomeClick}>Home</a>
+                        </li>
 
                         {isAuthenticated ? (
                             <>
