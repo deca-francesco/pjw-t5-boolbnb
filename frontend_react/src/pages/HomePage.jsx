@@ -41,9 +41,9 @@ export default function HomePage() {
         <>
             <section className='d-flex justify-content-around'>
                 <div className='container'>
-                    <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 p-5 g-5'>
+                    <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 p-5 g-5 mt-0'>
 
-                        <LoginButton />
+
 
                         {
                             apartments && apartments.map(apartment => (<div className='col' key={apartment.id}><ApartmentCard apartment={apartment} setApartments={setApartments} /> </div>))
