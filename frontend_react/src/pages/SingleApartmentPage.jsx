@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SingleApartment from "../components/SingleApartment"
+import OwnerSingleApartment from "../components/OwnerSingleApartment"
 import ReviewFormCard from "../components/ReviewFormCard";
 import ContactOwner from "../components/ContactOwner";
 
@@ -40,12 +41,15 @@ export default function SingleApartmentPage() {
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
                 )}
+                {/* Display the OwnerInfo component if the owner information is available */}
+                {apartment && apartment.data && apartment.data.owner && (
+                    <OwnerSingleApartment owner={apartment.data.owner} />
+                )}
                 <div className="d-flex">
-                    <btn className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
-                        {showForm ? 'Close' : 'Add Review'}
-                    </btn>
-                    {showForm && <ReviewFormCard apartment_id={id} />}
-
+                   <button className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
+                    {showForm ? 'Close' : 'Add Review'}
+                </button>
+                {showForm && <ReviewFormCard apartment_id={id} />}
                     <ContactOwner></ContactOwner>
                 </div>
             </div>
