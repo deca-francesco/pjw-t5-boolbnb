@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
     const { id } = useParams()
-    const apiUrl = import.meta.env.VITE_API_SERVER
+    const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
 
     const [apartment, setApartment] = useState(null)
 
