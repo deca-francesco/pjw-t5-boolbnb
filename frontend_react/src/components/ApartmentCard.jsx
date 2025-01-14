@@ -16,11 +16,8 @@ export default function ApartmentCard({ apartment, setApartments }) {
                     <p className='address'>{apartment.address}</p>
 
                 </Link>
-                <div className='d-flex align-items-center justify-content-end'>
-                    <HeartIconVote data_apartment_id={apartment.id} setApartments={setApartments} />
-                    <span className='ms-1'>{apartment.vote}</span>
-                </div>
 
+                <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
             </div>
 
 

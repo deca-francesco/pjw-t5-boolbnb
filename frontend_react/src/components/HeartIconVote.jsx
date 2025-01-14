@@ -1,7 +1,7 @@
-export default function HeartIconVote({ data_apartment_id, setApartments }) {
+export default function HeartIconVote({ data_apartment, setApartments }) {
 
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
-    const url = `${base_api_url}/apartments/vote/${data_apartment_id}`
+    const url = `${base_api_url}/apartments/vote/${data_apartment.id}`
 
     const handleHeartClick = async (e) => {
         e.preventDefault()
@@ -22,7 +22,10 @@ export default function HeartIconVote({ data_apartment_id, setApartments }) {
 
     return (
         <>
-            <i className="bi bi-heart" onClick={handleHeartClick}></i>
+            <div className='d-flex align-items-center justify-content-end'>
+                <i className="bi bi-heart" onClick={handleHeartClick}></i>
+                <span className='ms-1'>{data_apartment.vote}</span>
+            </div>
         </>
     )
 }
