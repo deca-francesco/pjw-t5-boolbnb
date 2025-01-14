@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 function show(req, res) {
 
     // take values from the request body
-    const { email, password } = req.body
+    const { email, password } = req.query
 
     // console log to check the email and the passwords
     console.log(`email: ${email}. password: ${password}`);
@@ -25,7 +25,7 @@ function show(req, res) {
 
     // execute the query
     connection.query(sql, [email, password], (err, result) => {
-        if (err) return res.status(err).json({ error: err.message })
+        if (err) return res.status(500).json({ error: err.message })
         if (!result[0]) return res.status(404).json({ message: 'Email o Password sbagliati', err })
 
         // save the data
@@ -66,7 +66,7 @@ function store(req, res) {
         last_name: Joi.string().min(3).required(),
         email: Joi.string().email().required(),
         password: Joi.string().min(8).required(),
-        phone_number: Joi.string().optional()
+        phone_number: Joi.string().allow('', null)
     })
 
     const { error } = schema.validate(req.body)
