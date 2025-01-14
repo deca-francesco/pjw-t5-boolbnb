@@ -12,7 +12,7 @@ function App() {
           <Route element={<AppLayout />}>
 
             <Route path='/' element={<HomePage />} />
-            <Route path="/apartment/:id" element={<SingleApartmentPage />} />
+            <Route path="/apartments/:id" element={<SingleApartmentPage />} />
           </Route>
 
         </Routes>
