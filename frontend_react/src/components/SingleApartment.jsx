@@ -24,6 +24,18 @@ const ApartmentCard = ({ apartment }) => {
                 <p><strong>Square Meters:</strong> {apartment.square_meters} m²</p>
                 <p><strong>Rooms:</strong> {apartment.rooms}</p>
                 <p><strong>Address:</strong> {apartment.address}</p>
+
+                {/* Display the services if available */}
+                {apartment.services && apartment.services.length > 0 && (
+                    <div className="services-section">
+                        <h5>Servizi:</h5>
+                        <ul>
+                            {apartment.services.map((service, index) => (
+                                <li key={index}>{service}</li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </div>
         </div>
     );
