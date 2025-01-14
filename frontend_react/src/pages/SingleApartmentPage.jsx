@@ -27,14 +27,17 @@ export default function SingleApartmentPage() {
             <div className="container">
                 {apartment ? (
                     // If the apartment data has been loaded, display the details
-                    <div>
-                        <h1>{apartment.title}</h1>
-                        <spam>{apartment.beds}</spam>
-                        <spam>{apartment.bathrooms}</spam>
-                        <spam>{apartment.square_meters}</spam>
-                        <spam>{apartment.rooms}</spam>
-                        <spam>{apartment.adress}</spam>
-
+                    <div className="card">
+                        <div className="card-header">
+                            <h2 className="card-title">{apartment.title}</h2>
+                        </div>
+                        <div className="card-body">
+                            <p><strong>Beds:</strong> {apartment.beds}</p>
+                            <p><strong>Bathrooms:</strong> {apartment.bathrooms}</p>
+                            <p><strong>Square Meters:</strong> {apartment.square_meters} m²</p>
+                            <p><strong>Rooms:</strong> {apartment.rooms}</p>
+                            <p><strong>Address:</strong> {apartment.adress}</p>
+                        </div>
                     </div>
                 ) : (
                     <p>Loading...</p>
