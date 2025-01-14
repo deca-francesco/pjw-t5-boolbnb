@@ -25,7 +25,7 @@ export default function SingleApartmentPage() {
     return (
         <>
             <div className="container">
-                {apartment && (
+                {apartment ? (
                     // If the apartment data has been loaded, display the details
                     <div>
                         <h1>{apartment.title}</h1>
@@ -36,6 +36,8 @@ export default function SingleApartmentPage() {
                         <spam>{apartment.adress}</spam>
 
                     </div>
+                ) : (
+                    <p>Loading...</p>
                 )}
             </div>
         </>
