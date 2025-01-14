@@ -43,7 +43,7 @@ export default function HomePage() {
                     <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 p-5 g-5'>
 
                         {
-                            apartments && apartments.map(apartment => (<div className='col' key={apartment.id}><ApartmentCard apartment={apartment} /> </div>))
+                            apartments && apartments.map(apartment => (<div className='col' key={apartment.id}><ApartmentCard apartment={apartment} setApartments={setApartments} /> </div>))
                         }
 
 
