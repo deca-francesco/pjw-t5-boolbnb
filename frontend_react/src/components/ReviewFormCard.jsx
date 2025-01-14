@@ -21,7 +21,7 @@ export default function ReviewFormCard({apartment_id, success}) {
         console.log(formData);
         
         const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
-        const review_apartment_api_url = base_api_url + '/review/:id'
+        const review_apartment_api_url = `${base_api_url}/review/${apartment_id}`
         console.log(review_apartment_api_url);
 
         fetch(review_apartment_api_url, {
@@ -70,6 +70,10 @@ export default function ReviewFormCard({apartment_id, success}) {
                         <div className="mb-3">
                             <p>Write your review</p>
                             <textarea  className='w-100'name="review" id="review" value={review} onChange={(e)=> setReview(e.target.value)}></textarea>
+                        </div>
+                        
+                        <div className="mb-3">
+                        <input name="days" id="days" type="number" className="form-control" placeholder="days" value={days} onChange={(e)=> setDays(e.target.value)} />
                         </div>
 
                         <button type="submit" className="btn btn-primary "><strong>Send</strong></button>
