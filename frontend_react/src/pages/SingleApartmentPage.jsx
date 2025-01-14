@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SingleApartment from "../components/SingleApartment"
 import ReviewFormCard from "../components/ReviewFormCard";
+import ContactOwner from "../components/ContactOwner";
 
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
@@ -25,9 +26,9 @@ export default function SingleApartmentPage() {
             }).catch(err => console.error(err))
     }, [id])
 
-    const toggleForm = () =>{
+    const toggleForm = () => {
         setShowForm(!showForm);
-      }
+    }
 
     return (
         <>
@@ -39,11 +40,14 @@ export default function SingleApartmentPage() {
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
                 )}
+                <div className="d-flex">
+                    <btn className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
+                        {showForm ? 'Close' : 'Add Review'}
+                    </btn>
+                    {showForm && <ReviewFormCard apartment_id={id} />}
 
-                  <btn className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
-                    {showForm ? 'Close' : 'Add Review'}
-                  </btn>
-                  {showForm && <ReviewFormCard apartment_id={id} />}
+                    <ContactOwner></ContactOwner>
+                </div>
             </div>
 
         </>
