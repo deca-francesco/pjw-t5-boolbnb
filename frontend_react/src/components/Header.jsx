@@ -5,7 +5,7 @@ export default function Header() {
             <header className="bg-dark py-3 px-4 shadow ">
                 <div className="container d-flex justify-content-between align-items-center">
                     <div className="logo">
-                        <h1>BoolB&b</h1>
+                        <h1 className="text-white">BoolB&b</h1>
                     </div>
 
                     <nav className="nav">
