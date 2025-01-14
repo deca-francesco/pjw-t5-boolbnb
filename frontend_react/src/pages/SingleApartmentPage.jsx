@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SingleApartment from "../components/SingleApartment"
+import OwnerSingleApartment from "../components/OwnerSingleApartment"
 import ReviewFormCard from "../components/ReviewFormCard";
 
 export default function SingleApartmentPage() {
@@ -25,9 +26,9 @@ export default function SingleApartmentPage() {
             }).catch(err => console.error(err))
     }, [id])
 
-    const toggleForm = () =>{
+    const toggleForm = () => {
         setShowForm(!showForm);
-      }
+    }
 
     return (
         <>
@@ -40,10 +41,15 @@ export default function SingleApartmentPage() {
                     <p>Loading...</p>
                 )}
 
-                  <btn className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
+                {/* Display the OwnerInfo component if the owner information is available */}
+                {apartment && apartment.data && apartment.data.owner && (
+                    <OwnerSingleApartment owner={apartment.data.owner} />
+                )}
+
+                <button className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
                     {showForm ? 'Close' : 'Add Review'}
-                  </btn>
-                  {showForm && <ReviewFormCard apartment_id={id} />}
+                </button>
+                {showForm && <ReviewFormCard apartment_id={id} />}
             </div>
 
         </>

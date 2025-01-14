@@ -2,14 +2,14 @@ import React from 'react';
 
 const ApartmentCard = ({ apartment }) => {
     return (
-        <div className="card">
-            <div className="card-header">
-                <h2 className="card-title">{apartment.title}</h2>
+        <div>
+            <div>
+                <h2>{apartment.title}</h2>
             </div>
-            <div className="card-body">
+            <div>
                 {/* Check if the image exists and display it if true */}
                 {apartment.image && (
-                    <div className="apartment-image">
+                    <div className="apartment-image mb-3">
                         <img
                             src={apartment.image}
                             alt={apartment.title}
