@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import SingleApartment from "../components/SingleApartment"
 
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
@@ -26,31 +27,8 @@ export default function SingleApartmentPage() {
         <>
             <div className="container">
                 {apartment ? (
-                    // If the apartment data is loaded, display the details
-                    <div className="card">
-                        <div className="card-header">
-                            <h2 className="card-title">{apartment.data.title}</h2>
-                        </div>
-                        <div className="card-body">
-                            {/* Check if the image exists and display it if true */}
-                            {apartment.data.image && (
-                                <div className="apartment-image">
-                                    <img
-                                        src={apartment.data.image}
-                                        alt={apartment.data.title}
-                                        className="img-fluid"
-                                        style={{ maxWidth: "100%", height: "auto" }}
-                                    />
-                                </div>
-                            )}
-                            {/* Display the apartment details */}
-                            <p><strong>Beds:</strong> {apartment.data.beds}</p>
-                            <p><strong>Bathrooms:</strong> {apartment.data.bathrooms}</p>
-                            <p><strong>Square Meters:</strong> {apartment.data.square_meters} m²</p>
-                            <p><strong>Rooms:</strong> {apartment.data.rooms}</p>
-                            <p><strong>Address:</strong> {apartment.data.address}</p>
-                        </div>
-                    </div>
+                    // Pass the apartment data as a prop to the ApartmentCard component
+                    <SingleApartment apartment={apartment.data} />
                 ) : (
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
