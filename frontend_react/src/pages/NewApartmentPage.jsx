@@ -117,8 +117,16 @@ export default function NewApartmentPage() {
                 },
                 body: JSON.stringify(formData),
             })
+
+            const data = await response.json()
+
+            if (response.status === 401 && data.message === "Sessione scaduta! effettua nuovamente l'accesso") {
+                navigate('/login');
+                return;
+            }
+
+
             if (!response.ok) {
-                const data = await response.json()
                 throw new Error(data.error || data.message)
             }
 
@@ -143,7 +151,8 @@ export default function NewApartmentPage() {
                 services: [],
             })
         } catch (error) {
-            setErrorMessage(error.message)
+            alert(error.message);
+
             console.error("Error adding apartment:", error)
         }
     }
@@ -251,7 +260,7 @@ export default function NewApartmentPage() {
                     />
                 </label>
             </fieldset>
-            {errorMessage && <div className="error">{errorMessage}</div>}
+            {/* {errorMessage && <div className="error">{errorMessage}</div>} */}
             <button type="submit">Salva nuovo appartamento</button>
         </form>
     )
