@@ -1,6 +1,11 @@
 import React from 'react';
+import HeartIconVote from './HeartIconVote';
 
-const ApartmentCard = ({ apartment }) => {
+const ApartmentCard = ({ apartment, setApartments }) => {
+    if (!apartment) {
+        // Se l'appartamento non esiste, non fare il rendering
+        return null;
+    }
     return (
         <div>
             <div>
@@ -36,6 +41,8 @@ const ApartmentCard = ({ apartment }) => {
                         </ul>
                     </div>
                 )}
+                {/* Include the HeartIconVote component if you want to show the vote icon */}
+                <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
             </div>
         </div>
     );

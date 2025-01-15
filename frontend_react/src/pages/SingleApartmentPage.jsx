@@ -20,10 +20,7 @@ export default function SingleApartmentPage() {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-
                 setApartment(data);
-
-
             }).catch(err => console.error(err))
     }, [id])
 
@@ -34,9 +31,9 @@ export default function SingleApartmentPage() {
     return (
         <>
             <div className="container">
-                {apartment ? (
+                {apartment && apartment.data ? (
                     // Pass the apartment data as a prop to the ApartmentCard component
-                    <SingleApartment apartment={apartment.data} />
+                    <SingleApartment apartment={apartment.data} setApartments={setApartment} />
                 ) : (
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
