@@ -142,6 +142,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={1}
                         value="Wi-Fi gratuito"
                         checked={formData.services.includes("Wi-Fi gratuito")}
                         onChange={handleServiceChange}
@@ -151,6 +152,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={2}
                         value="Parcheggio privato"
                         checked={formData.services.includes("Parcheggio privato")}
                         onChange={handleServiceChange}
@@ -160,6 +162,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={3}
                         value="Piscina"
                         checked={formData.services.includes("Piscina")}
                         onChange={handleServiceChange}
@@ -169,6 +172,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={4}
                         value="Aria condizionata"
                         checked={formData.services.includes("Aria condizionata")}
                         onChange={handleServiceChange}
@@ -178,6 +182,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={5}
                         value="Lavatrice"
                         checked={formData.services.includes("Lavatrice")}
                         onChange={handleServiceChange}
@@ -187,6 +192,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={6}
                         value="Colazione inclusa"
                         checked={formData.services.includes("Colazione inclusa")}
                         onChange={handleServiceChange}
@@ -196,6 +202,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={7}
                         value="Palestra"
                         checked={formData.services.includes("Palestra")}
                         onChange={handleServiceChange}
@@ -205,6 +212,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={8}
                         value="Animali ammessi"
                         checked={formData.services.includes("Animali ammessi")}
                         onChange={handleServiceChange}
@@ -214,6 +222,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={9}
                         value="Terrazza panoramica"
                         checked={formData.services.includes("Terrazza panoramica")}
                         onChange={handleServiceChange}
@@ -223,6 +232,7 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
+                        id={10}
                         value="TV via cavo"
                         checked={formData.services.includes("TV via cavo")}
                         onChange={handleServiceChange}
