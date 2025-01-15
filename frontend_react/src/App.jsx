@@ -6,6 +6,7 @@ import ProtectedHomePage from './pages/ProtectedHomePage'
 import SingleApartmentPage from './pages/SingleApartmentPage'
 import PrivateRoute from './components/LoginComponents/PrivateRoute'
 import LoginPage from './pages/Loginpage'
+import NewApartmentPage from './pages/NewApartmentPage'
 
 function App() {
 
@@ -22,6 +23,10 @@ function App() {
                 <ProtectedHomePage />
               </PrivateRoute>} />
             <Route path='/login' element={<LoginPage />} />
+            <Route path='/new-apartment' element={
+              <PrivateRoute>
+                <NewApartmentPage />
+              </PrivateRoute>} />
           </Route>
 
         </Routes>

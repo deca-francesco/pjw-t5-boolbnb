@@ -19,7 +19,7 @@ export default function NewApartmentPage() {
 
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
     // da rivedere owner_id
-    const url = `${base_api_url}/apartments/new/${owner_id}`
+    const url = `${base_api_url}/apartments/new`
 
     // Handle the data's changes in the form
     const handleChange = (e) => {
