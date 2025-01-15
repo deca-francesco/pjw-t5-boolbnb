@@ -45,14 +45,15 @@ export default function SingleApartmentPage() {
 
 
                 {/* Display the OwnerInfo component if the owner information is available */}
+                <hr />
                 {apartment && apartment.data && apartment.data.owner && (
                     <OwnerSingleApartment owner={apartment.data.owner} />
                 )}
-
+                <hr />
                 <div className="container d-flex align-items-center">
                     <div>
-                        <button className='btn btn-primary m-4 text-white' onClick={toggleForm}>
-                            {showForm ? 'Close' : 'Add Review'}
+                        <button className='btn btn-dark m-4 text-white' onClick={toggleForm}>
+                            {showForm ? 'Chiudi' : 'Inserisci Una Recesione'}
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} />}
                     </div>
