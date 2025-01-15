@@ -131,14 +131,13 @@ export default function NewApartmentPage() {
                 throw new Error(data.error || data.message)
             }
 
-            const result = await response.json()
-            console.log("Apartment added successfully:", result)
+            console.log("Apartment added successfully:", data)
 
             // Alert di conferma
             alert("Appartamento creato con successo!");
 
             // Reindirizza alla pagina dell'appartamento appena creato
-            navigate(`/apartments/${result.new_apartment_id}`)
+            navigate(`/apartments/${data.new_apartment_id}`)
 
             // Reset del form
             setFormData({
