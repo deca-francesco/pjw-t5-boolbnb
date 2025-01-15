@@ -50,7 +50,7 @@ export default function Header() {
                             <>
                                 {/* Link per l'aggiunta dell'appartamento */}
                                 <li className="mx-3">
-                                    <a href="/add-apartment" className="btn btn-link text-white text-decoration-none">Aggiungi Appartamento</a>
+                                    <a href="/new-apartment" className="btn btn-link text-white text-decoration-none">Aggiungi Appartamento</a>
                                 </li>
                                 {/* Link per il logout */}
                                 <li className="mx-3">
