@@ -4,6 +4,7 @@ import SingleApartment from '../components/ApartmentsComponents/SingleApartment'
 import OwnerSingleApartment from "../components/ApartmentsComponents/OwnerSingleApartment"
 import ReviewFormCard from "../components/ApartmentsComponents/ReviewFormCard";
 import ContactOwner from "../components/ApartmentsComponents/ContactOwner";
+import ReviewCard from "../components/ApartmentsComponents/ReviewCard";
 
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
@@ -48,13 +49,14 @@ export default function SingleApartmentPage() {
                     <OwnerSingleApartment owner={apartment.data.owner} />
                 )}
 
-                <div className="d-flex">
+                <div className="container d-flex">
                     <button className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
                         {showForm ? 'Close' : 'Add Review'}
                     </button>
                     {showForm && <ReviewFormCard apartment_id={id} />}
                     <ContactOwner></ContactOwner>
                 </div>
+                <ReviewCard></ReviewCard>
             </div>
 
         </>
