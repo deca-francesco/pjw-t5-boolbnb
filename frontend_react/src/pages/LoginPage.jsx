@@ -20,6 +20,8 @@ export default function LoginPage() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
 
+    const [showPassword, setShowPassword] = useState(false); // Stato per gestire la visibilità della password
+
     // State fo show the message error
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -42,6 +44,10 @@ export default function LoginPage() {
             ...formData,
             [e.target.name]: e.target.value,
         });
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword); // Alterna la visibilità della password
     };
 
     // Handle form's submit
@@ -128,6 +134,6 @@ export default function LoginPage() {
     };
 
     return (
-        <LoginForm isLogin={isLogin} setIsLogin={setIsLogin} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} errorMessage={errorMessage} />
+        <LoginForm isLogin={isLogin} setIsLogin={setIsLogin} formData={formData} handleChange={handleChange} handleSubmit={handleSubmit} errorMessage={errorMessage} showPassword={showPassword} togglePasswordVisibility={togglePasswordVisibility} />
     );
 }
