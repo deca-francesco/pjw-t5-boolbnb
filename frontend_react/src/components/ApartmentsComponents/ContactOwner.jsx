@@ -15,7 +15,7 @@ export default function ContactOwner() {
     };
 
     return (
-        <div className=" mt-2">
+        <div>
             <button className="btn btn-primary" onClick={handleButtonClick}>
                 {isFormVisible ? "Chiudi il modulo" : "Contatta il proprietario"}
             </button>
