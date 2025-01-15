@@ -22,7 +22,7 @@ export default function HeartIconVote({ data_apartment, setApartments }) {
 
     return (
         <>
-            <div className='d-flex align-items-center justify-content-end'>
+            <div className='d-flex align-items-center justify-content-end p-2'>
                 <i className="bi bi-heart" onClick={handleHeartClick}></i>
                 <span className='ms-1'>{data_apartment.vote}</span>
             </div>
