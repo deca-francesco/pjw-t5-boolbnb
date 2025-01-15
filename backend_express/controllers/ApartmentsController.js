@@ -153,8 +153,8 @@ function create(req, res) {
         bathrooms: Joi.number().integer().min(1).required(),
         square_meters: Joi.number().min(1).required(),
         address: Joi.string().required(),
-        image: Joi.string(),
-        services: Joi.array().items(Joi.string()).optional()
+        image: Joi.string().required(),
+        services: Joi.array().items(Joi.number().integer()).optional()
     })
 
     const { error } = schema.validate(req.body)
@@ -167,27 +167,6 @@ function create(req, res) {
     const { title, rooms, beds, bathrooms, square_meters, address, image, services = [] } = req.body
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // sql query for new apartment
     const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, image = ?`
 
@@ -195,10 +174,32 @@ function create(req, res) {
     connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
         if (err) return res.status(500).json({ error: err })
 
-        return res.status(201).json({
-            success: true,
-            new_apartment_id: result.insertId
+        const apartmentId = result.insertId;
+
+        // If there are no services, return success response
+        if (services.length === 0) {
+            return res.status(201).json({
+                success: true,
+                new_apartment_id: apartmentId
+            })
+        }
+
+        // Insert services_apartments records
+        const service_apartment_values = services.map(serviceId => [apartmentId, serviceId]);
+
+        const service_apartment_sql = `
+            INSERT INTO services_apartments (apartment_id, service_id) VALUES ?
+        `
+
+        connection.query(service_apartment_sql, [service_apartment_values], (err) => {
+            if (err) return res.status(500).json({ error: err });
+
+            res.status(201).json({
+                success: true,
+                new_apartment_id: apartmentId
+            });
         })
+
     })
 
 }
