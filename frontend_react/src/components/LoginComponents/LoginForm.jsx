@@ -1,4 +1,4 @@
-export default function LoginForm({ isLogin, setIsLogin, formData, handleChange, handleSubmit, errorMessage }) {
+export default function LoginForm({ isLogin, setIsLogin, formData, handleChange, handleSubmit, errorMessage, showPassword, togglePasswordVisibility }) {
 
     return (
 
@@ -66,15 +66,30 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                     <label htmlFor="password" className="form-label">
                                         Password
                                     </label>
-                                    <input
-                                        type="password"
-                                        id="password"
-                                        name="password"
-                                        className="form-control"
-                                        value={formData.password}
-                                        onChange={handleChange}
-                                        required
-                                    />
+                                    <div className="input-group">
+                                        <input
+                                            type={showPassword ? "text" : "password"}
+                                            id="password"
+                                            name="password"
+                                            className="form-control"
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                        <button
+                                            type="button"
+                                            className="btn btn-link input-group-text"
+                                            onClick={togglePasswordVisibility}
+                                            style={{
+                                                background: 'transparent',
+                                                border: 'none',
+                                                cursor: 'pointer',
+                                                padding: '0.375rem 0.75rem',
+                                            }}
+                                        >
+                                            <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                        </button>
+                                    </div>
                                 </div>
                                 {!isLogin && (
                                     <div className="mb-3">

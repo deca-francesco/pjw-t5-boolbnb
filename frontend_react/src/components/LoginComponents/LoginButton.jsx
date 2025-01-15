@@ -30,14 +30,14 @@ export default function LoginButton({ setIsAuthenticated }) {
 
                     <button
                         onClick={handleCreateApartment}
-                        className="btn btn-light"
+                        className="btn btn-light text-dark mx-3"
                         style={{ zIndex: 10, marginLeft: '10px' }}
                     >
                         Crea Appartamento
                     </button>
                     <button
                         onClick={handleLogout}
-                        className="btn btn-light"
+                        className="btn btn-light text-dark mx-3"
                         style={{ zIndex: 10 }}
                     >
                         Logout
