@@ -37,10 +37,10 @@ export default function Header() {
 
     return (
 
-        <header className="bg-dark py-3 px-4 shadow ">
+        <header className="bg-dark py-3 px-4 shadow position-sticky top-0 z-3">
             <div className="container d-flex justify-content-between align-items-center">
                 <div className="logo">
-                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&b</h1></a>
+                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&B</h1></a>
                 </div>
 
                 <nav className="nav">
