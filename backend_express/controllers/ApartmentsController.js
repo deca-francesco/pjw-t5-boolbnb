@@ -21,7 +21,6 @@ function index(req, res) {
     })
 }
 
-
 // show
 function show(req, res) {
 
@@ -146,12 +145,6 @@ function create(req, res) {
     // verification token
     const { id: userId } = req.user
 
-    // verification that the owner who creates the new apartment is the same of the token given
-    const owner_id = Number(req.params.id)
-    if (userId !== owner_id) {
-        return res.status(403).json({ error: 'Non puoi inserire un nuovo appartamento' })
-    }
-
     // validate data input
     const schema = Joi.object({
         title: Joi.string().min(3).required(),
@@ -199,7 +192,7 @@ function create(req, res) {
     const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, image = ?`
 
     // execute query
-    connection.query(new_apartment_sql, [owner_id, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
+    connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
         if (err) return res.status(500).json({ error: err })
 
         return res.status(201).json({
