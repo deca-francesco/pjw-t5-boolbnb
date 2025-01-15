@@ -150,109 +150,113 @@ export default function NewApartmentPage() {
 
 
     return (
-        <form onSubmit={handleSubmit}>
-            <label> Nome appartamento: <input type="text" name="title" value={formData.title} onChange={handleChange} required /> </label>
-            <label> Stanze: <input type="number" name="rooms" value={formData.rooms} onChange={handleChange} required /> </label>
-            <label> Letti: <input type="number" name="beds" value={formData.beds} onChange={handleChange} required /> </label>
-            <label> Bagni: <input type="number" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required /> </label>
-            <label> Metri Quadri: <input type="number" name="square_meters" value={formData.square_meters} onChange={handleChange} required /> </label>
-            <label> Indirizzo: <input type="text" name="address" value={formData.address} onChange={handleChange} required /> </label>
-            <label> URL immagine: <input type="text" name="image" value={formData.image} onChange={handleChange} required /></label>
-            <fieldset>
-                <legend>Servizi</legend>
-                <label>Wi-Fi gratuito
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={1}
-                        checked={formData.services.includes(1)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Parcheggio privato
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={2}
-                        checked={formData.services.includes(2)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Piscina
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={3}
-                        checked={formData.services.includes(3)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Aria condizionata
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={4}
-                        checked={formData.services.includes(4)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Lavatrice
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={5}
-                        checked={formData.services.includes(5)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Colazione inclusa
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={6}
-                        checked={formData.services.includes(6)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Palestra
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={7}
-                        checked={formData.services.includes(7)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Animali ammessi
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={8}
-                        checked={formData.services.includes(8)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>Terrazza panoramica
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={9}
-                        checked={formData.services.includes(9)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-                <label>TV via cavo
-                    <input
-                        type="checkbox"
-                        name="services"
-                        value={10}
-                        checked={formData.services.includes(10)}
-                        onChange={handleServiceChange}
-                    />
-                </label>
-            </fieldset>
-            {errorMessage && <div className="error">{errorMessage}</div>}
-            <button type="submit">Salva nuovo appartamento</button>
-        </form>
+        <>
+            <div className="container">
+                <form onSubmit={handleSubmit} className="card">
+                    <label> Nome appartamento: <input type="text" name="title" value={formData.title} onChange={handleChange} required /> </label>
+                    <label> Stanze: <input type="number" name="rooms" value={formData.rooms} onChange={handleChange} required /> </label>
+                    <label> Letti: <input type="number" name="beds" value={formData.beds} onChange={handleChange} required /> </label>
+                    <label> Bagni: <input type="number" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required /> </label>
+                    <label> Metri Quadri: <input type="number" name="square_meters" value={formData.square_meters} onChange={handleChange} required /> </label>
+                    <label> Indirizzo: <input type="text" name="address" value={formData.address} onChange={handleChange} required /> </label>
+                    <label> URL immagine: <input type="text" name="image" value={formData.image} onChange={handleChange} required /></label>
+                    <fieldset>
+                        <legend>Servizi</legend>
+                        <label>Wi-Fi gratuito
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={1}
+                                checked={formData.services.includes(1)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Parcheggio privato
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={2}
+                                checked={formData.services.includes(2)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Piscina
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={3}
+                                checked={formData.services.includes(3)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Aria condizionata
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={4}
+                                checked={formData.services.includes(4)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Lavatrice
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={5}
+                                checked={formData.services.includes(5)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Colazione inclusa
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={6}
+                                checked={formData.services.includes(6)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Palestra
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={7}
+                                checked={formData.services.includes(7)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Animali ammessi
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={8}
+                                checked={formData.services.includes(8)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>Terrazza panoramica
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={9}
+                                checked={formData.services.includes(9)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                        <label>TV via cavo
+                            <input
+                                type="checkbox"
+                                name="services"
+                                value={10}
+                                checked={formData.services.includes(10)}
+                                onChange={handleServiceChange}
+                            />
+                        </label>
+                    </fieldset>
+                    {errorMessage && <div className="error">{errorMessage}</div>}
+                    <button type="submit" className="btn btn-success">Salva nuovo appartamento</button>
+                </form>
+            </div>
+        </>
     )
 }
