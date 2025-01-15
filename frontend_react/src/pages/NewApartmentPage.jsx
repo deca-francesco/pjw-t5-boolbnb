@@ -31,23 +31,25 @@ export default function NewApartmentPage() {
 
     const handleServiceChange = (e) => {
         const { value, checked } = e.target;
+        // Converti il valore in un numero
+        const serviceId = parseInt(value, 10)
 
         setFormData((prevFormData) => {
             if (checked) {
                 // Aggiungi il servizio selezionato
                 return {
                     ...prevFormData,
-                    services: [...prevFormData.services, value],
+                    services: [...prevFormData.services, serviceId],
                 };
             } else {
                 // Rimuovi il servizio deselezionato
                 return {
                     ...prevFormData,
-                    services: prevFormData.services.filter((service) => service !== value),
+                    services: prevFormData.services.filter((id) => id !== serviceId),
                 };
             }
         });
-    };
+    }
 
     // Validazione lato client
     const validateFormData = () => {
@@ -77,6 +79,11 @@ export default function NewApartmentPage() {
         const urlPattern = /^(https?:\/\/)?([\w\d-]+\.)+[\w-]+(\/[\w\d-._~:/?#[\]@!$&'()*+,;=]*)?$/i;
         if (!urlPattern.test(formData.image)) {
             return "The image field must contain a valid URL.";
+        }
+
+        // Validazione dell'array services
+        if (!Array.isArray(formData.services) || formData.services.some(isNaN)) {
+            return "I servizi devono essere un array di ID validi.";
         }
 
         // Se tutti i campi sono validi, non ritorniamo errori
@@ -157,9 +164,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={1}
-                        value="Wi-Fi gratuito"
-                        checked={formData.services.includes("Wi-Fi gratuito")}
+                        value={1}
+                        checked={formData.services.includes(1)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -167,9 +173,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={2}
-                        value="Parcheggio privato"
-                        checked={formData.services.includes("Parcheggio privato")}
+                        value={2}
+                        checked={formData.services.includes(2)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -177,9 +182,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={3}
-                        value="Piscina"
-                        checked={formData.services.includes("Piscina")}
+                        value={3}
+                        checked={formData.services.includes(3)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -187,9 +191,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={4}
-                        value="Aria condizionata"
-                        checked={formData.services.includes("Aria condizionata")}
+                        value={4}
+                        checked={formData.services.includes(4)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -197,9 +200,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={5}
-                        value="Lavatrice"
-                        checked={formData.services.includes("Lavatrice")}
+                        value={5}
+                        checked={formData.services.includes(5)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -207,9 +209,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={6}
-                        value="Colazione inclusa"
-                        checked={formData.services.includes("Colazione inclusa")}
+                        value={6}
+                        checked={formData.services.includes(6)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -217,9 +218,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={7}
-                        value="Palestra"
-                        checked={formData.services.includes("Palestra")}
+                        value={7}
+                        checked={formData.services.includes(7)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -227,9 +227,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={8}
-                        value="Animali ammessi"
-                        checked={formData.services.includes("Animali ammessi")}
+                        value={8}
+                        checked={formData.services.includes(8)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -237,9 +236,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={9}
-                        value="Terrazza panoramica"
-                        checked={formData.services.includes("Terrazza panoramica")}
+                        value={9}
+                        checked={formData.services.includes(9)}
                         onChange={handleServiceChange}
                     />
                 </label>
@@ -247,9 +245,8 @@ export default function NewApartmentPage() {
                     <input
                         type="checkbox"
                         name="services"
-                        id={10}
-                        value="TV via cavo"
-                        checked={formData.services.includes("TV via cavo")}
+                        value={10}
+                        checked={formData.services.includes(10)}
                         onChange={handleServiceChange}
                     />
                 </label>
