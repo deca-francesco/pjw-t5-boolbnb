@@ -21,7 +21,6 @@ function index(req, res) {
     })
 }
 
-
 // show
 function show(req, res) {
 
@@ -145,12 +144,6 @@ function create(req, res) {
 
     // verification token
     const { id: userId } = req.user
-
-    // verification that the owner who creates the new apartment is the same of the token given
-    // const owner_id = Number(req.params.id)
-    /* if (userId !== owner_id) {
-        return res.status(403).json({ error: 'Non puoi inserire un nuovo appartamento' })
-    } */
 
     // validate data input
     const schema = Joi.object({

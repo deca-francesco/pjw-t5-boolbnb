@@ -49,11 +49,13 @@ export default function SingleApartmentPage() {
                     <OwnerSingleApartment owner={apartment.data.owner} />
                 )}
 
-                <div className="container d-flex">
-                    <button className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
-                        {showForm ? 'Close' : 'Add Review'}
-                    </button>
-                    {showForm && <ReviewFormCard apartment_id={id} />}
+                <div className="container d-flex align-items-center">
+                    <div>
+                        <button className='btn btn-primary m-4 text-white' onClick={toggleForm}>
+                            {showForm ? 'Close' : 'Add Review'}
+                        </button>
+                        {showForm && <ReviewFormCard apartment_id={id} />}
+                    </div>
                     <ContactOwner></ContactOwner>
                 </div>
                 <ReviewCard></ReviewCard>
