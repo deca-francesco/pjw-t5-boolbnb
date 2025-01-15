@@ -10,7 +10,7 @@ const ApartmentCard = ({ apartment, setApartments }) => {
         <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
       </div>
 
-      <div className='mt-3 mb-3'>
+      <div className='mt-3 mb-4'>
         <div className="card mb-3 border-0 shadow">
           <div className="row g-0">
             {/* Colonna per l'immagine grande - SISTEMARE BG CARD */}
