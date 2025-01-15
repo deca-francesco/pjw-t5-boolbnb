@@ -51,7 +51,7 @@ export default function SingleApartmentPage() {
 
                 <div className="container d-flex align-items-center">
                     <div>
-                        <button className='btn btn-primary m-4 text-dark' onClick={toggleForm}>
+                        <button className='btn btn-primary m-4 text-white' onClick={toggleForm}>
                             {showForm ? 'Close' : 'Add Review'}
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} />}
