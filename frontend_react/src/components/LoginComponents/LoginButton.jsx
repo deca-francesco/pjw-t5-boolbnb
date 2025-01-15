@@ -17,7 +17,7 @@ export default function LoginButton({ setIsAuthenticated }) {
 
     // Reiderecting to create a new apartment page
     const handleCreateApartment = () => {
-        navigate('/create-apartment');
+        navigate('/new-apartment');
     };
 
     // Check if a token is in the localStorage
