@@ -160,7 +160,8 @@ function create(req, res) {
         bathrooms: Joi.number().integer().min(1).required(),
         square_meters: Joi.number().min(1).required(),
         address: Joi.string().required(),
-        image: Joi.string()
+        image: Joi.string(),
+        services: Joi.array().items(Joi.string()).optional()
     })
 
     const { error } = schema.validate(req.body)
@@ -170,7 +171,29 @@ function create(req, res) {
     }
 
     // take values from request body
-    const { title, rooms, beds, bathrooms, square_meters, address, image } = req.body
+    const { title, rooms, beds, bathrooms, square_meters, address, image, services = [] } = req.body
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // sql query for new apartment
     const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, image = ?`
