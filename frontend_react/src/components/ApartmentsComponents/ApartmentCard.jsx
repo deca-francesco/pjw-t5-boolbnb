@@ -6,7 +6,7 @@ export default function ApartmentCard({ apartment, setApartments }) {
     return (
 
         <>
-            <div className='card bg-white text-dark p-3'>
+            <div className='card bg-white text-dark p-3' style={{ height:'29rem'}}>
 
                 <Link to={`/apartments/${apartment.id}`} className='text-decoration-none text-dark'>
                     <img src={apartment.image} alt={apartment.title} className='img-fluid' style={{ height: '270px', objectFit: 'cover', width: '100%' }} />
