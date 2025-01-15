@@ -1,8 +1,7 @@
 import { useState } from "react"
-
+import { useNavigate } from "react-router-dom"
 
 export default function NewApartmentPage() {
-
 
     const [formData, setFormData] = useState({
         title: "",
@@ -16,6 +15,7 @@ export default function NewApartmentPage() {
     })
 
     const [errorMessage, setErrorMessage] = useState("")
+    const navigate = useNavigate()
 
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
     // da rivedere owner_id
@@ -95,10 +95,19 @@ export default function NewApartmentPage() {
             return;
         }
 
+        const authToken = localStorage.getItem('authToken')
+        if (!authToken) {
+            setErrorMessage('Token mancante. Devi essere autenticato.')
+            return
+        }
+
         try {
             const response = await fetch(url, {
                 method: "POST",
-                headers: { "Content-Type": "application/json", },
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${authToken}`,
+                },
                 body: JSON.stringify(formData),
             })
             if (!response.ok) {
@@ -108,6 +117,12 @@ export default function NewApartmentPage() {
 
             const result = await response.json()
             console.log("Apartment added successfully:", result)
+
+            // Alert di conferma
+            alert("Appartamento creato con successo!");
+
+            // Reindirizza alla pagina dell'appartamento appena creato
+            navigate(`/apartments/${result.new_apartment_id}`)
 
             // Reset del form
             setFormData({
