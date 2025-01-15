@@ -1,11 +1,9 @@
 export default function LoginForm({ isLogin, setIsLogin, formData, handleChange, handleSubmit, errorMessage, showPassword, togglePasswordVisibility }) {
-
     return (
-
-        <div className="container mt-5">
+        <div className="container my-5">
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <div className="card">
+                    <div className="card shadow">
                         <div className="card-body">
                             <h2 className="card-title text-center mb-4">
                                 {isLogin ? "Login" : "Registrazione"}
@@ -20,7 +18,7 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                     <>
                                         <div className="mb-3">
                                             <label htmlFor="name" className="form-label">
-                                                Nome
+                                                <strong>Nome *</strong>
                                             </label>
                                             <input
                                                 type="text"
@@ -34,7 +32,7 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                         </div>
                                         <div className="mb-3">
                                             <label htmlFor="last_name" className="form-label">
-                                                Cognome
+                                                <strong>Cognome *</strong>
                                             </label>
                                             <input
                                                 type="text"
@@ -50,7 +48,7 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                 )}
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">
-                                        Email
+                                        <strong>Email *</strong>
                                     </label>
                                     <input
                                         type="email"
@@ -64,37 +62,44 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                 </div>
                                 <div className="mb-3">
                                     <label htmlFor="password" className="form-label">
-                                        Password
+                                        <strong>Password *</strong>
                                     </label>
-                                    <div className="input-group">
+                                    <div className="input-group position-relative ">
                                         <input
                                             type={showPassword ? "text" : "password"}
                                             id="password"
                                             name="password"
-                                            className="form-control"
+                                            className="form-control rounded"
                                             value={formData.password}
                                             onChange={handleChange}
                                             required
                                         />
                                         <button
                                             type="button"
-                                            className="btn btn-link input-group-text"
+                                            className="btn btn-outline-secondary"
                                             onClick={togglePasswordVisibility}
                                             style={{
-                                                background: 'transparent',
+                                                position: 'absolute',
+                                                right: '10px',
+                                                top: '50%',
+                                                transform: 'translateY(-50%)',
                                                 border: 'none',
+                                                background: 'transparent',
                                                 cursor: 'pointer',
-                                                padding: '0.375rem 0.75rem',
+                                                padding: '0',
+                                                fontSize: '1.2rem',
+                                                color: '#6c757d',
                                             }}
                                         >
-                                            <i className={`bi ${showPassword ? 'bi-eye-slash' : 'bi-eye'}`}></i>
+                                            <i className={`bi ${showPassword ? 'bi-eye-slash text-primary' : 'bi-eye text-primary'}`}></i>
                                         </button>
                                     </div>
                                 </div>
+
                                 {!isLogin && (
                                     <div className="mb-3">
                                         <label htmlFor="phone_number" className="form-label">
-                                            Numero di telefono
+                                            <strong>Numero di telefono</strong>
                                         </label>
                                         <input
                                             type="text"
@@ -106,6 +111,7 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
                                         />
                                     </div>
                                 )}
+                                <div className="pb-3">I campi contrassegnati da "*" sono <strong>obbligatori</strong></div>
                                 <div className="d-flex justify-content-between">
                                     <button type="submit" className="btn btn-primary">
                                         {isLogin ? "Accedi" : "Registrati"}
@@ -127,5 +133,4 @@ export default function LoginForm({ isLogin, setIsLogin, formData, handleChange,
             </div>
         </div>
     )
-
 }
