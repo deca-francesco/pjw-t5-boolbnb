@@ -14,7 +14,13 @@ export default function NewApartmentPage() {
         services: []
     })
 
-    const [errorMessage, setErrorMessage] = useState("")
+    // Stato per messaggi e tipo di messaggio
+    // const [errorMessage, setErrorMessage] = useState("")
+
+    const [message, setMessage] = useState("");
+    const [messageType, setMessageType] = useState("");
+
+
 
     const navigate = useNavigate()
 
@@ -94,18 +100,21 @@ export default function NewApartmentPage() {
     // Handle form's submit
     const handleSubmit = async (e) => {
         e.preventDefault()
-        setErrorMessage('')
+        setMessage('')
 
         // Validazione lato client
         const error = validateFormData();
         if (error) {
-            setErrorMessage(error);
+            setMessage(error);
+            setMessageType("error");
             return;
         }
 
         const authToken = localStorage.getItem('authToken')
         if (!authToken) {
-            setErrorMessage('Token mancante. Devi essere autenticato.')
+            setErrorMessage("Token mancante. Devi essere autenticato.");
+            setMessage("Token mancante. Devi essere autenticato.");
+            setMessageType("error");
             return
         }
 
@@ -134,6 +143,8 @@ export default function NewApartmentPage() {
             console.log("Apartment added successfully:", data)
 
             // Alert di conferma
+            setMessage("Appartamento creato con successo!");
+            setMessageType("success");
             alert("Appartamento creato con successo!");
 
             // Reindirizza alla pagina dell'appartamento appena creato
@@ -151,9 +162,13 @@ export default function NewApartmentPage() {
                 services: [],
             })
         } catch (error) {
-            alert(error.message);
 
             console.error("Error adding apartment:", error)
+            setMessage(error.message);
+            setMessageType("error");
+            alert(error.message);
+
+
         }
     }
 
@@ -164,35 +179,38 @@ export default function NewApartmentPage() {
                 <h2 className="mt-3">Inserisci i dati del nuovo appartamento</h2>
                 <form onSubmit={handleSubmit} className="mt-5 card p-4">
                     <div className="mb-3">
-                        <label className="form-label"> Nome appartamento:</label>
+                        <label className="form-label">* Nome appartamento:</label>
                         <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> Stanze:</label>
-                        <input type="number" className="form-control" name="rooms" value={formData.rooms} onChange={handleChange} required />
+                        <label className="form-label">* Stanze:</label>
+                        <input type="number" min="1" className="form-control" name="rooms" value={formData.rooms} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> Letti:</label>
-                        <input type="number" className="form-control" name="beds" value={formData.beds} onChange={handleChange} required />
+                        <label className="form-label">* Letti:</label>
+                        <input type="number" min="1" className="form-control" name="beds" value={formData.beds} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> Bagni:</label>
-                        <input type="number" className="form-control" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required />
+                        <label className="form-label">* Bagni:</label>
+                        <input type="number" min="1" className="form-control" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> Metri Quadri:</label>
-                        <input type="number" className="form-control" name="square_meters" value={formData.square_meters} onChange={handleChange} required />
+                        <label className="form-label">* Metri Quadri:</label>
+                        <input type="number" min="1" className="form-control" name="square_meters" value={formData.square_meters} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> Indirizzo:</label>
+                        <label className="form-label">* Indirizzo:</label>
                         <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label"> URL immagine:</label>
+                        <label className="form-label">* URL immagine:</label>
                         <input type="text" className="form-control" name="image" value={formData.image} onChange={handleChange} required />
                     </div>
+                    <div className="my-3">
+                        I campi con "*" sono obbligatori
+                    </div>
                     <fieldset>
-                        <legend>Servizi</legend>
+                        <legend>Servizi (Opzionali)</legend>
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-5">
                             <div className="col">
                                 <input type="checkbox" name="services" value={1} checked={formData.services.includes(1)} onChange={handleServiceChange} className="me-2" />
@@ -245,7 +263,10 @@ export default function NewApartmentPage() {
                             </div>
                         </div>
                     </fieldset>
-                    {errorMessage && <div className="error btn btn-danger disabled my-3">{errorMessage}</div>}
+                    {/* {errorMessage && <div className="error btn btn-danger disabled my-3">{errorMessage}</div>} */}
+                    {message && (
+                        <div className={`alert mt-3 ${messageType === "success" ? "alert-success" : "alert-danger"}`}>{message}</div>
+                    )}
                     <button type="submit" className="btn btn-primary">Salva nuovo appartamento</button>
                 </form>
             </div>
