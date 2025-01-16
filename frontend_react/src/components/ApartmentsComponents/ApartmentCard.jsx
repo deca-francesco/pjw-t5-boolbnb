@@ -28,6 +28,9 @@ export default function ApartmentCard({ apartment, setApartments }) {
                     <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
                         {apartment.address}
                     </p>
+                    <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
+                        <strong>{apartment.city}</strong>
+                    </p>
                 </Link>
                 <div className="pt-2">
                     <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
