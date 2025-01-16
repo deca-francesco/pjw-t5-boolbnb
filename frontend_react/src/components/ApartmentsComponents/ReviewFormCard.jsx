@@ -1,109 +1,145 @@
-import { useState } from "react"
-export default function ReviewFormCard({ apartment_id, success }) {
 
-    //per il form creare: username, text, date, days(N), email(perchè email?non dovrebbe essere privata?)
+import { useState } from "react";
 
-    const [username, setUsername] = useState(' ')
-    const [email, setEmail] = useState('')
-    const [review, setReview] = useState(' ')
-    const [days, setDays] = useState(' ')
+export default function ReviewFormCard({ apartment_id }) {
+    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
+    const [review, setReview] = useState('');
+    const [days, setDays] = useState('');
+    const [message, setMessage] = useState('');
+    const [messageType, setMessageType] = useState(''); // 'success' o 'error'
+
+    function validateEmail(email) {
+        return email.length >= 3 && email.includes('@') && email.includes('.');
+    }
 
     function handleFormSubmit(e) {
+        e.preventDefault();
 
-        e.preventDefault()
-        console.log('here');
-
-        const formData = {
-
-            username,
-            email,
-            review,
-            days
+        // Validazione campi obbligatori
+        if (!username.trim() || !email.trim() || !review.trim()) {
+            setMessage("Compila i campi obbligatori.");
+            setMessageType('error');
+            return;
         }
-        console.log(formData);
 
-        const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
-        const review_apartment_api_url = `${base_api_url}/apartments/review/${apartment_id}`
-        console.log(review_apartment_api_url);
+        // Validazione username
+        if (username.trim().length < 3) {
+            setMessage("Il nome deve contenere almeno 3 caratteri.");
+            setMessageType('error');
+            return;
+        }
+
+        // Validazione email
+        if (!validateEmail(email)) {
+            setMessage("Inserisci un'email valida (almeno 3 caratteri, '@' e '.').");
+            setMessageType('error');
+            return;
+        }
+
+        const formData = { username, email, review, days };
+
+        const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
+        const review_apartment_api_url = `${base_api_url}/apartments/review/${apartment_id}`;
 
         fetch(review_apartment_api_url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
-        }).then(res => res.json())
+        })
+            .then(res => res.json())
             .then(data => {
-                console.log(data);
-
                 if (data.success) {
-                    console.log('thanks for your review')
+                    setMessage("Grazie! La tua recensione è stata inviata");
+                    setMessageType('success');
 
-                    //reset the form fields
-                    setUsername('')
-                    setReview('')
-                    setDays(0)
-
-                    window.location.reload()
+                    // Reset dei campi
+                    setUsername('');
+                    setEmail('');
+                    setReview('');
+                    setDays('');
+                } else {
+                    setMessage("Si è verificato un errore. Riprova più tardi.");
+                    setMessageType('error');
                 }
-            }).catch(err => console.log(err))
-
-
-
+            })
+            .catch(err => {
+                setMessage("Errore di connessione. Controlla la tua rete e riprova.");
+                setMessageType('error');
+            });
     }
 
-
     return (
+        <div className="container">
+            <div className="card m-4 bg-white text-dark">
+                <div className="card-body">
+                    <form onSubmit={handleFormSubmit}>
+                        <div className="mb-3">
+                            <p>Nome <span className="text-danger">*</span></p>
+                            <input
+                                name="username"
+                                id="username"
+                                type="text"
+                                className="form-control"
+                                placeholder="Nome"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                            />
+                        </div>
 
-        <>
+                        <div className="mb-3">
+                            <p>Email <span className="text-danger">*</span></p>
+                            <input
+                                name="email"
+                                id="email"
+                                type="email"
+                                className="form-control"
+                                placeholder="Email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
 
-            <div className="container">
-                <div className="card m-4 bg-white text-dark">
-                    <div className="card-body">
+                        <div className="mb-3">
+                            <p>Scrivi una recensione <span className="text-danger">*</span></p>
+                            <textarea
+                                className='w-100 form-control'
+                                name="review"
+                                id="review"
+                                value={review}
+                                onChange={(e) => setReview(e.target.value)}
+                            />
+                        </div>
 
-                        <form onSubmit={handleFormSubmit}>
-
-
-                            <div className="mb-3">
-                                <p>Nome</p>
-                                <input name="username" id="username" type="text" className="form-control" placeholder="name" value={username} onChange={(e) => setUsername(e.target.value)} />
-                            </div>
-
-                            <div className="mb-3">
-                                <p>Email</p>
-                                <input name="email" id="email" type="email" className="form-control" placeholder="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            </div>
-
-
-                            <div className="mb-3">
-                                <p>Scrivi una recensione</p>
-                                <textarea className='w-100' name="review" id="review" value={review} onChange={(e) => setReview(e.target.value)}></textarea>
-                            </div>
-
+                        <div className="mb-3">
+                            <p>Giorni di permanenza</p>
                             <input
                                 name="days"
                                 id="days"
                                 type="number"
                                 className="form-control"
-                                placeholder="days"
+                                placeholder="Numero di giorni"
                                 value={days}
                                 onChange={(e) => {
                                     const value = e.target.value;
-                                    if (value >= 0) {
-                                        setDays(value);
-                                    }
+                                    if (value >= 0) setDays(value);
                                 }}
                             />
+                        </div>
 
+                        <button type="submit" className="btn btn-success mt-2"><strong>Invia</strong></button>
+                    </form>
 
-                            <button type="submit" className="btn btn-success mt-2"><strong>Invia</strong></button>
-                        </form>
-                    </div>
+                    {/* Messaggio di conferma o errore */}
+                    {message && (
+                        <div className={`mt-3 alert ${messageType === 'success' ? 'alert-success' : 'alert-danger'}`}>
+                            {message}
+                        </div>
+                    )}
                 </div>
             </div>
-
-        </>
-
-
-    )
+        </div>
+    );
 }
+
+
