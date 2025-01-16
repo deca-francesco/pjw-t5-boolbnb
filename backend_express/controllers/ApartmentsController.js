@@ -153,6 +153,7 @@ function create(req, res) {
         bathrooms: Joi.number().integer().min(1).required(),
         square_meters: Joi.number().min(1).required(),
         address: Joi.string().required(),
+        city: Joi.string().min(2).required(),
         image: Joi.string().required(),
         services: Joi.array().items(Joi.number().integer()).optional()
     })
@@ -164,14 +165,14 @@ function create(req, res) {
     }
 
     // take values from request body
-    const { title, rooms, beds, bathrooms, square_meters, address, image, services = [] } = req.body
+    const { title, rooms, beds, bathrooms, square_meters, address, city, image, services = [] } = req.body
 
 
     // sql query for new apartment
-    const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, image = ?`
+    const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ? , bathrooms = ?, square_meters = ?, address = ?, city = ?, image = ?`
 
     // execute query
-    connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, image], (err, result) => {
+    connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, city, image], (err, result) => {
         if (err) return res.status(500).json({ error: err })
 
         const apartmentId = result.insertId;
