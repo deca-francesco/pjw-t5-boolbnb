@@ -8,11 +8,11 @@ const OwnerInfo = ({ owner }) => {
 
     return (
         <div className="owner-info">
-            <h5>Owner</h5>
-            <p><strong>Name:</strong> {owner.name}</p>
-            <p><strong>Last name:</strong> {owner.last_name}</p>
+            <h5>Proprietario</h5>
+            <p><strong>Nome:</strong> {owner.name}</p>
+            <p><strong>Cognome:</strong> {owner.last_name}</p>
             <p><strong>Email:</strong> {owner.email}</p>
-            <p><strong>Phone number:</strong> {owner.phone_number}</p>
+            <p><strong>Numero di Telefono:</strong> {owner.phone_number}</p>
         </div>
     );
 };

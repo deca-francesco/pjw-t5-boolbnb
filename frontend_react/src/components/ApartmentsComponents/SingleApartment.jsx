@@ -5,8 +5,8 @@ const ApartmentCard = ({ apartment, setApartments }) => {
 
   return (
     <div>
-      <div className='m-4'>
-        <h2>{apartment.title}</h2>
+      <div className='d-flex justify-content-between'>
+        <h2 style={{ fontSize: "2rem" }}>{apartment.title}</h2>
         <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
       </div>
 
@@ -19,8 +19,8 @@ const ApartmentCard = ({ apartment, setApartments }) => {
                 <img
                   src={apartment.image}
                   alt={apartment.title}
-                  className="img-fluid rounded"
-                  style={{ height: "100%", objectFit: "cover", width: "100%" }}
+                  className="img-fluid "
+                  style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px", height: "100%", objectFit: "cover", width: "100%" }}
                 />
               </div>
             )}
@@ -34,7 +34,7 @@ const ApartmentCard = ({ apartment, setApartments }) => {
                     <img
                       src={apartment.image}
                       alt={`${apartment.title} Small 1`}
-                      className="img-fluid rounded"
+                      className="img-fluid"
                       style={{ objectFit: "cover", width: "100%", height: "auto" }}
                     />
                   </div>
@@ -42,15 +42,15 @@ const ApartmentCard = ({ apartment, setApartments }) => {
                     <img
                       src={apartment.image}
                       alt={`${apartment.title} Small 2`}
-                      className="img-fluid rounded"
-                      style={{ objectFit: "cover", width: "100%", height: "auto" }}
+                      className="img-fluid rounded-right"
+                      style={{ borderTopRightRadius: "10px", objectFit: "cover", width: "100%", height: "auto" }}
                     />
                   </div>
                   <div className="col-6 p-1">
                     <img
                       src={apartment.image}
                       alt={`${apartment.title} Small 3`}
-                      className="img-fluid rounded"
+                      className="img-fluid "
                       style={{ objectFit: "cover", width: "100%", height: "auto" }}
                     />
                   </div>
@@ -58,8 +58,8 @@ const ApartmentCard = ({ apartment, setApartments }) => {
                     <img
                       src={apartment.image}
                       alt={`${apartment.title} Small 4`}
-                      className="img-fluid rounded"
-                      style={{ objectFit: "cover", width: "100%", height: "auto" }}
+                      className="img-fluid "
+                      style={{ borderBottomRightRadius: "10px", objectFit: "cover", width: "100%", height: "auto" }}
                     />
                   </div>
                 </>
@@ -69,15 +69,16 @@ const ApartmentCard = ({ apartment, setApartments }) => {
         </div>
         {/* Display the apartment details*/}
         <div className='col-4'>
-          <p className='mb-1'><strong>Beds:</strong> {apartment.beds}</p>
-          <p className='mb-1'><strong>Bathrooms:</strong> {apartment.bathrooms}</p>
-          <p className='mb-1'><strong>Square Meters:</strong> {apartment.square_meters} m²</p>
-          <p className='mb-1'><strong>Rooms:</strong> {apartment.rooms}</p>
-          <p className='mb-1'><strong>Address:</strong> {apartment.address}</p>
+          <p className='mb-1'><strong>Letti:</strong> {apartment.beds}</p>
+          <p className='mb-1'><strong>Bagni:</strong> {apartment.bathrooms}</p>
+          <p className='mb-1'><strong>Metri Quadri:</strong> {apartment.square_meters} m²</p>
+          <p className='mb-1'><strong>Stanze:</strong> {apartment.rooms}</p>
+          <p className='mb-1'><strong>Indirizzo:</strong> {apartment.address}</p>
         </div>
         {/* Display the services if available */}
         {apartment.services && apartment.services.length > 0 && (
           <div className="services-section">
+            <hr />
             <h5>Servizi:</h5>
             <ul>
               {apartment.services.map((service, index) => (

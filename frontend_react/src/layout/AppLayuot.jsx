@@ -8,7 +8,7 @@ export default function AppLayout() {
         <>
             <Header />
 
-            <main>
+            <main className="py-4 bg-light min-vh-100 m-0">
                 <Outlet />
             </main>
 

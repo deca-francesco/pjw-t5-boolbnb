@@ -16,12 +16,12 @@ export default function ContactOwner() {
 
     return (
         <div>
-            <button className="btn btn-primary" onClick={handleButtonClick}>
+            <button className="btn btn-dark" onClick={handleButtonClick}>
                 {isFormVisible ? "Chiudi il modulo" : "Contatta il proprietario"}
             </button>
 
             {isFormVisible && (
-                <div className="mt-4">
+                <div className="card p-3 mt-4">
                     {!formSubmitted ? (
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">

@@ -15,10 +15,11 @@ export default function NewApartmentPage() {
     })
 
     const [errorMessage, setErrorMessage] = useState("")
+
     const navigate = useNavigate()
 
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
-    // da rivedere owner_id
+
     const url = `${base_api_url}/apartments/new`
 
     // Handle the data's changes in the form
@@ -130,14 +131,13 @@ export default function NewApartmentPage() {
                 throw new Error(data.error || data.message)
             }
 
-            const result = await response.json()
-            console.log("Apartment added successfully:", result)
+            console.log("Apartment added successfully:", data)
 
             // Alert di conferma
             alert("Appartamento creato con successo!");
 
             // Reindirizza alla pagina dell'appartamento appena creato
-            navigate(`/apartments/${result.new_apartment_id}`)
+            navigate(`/apartments/${data.new_apartment_id}`)
 
             // Reset del form
             setFormData({
