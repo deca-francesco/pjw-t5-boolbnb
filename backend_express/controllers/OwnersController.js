@@ -26,7 +26,7 @@ function show(req, res) {
     // execute the query
     connection.query(sql, [email, password], (err, result) => {
         if (err) return res.status(500).json({ error: err.message })
-        if (!result[0]) return res.status(404).json({ message: 'Email o Password sbagliati', err })
+        if (!result[0]) return res.status(401).json({ message: 'Email o Password sbagliati', err })
 
         // save the data
         const owner = result[0]
@@ -36,7 +36,7 @@ function show(req, res) {
 
         // check if they match
         if (!match) {
-            return res.status(404).json({ message: 'Email o Password sbagliati' })
+            return res.status(401).json({ message: 'Email o Password sbagliati' })
         }
 
         // create a token JWT
