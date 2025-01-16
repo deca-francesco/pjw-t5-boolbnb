@@ -1,5 +1,6 @@
 import ApartmentCard from '../components/ApartmentsComponents/ApartmentCard';
 import { useState, useEffect } from 'react'
+import Jumbotron from '../components/LayoutComponents/Jumbotron';
 
 
 export default function ProtectedHomePage() {
@@ -33,6 +34,7 @@ export default function ProtectedHomePage() {
         <>
             <section className='d-flex justify-content-around'>
                 <div className='container'>
+                    <Jumbotron></Jumbotron>
                     <div className='row row-cols-1 row-cols-md-2 row-cols-lg-3 p-5 g-5 mt-0'>
 
 

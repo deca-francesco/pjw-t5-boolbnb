@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import LoginButton from '../LoginComponents/LoginButton'
-
 export default function Header() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -42,7 +41,6 @@ export default function Header() {
                 <div className="logo">
                     <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&B</h1></a>
                 </div>
-
                 <nav className="nav">
                     <ul className="d-flex list-unstyled m-0">
 
@@ -65,6 +63,7 @@ export default function Header() {
                     </ul>
                 </nav>
             </div>
+
         </header>
 
     )
