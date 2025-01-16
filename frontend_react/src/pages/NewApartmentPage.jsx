@@ -10,6 +10,7 @@ export default function NewApartmentPage() {
         bathrooms: "",
         square_meters: "",
         address: "",
+        city: "",
         image: "",
         services: []
     })
@@ -67,7 +68,9 @@ export default function NewApartmentPage() {
         if (!formData.address.trim()) {
             return "Indirizzo richiesto.";
         }
-
+        if (!formData.city.trim()) {
+            return "Città richiesta.";
+        }
         // Controllo campi numerici
         if (!formData.rooms || formData.rooms <= 0) {
             return "Stanze deve essere un numero intero maggiore di 0.";
@@ -158,6 +161,7 @@ export default function NewApartmentPage() {
                 bathrooms: "",
                 square_meters: "",
                 address: "",
+                città: "",
                 image: "",
                 services: [],
             })
@@ -201,6 +205,10 @@ export default function NewApartmentPage() {
                     <div className="mb-3">
                         <label className="form-label">* Indirizzo:</label>
                         <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required />
+                    </div>
+                    <div className="mb-3">
+                        <label className="form-label">* Città:</label>
+                        <input type="text" className="form-control" name="city" value={formData.city} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
                         <label className="form-label">* URL immagine:</label>

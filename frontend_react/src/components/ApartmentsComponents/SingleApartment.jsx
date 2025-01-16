@@ -76,6 +76,7 @@ const ApartmentCard = ({ apartment, setApartments, setApartment }) => {
             <p className='mb-1'><strong>Metri Quadri:</strong> {apartment.square_meters} m²</p>
             <p className='mb-1'><strong>Stanze:</strong> {apartment.rooms}</p>
             <p className='mb-1'><strong>Indirizzo:</strong> {apartment.address}</p>
+            <p className='mb-1'><strong>Città:</strong> {apartment.city}</p>
           </div>
           {/* Display the services if available */}
           {apartment.services && apartment.services.length > 0 && (
