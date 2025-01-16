@@ -17,15 +17,18 @@ export default function SingleApartmentPage() {
 
     //useEffect to load apartment details
     useEffect(() => {
-        fetch(`${apiUrl}/apartments/${id}`)
-            .then(res => res.json())
-            .then(data => {
+        const fetchApartmentDetails = async () => {
+            try {
+                const response = await fetch(`${apiUrl}/apartments/${id}`);
+                const data = await response.json();
                 console.log(data);
-
                 setApartment(data);
+            } catch (err) {
+                console.error(err);
+            }
+        };
 
-
-            }).catch(err => console.error(err))
+        fetchApartmentDetails()
     }, [id])
 
     const toggleForm = () => {
@@ -37,7 +40,7 @@ export default function SingleApartmentPage() {
             <div className="container">
                 {apartment ? (
                     // Pass the apartment data as a prop to the ApartmentCard component
-                    <SingleApartment apartment={apartment.data} />
+                    <SingleApartment apartment={apartment.data} setApartment={setApartment} />
                 ) : (
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
