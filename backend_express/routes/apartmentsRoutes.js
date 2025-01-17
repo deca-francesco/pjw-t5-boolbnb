@@ -32,25 +32,7 @@ router.post('/new', verifyToken, upload.single("image"), ApartmentsController.cr
 // vote route
 router.post("/vote/:id", ApartmentsController.vote)
 
-router.get('/search', async (req, res) => {
-    const { city } = req.query;
-
-    if (!city) {
-        return res.status(400).json({ error: 'City query parameter is required' });
-    }
-
-    try {
-        // Query al database per filtrare gli appartamenti per città
-        const [rows] = await db.query(
-            'SELECT * FROM apartments WHERE city LIKE ?',
-            [`%${city}%`]
-        );
-
-        res.json({ data: rows });
-    } catch (error) {
-        console.error('Database error:', error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+// search route
+router.get('/search', ApartmentsController.search);
 
 module.exports = router;
