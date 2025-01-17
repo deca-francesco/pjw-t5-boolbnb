@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import LoginButton from '../LoginComponents/LoginButton'
+import Searchbar from "../ApartmentsComponents/Searchbar"
 export default function Header() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -62,6 +63,7 @@ export default function Header() {
                         )}
                     </ul>
                 </nav>
+                <Searchbar />
             </div>
 
         </header>
