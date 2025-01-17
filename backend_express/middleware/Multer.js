@@ -20,8 +20,10 @@ const upload = multer({
         const mimetype = filetypes.test(file.mimetype);
 
         if (extname && mimetype) {
+            console.log("File valid: ", file);
             return cb(null, true);
         } else {
+            console.log("Invalid file: ", file);
             return cb(new Error('Only images are allowed.'));
         }
     },

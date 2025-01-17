@@ -2,6 +2,10 @@
 const Joi = require('joi');
 const connection = require('../database/connection');
 const upload = require("../middleware/Multer")
+const verifyToken = require('../middleware/TokenValidation')
+
+const HOST = process.env.HOST;
+const PORT = process.env.PORT;
 
 // index
 function index(req, res) {
@@ -18,6 +22,14 @@ function index(req, res) {
     connection.query(sql, city ? [`%${city}%`] : [], (err, results) => {
         if (err) return res.status(500).json({ err: err });  // Gestione errori
 
+        // Ciclo per correggere l'URL di ogni immagine
+        results.forEach(apartment => {
+            if (apartment.image) {
+                // Formatta il percorso dell'immagine per il frontend
+                apartment.image = `${req.protocol}://${req.get('host')}/${apartment.image.replace(/\\/g, '/')}`;
+            }
+        });
+
         // Risposta con gli appartamenti trovati
         res.status(200).json({
             count: results.length,
@@ -25,6 +37,7 @@ function index(req, res) {
         });
     });
 }
+
 
 // show
 function show(req, res) {
@@ -66,6 +79,12 @@ function show(req, res) {
 
         // save result
         const apartment = results[0]
+
+        // If image exists, create a URL for the image
+        if (apartment.image) {
+            // Replace backslashes with forward slashes for URL compatibility
+            apartment.image = `${HOST}:${PORT}/${apartment.image.replace(/\\/g, '/')}`;
+        }
 
         // execute query for owner
         connection.query(owner_sql, Number([id]), (err, owner_results) => {
@@ -149,7 +168,12 @@ function create(req, res) {
     console.log("Dati ricevuti:", req.body);
     console.log("File caricato:", req.file); // Mostra i dettagli del file caricato
 
-    // Verification token
+    // Verifica che l'immagine sia stata caricata
+    if (!req.file) {
+        return res.status(400).json({ error: "Immagine richiesta." });
+    }
+
+    // Estrai l'ID dell'utente dal token (già presente nel middleware)
     const { id: userId } = req.user;
 
     // Validazione del corpo della richiesta (formato dei dati, senza l'immagine)
@@ -170,62 +194,52 @@ function create(req, res) {
         return res.status(400).json({ error: error.details[0].message });
     }
 
-    // Gestione dell'immagine tramite multer
-    // Utilizzo del middleware upload per gestire il caricamento dell'immagine
-    upload.single('image')(req, res, (err) => { // Passando il nome del campo del file, che è 'image'
+    // Dati dell'immagine
+    const imagePath = req.file.path;  // Percorso dell'immagine salvata da Multer
+
+    // Dati provenienti dal body
+    const { title, rooms, beds, bathrooms, square_meters, address, city, services = [] } = req.body;
+
+    // Query SQL per inserire il nuovo appartamento
+    const newApartmentSql = `
+        INSERT INTO apartments (owner_id, title, rooms, beds, bathrooms, square_meters, address, city, image)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    connection.query(newApartmentSql, [userId, title, rooms, beds, bathrooms, square_meters, address, city, imagePath], (err, result) => {
         if (err) {
-            console.error("Errore durante il caricamento del file:", err);
-            return res.status(500).json({ error: 'Errore nel caricamento del file immagine.' });
+            console.error("Errore nell'inserimento dell'appartamento:", err);
+            return res.status(500).json({ error: 'Errore nel salvataggio dell\'appartamento.' });
         }
 
-        // Prendere i dati dal body e dal file caricato
-        const { title, rooms, beds, bathrooms, square_meters, address, city, services = [] } = req.body;
-        const image = req.file ? req.file.path : null; // Percorso dell'immagine
+        const apartmentId = result.insertId;
 
-        // Verifica che l'immagine sia stata caricata
-        if (!image) {
-            return res.status(400).json({ error: 'L\'immagine è obbligatoria.' });
+        // Se non ci sono servizi, ritorna una risposta di successo
+        if (services.length === 0) {
+            return res.status(201).json({
+                success: true,
+                new_apartment_id: apartmentId
+            });
         }
 
-        // Query SQL per inserire un nuovo appartamento
-        const new_apartment_sql = `
-            INSERT INTO apartments (owner_id, title, rooms, beds, bathrooms, square_meters, address, city, image)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        // Inserimento dei servizi associati all'appartamento
+        const serviceApartmentValues = services.map(serviceId => [apartmentId, serviceId]);
+
+        const serviceApartmentSql = `
+            INSERT INTO services_apartments (apartment_id, service_id) VALUES ?
         `;
 
-        connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, city, image], (err, result) => {
+        connection.query(serviceApartmentSql, [serviceApartmentValues], (err) => {
             if (err) {
-                console.error("Errore nella query di inserimento:", err);
-                return res.status(500).json({ error: 'Errore nel salvataggio dell\'appartamento.' });
+                console.error("Errore nell'inserimento dei servizi:", err);
+                return res.status(500).json({ error: 'Errore nell\'associazione dei servizi.' });
             }
 
-            const apartmentId = result.insertId;
-
-            // Se non ci sono servizi, ritorna una risposta di successo
-            if (services.length === 0) {
-                return res.status(201).json({
-                    success: true,
-                    new_apartment_id: apartmentId
-                });
-            }
-
-            // Inserimento dei servizi associati all'appartamento
-            const service_apartment_values = services.map(serviceId => [apartmentId, serviceId]);
-
-            const service_apartment_sql = `
-                INSERT INTO services_apartments (apartment_id, service_id) VALUES ?
-            `;
-
-            connection.query(service_apartment_sql, [service_apartment_values], (err) => {
-                if (err) {
-                    console.error("Errore nell'inserimento dei servizi:", err);
-                    return res.status(500).json({ error: 'Errore nell\'associazione dei servizi.' });
-                }
-
-                res.status(201).json({
-                    success: true,
-                    new_apartment_id: apartmentId
-                });
+            // Risposta di successo con l'ID del nuovo appartamento
+            res.status(201).json({
+                success: true,
+                new_apartment_id: apartmentId,
+                image_path: req.file.path
             });
         });
     });

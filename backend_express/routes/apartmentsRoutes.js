@@ -17,6 +17,7 @@ const ApartmentsController = require('../controllers/ApartmentsController');
 
 // index apartments route
 router.get('/', ApartmentsController.index);  // Assicurati che questa rotta richiami il metodo index
+
 router.get('/search', ApartmentsController.index);
 
 // show apartment route
