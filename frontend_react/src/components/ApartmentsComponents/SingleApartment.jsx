@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
 import HeartIconVote from './HeartIconVote'
 
-const ApartmentCard = ({ apartment, setApartments, setApartment }) => {
+const ApartmentCard = ({ apartment, setApartment }) => {
 
 
   return (

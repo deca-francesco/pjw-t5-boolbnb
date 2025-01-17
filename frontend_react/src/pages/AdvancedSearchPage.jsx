@@ -26,7 +26,7 @@ export default function AdvancedSearchPage() {
         if (city) {
             fetchApartments(city); // Fetch apartments for the given city
         }
-    }, [searchParams, apartments]);
+    }, [searchParams]);
 
     // Fetch apartments from the API based on the city
     function fetchApartments(city) {

@@ -1,48 +1,61 @@
 export default function HeartIconVote({ data_apartment, setApartments, setApartment }) {
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
-    const url = `${base_api_url}/apartments/vote/${data_apartment.id}`;
 
     const handleHeartClick = async (e) => {
         e.preventDefault();
 
+        // Verifica se l'ID è valido prima di procedere
+        if (!data_apartment || !data_apartment.id) {
+            console.error("ID appartamento non valido o mancante.");
+            return;
+        }
+
+        const voteUrl = `${base_api_url}/apartments/vote/${data_apartment.id}`;
+        const indexUrl = `${base_api_url}/apartments`; // Rotta per tutti gli appartamenti
+        const showUrl = `${base_api_url}/apartments/${data_apartment.id}`; // Rotta per un singolo appartamento
+
         try {
-            const response = await fetch(url);
-            // console.log(url);
+            // Chiamata per incrementare il voto
+            const voteResponse = await fetch(voteUrl, { method: 'POST' });
+            if (!voteResponse.ok) {
+                console.error("Errore durante l'aggiornamento del voto:", voteResponse.statusText);
+                return;
+            }
 
-            if (response.ok) {
-                const data = await response.json(); // La risposta con entrambi i dati
-                // console.log("Fetch successful: ", data);
+            console.log("Voto aggiornato con successo");
 
-                // Se siamo nella homepage, aggiorniamo la lista degli appartamenti
-                if (setApartments) {
-                    setApartments(data.data);
-                    console.log("SetApartments", data);
-
+            // Se siamo nella homepage, aggiorniamo l'elenco degli appartamenti
+            if (setApartments) {
+                const indexResponse = await fetch(indexUrl); // Chiamata alla rotta index
+                if (indexResponse.ok) {
+                    const data = await indexResponse.json();
+                    setApartments(data.data); // Aggiorna l'elenco
+                    console.log("SetApartments aggiornato:", data.data);
+                } else {
+                    console.error("Errore durante il recupero degli appartamenti:", indexResponse.statusText);
                 }
+            }
 
-                // Se siamo nella pagina di dettaglio, aggiorniamo solo il singolo appartamento
-                if (setApartment) {
-                    const singleApartment = data.data.find(apartment => apartment.id === data_apartment.id)
-                    setApartment({
-                        data: singleApartment
-                    })
-                    console.log("SetApartment", singleApartment);
-
+            // Se siamo nella pagina di dettaglio, aggiorniamo il singolo appartamento
+            if (setApartment) {
+                const showResponse = await fetch(showUrl); // Chiamata alla rotta show
+                if (showResponse.ok) {
+                    const data = await showResponse.json();
+                    setApartment(data); // Aggiorna il dettaglio
+                    console.log("SetApartment aggiornato:", data);
+                } else {
+                    console.error("Errore durante il recupero del dettaglio dell'appartamento:", showResponse.statusText);
                 }
-            } else {
-                console.error("Error fetching data: ", response.statusText);
             }
         } catch (error) {
-            console.error("Error fetching data: ", error);
+            console.error("Errore durante le chiamate API:", error);
         }
     };
 
     return (
-        <>
-            <div className='d-flex align-items-center justify-content-end p-2'>
-                <i className="bi bi-heart" onClick={handleHeartClick}></i>
-                <span className='ms-1'>{data_apartment.vote}</span>
-            </div>
-        </>
+        <div className='d-flex align-items-center justify-content-end p-2'>
+            <i className="bi bi-heart" onClick={handleHeartClick}></i>
+            <span className='ms-1'>{data_apartment?.vote || 0}</span>
+        </div>
     );
 }
