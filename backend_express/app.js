@@ -5,6 +5,10 @@ const ownerRoutes = require('./routes/ownerRoutes')
 const cors = require('cors')
 const NotFound = require('./middleware/NotFound')
 const ServerErrorsHandler = require('./middleware/ServerErrorsHandler')
+const path = require('path')
+
+// cartella per le immagini
+server.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 // cors policy unlock only for this domain
 server.use(cors({ origin: process.env.WEBAPP_FRONT_ORIGIN }))
@@ -22,6 +26,8 @@ server.listen(PORT, () => {
 server.get('/', (req, res) => {
     res.send('Server is up and running')
 })
+
+
 
 // apartments' Routes
 server.use('/apartments', ApartmentsRoutes)
