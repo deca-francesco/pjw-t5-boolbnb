@@ -158,7 +158,15 @@ function review(req, res) {
     // execute query
     connection.query(review_sql, [apartment_id, username, email, review, days], (err, result) => {
         if (err) return res.status(500).json({ error: err })
-        return res.status(201).json({ success: true })
+
+        const fetch_reviews_sql = `SELECT * FROM reviews WHERE apartment_id = ? ORDER BY date DESC`;
+
+        connection.query(fetch_reviews_sql, [apartment_id], (err, reviews) => {
+            if (err) return res.status(500).json({ error: err });
+
+            // Return the updated list of reviews as part of the response
+            return res.status(201).json({ success: true, reviews: reviews });
+        });
     })
 }
 
