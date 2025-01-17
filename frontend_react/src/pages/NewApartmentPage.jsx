@@ -87,6 +87,8 @@ export default function NewApartmentPage() {
         e.preventDefault();
         setMessage("");
 
+        console.log('Form Data:', formData);
+
         const authToken = localStorage.getItem("authToken");
         if (!authToken) {
             setMessage("Token mancante. Devi essere autenticato.");
@@ -104,54 +106,72 @@ export default function NewApartmentPage() {
         // Creazione dell'oggetto FormData per inviare il modulo insieme al file
         const formDataToSend = new FormData();
         formDataToSend.append("title", formData.title);
-        formDataToSend.append("rooms", formData.rooms);
-        formDataToSend.append("beds", formData.beds);
-        formDataToSend.append("bathrooms", formData.bathrooms);
-        formDataToSend.append("square_meters", formData.square_meters);
+        formDataToSend.append("rooms", Number(formData.rooms));
+        formDataToSend.append("beds", Number(formData.beds));
+        formDataToSend.append("bathrooms", Number(formData.bathrooms));
+        formDataToSend.append("square_meters", Number(formData.square_meters));
         formDataToSend.append("address", formData.address);
         formDataToSend.append("city", formData.city);
-        formDataToSend.append("services", JSON.stringify(formData.services));
-        formDataToSend.append("image", selectedFile);
+        // formDataToSend.append("services", JSON.stringify(formData.services));
+        // formDataToSend.append("image", selectedFile);
+
+        // Aggiungi il file
+        if (selectedFile) {
+            formDataToSend.append("image", selectedFile);
+        }
+
+        // Aggiungi i servizi (se ci sono)
+        formData.services.forEach(serviceId => {
+            formDataToSend.append("services[]", serviceId);
+        })
 
         try {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${authToken}`,
+                    "Authorization": `Bearer ${authToken}`,
+                    "Content-Type": "multipart/form-data",
                 },
                 body: formDataToSend,
             });
 
             const data = await response.json();
 
+            if (response.status === 401 && data.message === "Sessione scaduta! effettua nuovamente l'accesso") {
+                navigate('/login');
+                return;
+            }
+
             if (!response.ok) {
                 throw new Error(data.error || data.message);
             }
 
-            console.log("Appartamento creato con successo!", data);
+            console.log("Apartment added successfully:", data);
+
+            // Alert di conferma
             setMessage("Appartamento creato con successo!");
             setMessageType("success");
-            alert('Appartamento creato con successo!');
+            alert("Appartamento creato con successo!");
 
+            // Reindirizza alla pagina dell'appartamento appena creato
             navigate(`/apartments/${data.new_apartment_id}`);
 
             // Reset del form
             setFormData({
-                title: '',
-                rooms: '',
-                beds: '',
-                bathrooms: '',
-                square_meters: '',
-                address: '',
-                city: '',
-                image: '',
+                title: "",
+                rooms: "",
+                beds: "",
+                bathrooms: "",
+                square_meters: "",
+                address: "",
+                city: "",
+                image: "",
                 services: [],
-            })
-
+            });
         } catch (error) {
-            console.error('Error adding apartment:', error);
+            console.error("Error adding apartment:", error);
             setMessage(error.message);
-            setMessageType('error');
+            setMessageType("error");
             // alert(error.message);
         }
     }

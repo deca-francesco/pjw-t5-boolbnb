@@ -157,6 +157,9 @@ function review(req, res) {
 
 // create apartment
 function create(req, res) {
+
+    console.log("Dati ricevuti:", req.body)
+
     // Verification token
     const { id: userId } = req.user;
 
@@ -169,7 +172,7 @@ function create(req, res) {
         square_meters: Joi.number().min(1).required(),
         address: Joi.string().required(),
         city: Joi.string().min(2).required(),
-        services: Joi.array().items(Joi.number().integer()).optional()
+        services: Joi.array().items(Joi.number().integer()).optional(),
     });
 
     const { error } = schema.validate(req.body);
