@@ -170,6 +170,8 @@ export default function LoginPage() {
                 return response.json();
             })
             .then((data) => {
+
+
                 if (data.token) {
                     // If there is a token, the owner is authenticated
                     localStorage.setItem("authToken", data.token);
@@ -193,7 +195,8 @@ export default function LoginPage() {
 
                     } else {
                         alert('Login effettuato con successo')
-                        navigate('/protected');
+                        const ownerId = data.utente.id;
+                        navigate(`/owners/${ownerId}`);
                     }
                 } else {
                     // In case of an errore, we handle the message given by the backend

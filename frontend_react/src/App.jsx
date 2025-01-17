@@ -28,7 +28,10 @@ function App() {
               <PrivateRoute>
                 <NewApartmentPage />
               </PrivateRoute>} />
-            <Route path='/owners/:id' element={<OwnerProfilePage />} />
+            <Route path='/owners/:id' element={
+              <PrivateRoute>
+                <OwnerProfilePage />
+              </PrivateRoute>} />
           </Route>
         </Routes>
       </BrowserRouter>
