@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 
-export default function ReviewFormCard({ apartment_id }) {
+export default function ReviewFormCard({ apartment_id, setReviews }) {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [review, setReview] = useState('');
@@ -52,6 +52,11 @@ export default function ReviewFormCard({ apartment_id }) {
                 if (data.success) {
                     setMessage("Grazie! La tua recensione è stata inviata");
                     setMessageType('success');
+
+                    const newReview = { username, email, review, days, date: new Date().toLocaleDateString() };
+
+                    // Aggiungi la recensione all'array delle recensioni esistenti
+                    setReviews(data.reviews)
 
                     // Reset dei campi
                     setUsername('');

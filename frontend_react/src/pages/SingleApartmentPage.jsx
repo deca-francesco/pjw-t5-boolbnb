@@ -13,6 +13,7 @@ export default function SingleApartmentPage() {
 
     const [apartment, setApartment] = useState(null)
     const [showForm, setShowForm] = useState(false);
+    const [reviews, setReviews] = useState([])
 
 
     //useEffect to load apartment details
@@ -24,6 +25,7 @@ export default function SingleApartmentPage() {
                 console.log(data);
 
                 setApartment(data);
+                setReviews(data.data.reviews);
             } catch (err) {
                 console.error(err);
             }
@@ -31,6 +33,11 @@ export default function SingleApartmentPage() {
 
         fetchApartmentDetails()
     }, [id])
+
+    useEffect(() => {
+        // Qui possiamo fare qualcosa ogni volta che la lista delle recensioni cambia
+        console.log('Recensioni aggiornate:', reviews);
+    }, [reviews]);
 
     const toggleForm = () => {
         setShowForm(!showForm);
@@ -59,11 +66,11 @@ export default function SingleApartmentPage() {
                         <button className='btn btn-dark m-4 text-white' onClick={toggleForm}>
                             {showForm ? 'Chiudi' : 'Inserisci Una Recesione'}
                         </button>
-                        {showForm && <ReviewFormCard apartment_id={id} />}
+                        {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
                     </div>
                     <ContactOwner></ContactOwner>
                 </div>
-                <ReviewCard></ReviewCard>
+                <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>
             </div>
 
         </>
