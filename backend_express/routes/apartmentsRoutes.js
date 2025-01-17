@@ -4,6 +4,12 @@ const express = require('express');
 // import middleware for token validation
 const verifyToken = require('../middleware/TokenValidation')
 
+// file middleware
+const multer = require("multer");
+// const upload = multer({ dest: "uploads/" }); // Cartella di destinazione per i file caricati
+const upload = require('../middleware/Multer')
+
+
 // create router
 const router = express.Router();
 
@@ -21,7 +27,7 @@ router.get('/:id', ApartmentsController.show)
 router.post("/review/:id", ApartmentsController.review)
 
 // create apartment route
-router.post('/new', verifyToken, ApartmentsController.create)
+router.post('/new', verifyToken, upload.single("image"), ApartmentsController.create)
 
 // vote route
 router.get("/vote/:id", ApartmentsController.vote)

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 
-
 export default function ReviewCard() {
-
     const [reviews, setReviews] = useState([])
     const { id } = useParams()
     const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
@@ -13,19 +11,14 @@ export default function ReviewCard() {
             .then(res => res.json())
             .then(data => {
                 console.log(data.data);
-
                 setReviews(data.data.reviews);
-
-
-            }).catch(err => console.error(err))
+            })
+            .catch(err => console.error(err))
     }, [id])
 
-
     return (
-
         <div className="container">
             <h2>Recensioni</h2>
-
             {reviews.length === 0 ? (
                 <p>Nessuna recensione disponibile.</p>
             ) : (
@@ -37,6 +30,10 @@ export default function ReviewCard() {
                                 {review.days} giorni di soggiorno
                             </h6>
                             <p className="card-text">{review.review}</p>
+                            <small className="text-muted">
+                                
+                                Pubblicata il {new Date(review.date).toLocaleDateString()}
+                            </small>
                         </div>
                     </div>
                 ))

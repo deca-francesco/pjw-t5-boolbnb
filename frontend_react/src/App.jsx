@@ -7,7 +7,12 @@ import SingleApartmentPage from './pages/SingleApartmentPage'
 import PrivateRoute from './components/LoginComponents/PrivateRoute'
 import LoginPage from './pages/Loginpage'
 import NewApartmentPage from './pages/NewApartmentPage'
+
 import AdvancedSearchPage from './pages/AdvancedSearchPage'
+
+import OwnerProfilePage from './pages/OwnerProfilePage'
+
+
 function App() {
 
   return (
@@ -28,8 +33,11 @@ function App() {
               <PrivateRoute>
                 <NewApartmentPage />
               </PrivateRoute>} />
+            <Route path='/owners/:id' element={
+              <PrivateRoute>
+                <OwnerProfilePage />
+              </PrivateRoute>} />
           </Route>
-
         </Routes>
       </BrowserRouter>
     </>
