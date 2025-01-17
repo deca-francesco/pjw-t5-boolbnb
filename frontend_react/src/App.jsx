@@ -7,6 +7,7 @@ import SingleApartmentPage from './pages/SingleApartmentPage'
 import PrivateRoute from './components/LoginComponents/PrivateRoute'
 import LoginPage from './pages/Loginpage'
 import NewApartmentPage from './pages/NewApartmentPage'
+import OwnerProfilePage from './pages/OwnerProfilePage'
 
 function App() {
 
@@ -27,8 +28,8 @@ function App() {
               <PrivateRoute>
                 <NewApartmentPage />
               </PrivateRoute>} />
+            <Route path='/owners/:id' element={<OwnerProfilePage />} />
           </Route>
-
         </Routes>
       </BrowserRouter>
     </>
