@@ -17,7 +17,8 @@ const router = express.Router();
 const ApartmentsController = require('../controllers/ApartmentsController');
 
 // index apartments route
-router.get('/', ApartmentsController.index)
+router.get('/', ApartmentsController.index);  // Assicurati che questa rotta richiami il metodo index
+router.get('/search', ApartmentsController.index);
 
 // show apartment route
 router.get('/:id', ApartmentsController.show)
@@ -31,5 +32,25 @@ router.post('/new', verifyToken, upload.single("image"), ApartmentsController.cr
 // vote route
 router.get("/vote/:id", ApartmentsController.vote)
 
+router.get('/search', async (req, res) => {
+    const { city } = req.query;
+
+    if (!city) {
+        return res.status(400).json({ error: 'City query parameter is required' });
+    }
+
+    try {
+        // Query al database per filtrare gli appartamenti per città
+        const [rows] = await db.query(
+            'SELECT * FROM apartments WHERE city LIKE ?',
+            [`%${city}%`]
+        );
+
+        res.json({ data: rows });
+    } catch (error) {
+        console.error('Database error:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 
 module.exports = router;

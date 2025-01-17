@@ -5,21 +5,25 @@ const upload = require("../middleware/Multer")
 
 // index
 function index(req, res) {
+    const { city } = req.query;  // Ottieni il parametro della città dalla query, se presente
 
-    // db query 
-    const sql = `SELECT * FROM apartments ORDER BY vote DESC`;
+    let sql = 'SELECT * FROM apartments ORDER BY vote DESC';  // Query di base
 
-    // execute the sql query
-    connection.query(sql, (err, results) => {
-        // error
-        if (err) return res.status(500).json({ err: err })
+    // Se c'è un parametro city, modifica la query per filtrare per città
+    if (city) {
+        sql = 'SELECT * FROM apartments WHERE city LIKE ? ORDER BY vote DESC';
+    }
 
-        // response object
+    // Esegui la query
+    connection.query(sql, city ? [`%${city}%`] : [], (err, results) => {
+        if (err) return res.status(500).json({ err: err });  // Gestione errori
+
+        // Risposta con gli appartamenti trovati
         res.status(200).json({
             count: results.length,
             data: results
-        })
-    })
+        });
+    });
 }
 
 // show
