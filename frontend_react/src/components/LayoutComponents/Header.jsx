@@ -42,6 +42,7 @@ export default function Header() {
                 <div className="logo">
                     <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&B</h1></a>
                 </div>
+                <Searchbar />
                 <nav className="nav">
                     <ul className="d-flex list-unstyled m-0">
 
@@ -63,7 +64,7 @@ export default function Header() {
                         )}
                     </ul>
                 </nav>
-                <Searchbar />
+
             </div>
 
         </header>
