@@ -11,6 +11,7 @@ export default function NewApartmentPage() {
         square_meters: "",
         address: "",
         city: "",
+        image: null,
         services: []
     });
 
@@ -52,9 +53,12 @@ export default function NewApartmentPage() {
     };
 
     // Funzione per gestire la selezione del file immagine
-    const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+    const handleFileChange = (e) => {
+        setSelectedFile(e.target.files[0]);  // Aggiorna il file selezionato
+        console.log('File selezionato:', e.target.files[0]);  // Log per verificarlo
     };
+
+
 
     // Funzione di validazione del modulo
     const validateFormData = () => {
@@ -115,15 +119,18 @@ export default function NewApartmentPage() {
         // formDataToSend.append("services", JSON.stringify(formData.services));
         formDataToSend.append("image", selectedFile);
 
-        // // Aggiungi il file
-        // if (selectedFile) {
-        //     formDataToSend.append("image", selectedFile);
-        // }
+        // Aggiungi il file
+        if (selectedFile) {
+            formDataToSend.append("image", selectedFile);
+        }
 
         // Aggiungi i servizi (se ci sono)
         formData.services.forEach(serviceId => {
             formDataToSend.append("services[]", serviceId);
         })
+
+        console.log(formDataToSend);
+
 
         try {
             const response = await fetch(url, {
@@ -211,7 +218,7 @@ export default function NewApartmentPage() {
                     </div>
                     <div className="mb-3">
                         <label className="form-label">* Immagine:</label>
-                        <input type="file" className="form-control" accept="image/*" onChange={handleFileChange} required />
+                        <input type="file" className="form-control" name="image" accept="image/*" onChange={handleFileChange} required />
                     </div>
                     <div className="my-3">
                         I campi con "*" sono obbligatori
