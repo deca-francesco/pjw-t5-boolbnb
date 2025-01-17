@@ -10,6 +10,8 @@ const OwnersController = require('../controllers/OwnersController')
 // show owner route
 router.get('/login', OwnersController.show)
 
+router.get('/:id', OwnersController.showApartmens)
+
 // store owner route
 router.post('/new', OwnersController.store)
 

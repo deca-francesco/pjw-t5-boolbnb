@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 function show(req, res) {
 
     // take values from the request query
-    const { email, password } = req.query
+    const { email, password } = req.body /* rimettere query */
 
     // console log to check the email and the passwords
     console.log(`email: ${email}. password: ${password}`);
@@ -119,9 +119,89 @@ function store(req, res) {
 
         res.status(200).json({ utente: newOwner, token })
     })
-}
 
+}
+function showApartmens(req, res) {
+
+    const ownerId = req.params.id
+
+    const apartment_sql = `SELECT * FROM apartments WHERE owner_id = ? `
+
+    // db query for services
+    const services_sql = `
+    select services.label
+    from services
+    join services_apartments
+    on services.id = services_apartments.service_id
+    where services_apartments.apartment_id = ? `
+
+    // db query for owner
+    const owner_sql = `
+     select owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
+     from owners
+     join apartments
+     on apartments.owner_id = owners.id
+     where apartments.id = ? `
+
+    // db query for reviews
+    const reviews_sql = `
+    select *
+    from reviews
+    where apartment_id = ? `
+    // execute the apartment_sql query
+    connection.query(apartment_sql, [ownerId], (err, results) => {
+
+        // handle errors
+        if (err) return res.status(500).json({ err: err })
+        if (!results[0]) return res.status(404).json({ err: '404! Apartment not found' })
+
+        // save result
+        const apartment = results[0]
+
+        // execute query for owner
+        connection.query(owner_sql, [ownerId], (err, owner_results) => {
+
+            // handle errors
+            if (err) return res.status(500).json({ err: err })
+
+            // save results as a property of apartment
+            apartment.owner = owner_results[0]
+
+            // execute query for services
+            connection.query(services_sql, [apartment.id], (err, services_results) => {
+
+                // handle errors
+                if (err) return res.status(500).json({ err: err })
+
+                // save results as a property of apartment
+                const services_labels = services_results.map(service => service.label)
+                apartment.services = services_labels
+
+                // execute query for reviews
+                connection.query(reviews_sql, [apartment.id], (err, reviews_results) => {
+                    // handle errors
+                    if (err) return res.status(500).json({ err: err })
+
+                    // save results as a property of apartment
+                    apartment.reviews = reviews_results
+
+                    // create the response
+                    const responseData = {
+                        data: apartment
+                    }
+
+                    console.log(responseData);
+
+                    // return the response
+                    res.status(200).json(responseData)
+                })
+            })
+        })
+    })
+
+}
 module.exports = {
     show,
-    store
+    store,
+    showApartmens
 }
