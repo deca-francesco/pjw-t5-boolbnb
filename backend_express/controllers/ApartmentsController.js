@@ -1,22 +1,7 @@
 // import connection
 const Joi = require('joi');
 const connection = require('../database/connection');
-
-const multer = require('multer');
-const path = require('path');
-
-// Configurazione di Multer per l'upload delle immagini
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'uploads/'); // la cartella dove salvare i file
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname)); // Aggiungi un timestamp al nome del file
-    }
-});
-
-const upload = multer({ storage: storage }).single('image'); // Configura multer per ricevere un solo file con il nome 'image'
-
+const upload = require("../middleware/Multer")
 
 // index
 function index(req, res) {
@@ -157,8 +142,8 @@ function review(req, res) {
 
 // create apartment
 function create(req, res) {
-
-    console.log("Dati ricevuti:", req.body)
+    console.log("Dati ricevuti:", req.body);
+    console.log("File caricato:", req.file); // Mostra i dettagli del file caricato
 
     // Verification token
     const { id: userId } = req.user;
@@ -182,8 +167,10 @@ function create(req, res) {
     }
 
     // Gestione dell'immagine tramite multer
-    upload(req, res, (err) => {
+    // Utilizzo del middleware upload per gestire il caricamento dell'immagine
+    upload.single('image')(req, res, (err) => { // Passando il nome del campo del file, che è 'image'
         if (err) {
+            console.error("Errore durante il caricamento del file:", err);
             return res.status(500).json({ error: 'Errore nel caricamento del file immagine.' });
         }
 
@@ -197,10 +184,16 @@ function create(req, res) {
         }
 
         // Query SQL per inserire un nuovo appartamento
-        const new_apartment_sql = `INSERT INTO apartments SET owner_id = ?, title = ?, rooms = ?, beds = ?, bathrooms = ?, square_meters = ?, address = ?, city = ?, image = ?`;
+        const new_apartment_sql = `
+            INSERT INTO apartments (owner_id, title, rooms, beds, bathrooms, square_meters, address, city, image)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        `;
 
         connection.query(new_apartment_sql, [userId, title, rooms, beds, bathrooms, square_meters, address, city, image], (err, result) => {
-            if (err) return res.status(500).json({ error: err });
+            if (err) {
+                console.error("Errore nella query di inserimento:", err);
+                return res.status(500).json({ error: 'Errore nel salvataggio dell\'appartamento.' });
+            }
 
             const apartmentId = result.insertId;
 
@@ -220,7 +213,10 @@ function create(req, res) {
             `;
 
             connection.query(service_apartment_sql, [service_apartment_values], (err) => {
-                if (err) return res.status(500).json({ error: err });
+                if (err) {
+                    console.error("Errore nell'inserimento dei servizi:", err);
+                    return res.status(500).json({ error: 'Errore nell\'associazione dei servizi.' });
+                }
 
                 res.status(201).json({
                     success: true,

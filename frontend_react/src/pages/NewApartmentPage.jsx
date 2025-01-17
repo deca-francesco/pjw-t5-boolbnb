@@ -130,7 +130,6 @@ export default function NewApartmentPage() {
                 method: "POST",
                 headers: {
                     "Authorization": `Bearer ${authToken}`,
-                    "Content-Type": "multipart/form-data",
                 },
                 body: formDataToSend,
             });
