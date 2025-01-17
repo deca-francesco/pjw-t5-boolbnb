@@ -9,7 +9,7 @@ export default function ApartmentCard({ apartment, setApartments }) {
         <>
             <div className="card bg-white text-dark border-0 shadow rounded" style={{ maxWidth: "22rem" }}>
                 <Link
-                    to={`/apartments/${apartment.id}`}
+                    to={`/apartments/${apartment.id}/${apartment.title}`}
                     className="text-decoration-none text-dark"
                     style={{ height: "25rem" }}
                 >

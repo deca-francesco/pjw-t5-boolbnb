@@ -1,6 +1,6 @@
 import './App.css'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import AppLayout from './layout/AppLayuot'
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom'
+import AppLayout from './layout/AppLayout'
 import HomePage from './pages/HomePage'
 import ProtectedHomePage from './pages/ProtectedHomePage'
 import SingleApartmentPage from './pages/SingleApartmentPage'
@@ -15,6 +15,7 @@ import OwnerProfilePage from './pages/OwnerProfilePage'
 
 function App() {
 
+
   return (
     <>
       <BrowserRouter>
@@ -22,7 +23,7 @@ function App() {
           <Route element={<AppLayout />}>
 
             <Route path='/' element={<HomePage />} />
-            <Route path="/apartments/:id" element={<SingleApartmentPage />} />
+            <Route path="/apartments/:id/:title" element={<SingleApartmentPage />} />
             <Route path="/search" element={<AdvancedSearchPage />} />
             <Route path='/protected' element={
               <PrivateRoute>

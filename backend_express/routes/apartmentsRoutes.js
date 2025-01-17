@@ -21,7 +21,7 @@ router.get('/', ApartmentsController.index);  // Assicurati che questa rotta ric
 router.get('/search', ApartmentsController.index);
 
 // show apartment route
-router.get('/:id', ApartmentsController.show)
+router.get('/:id/:title', ApartmentsController.show)
 
 // review route
 router.post("/review/:id", ApartmentsController.review)
