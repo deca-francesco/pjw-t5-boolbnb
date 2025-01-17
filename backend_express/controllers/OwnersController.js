@@ -137,11 +137,9 @@ function showApartmens(req, res) {
 
     // db query for owner
     const owner_sql = `
-     select owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
-     from owners
-     join apartments
-     on apartments.owner_id = owners.id
-     where apartments.id = ? `
+        SELECT id, name, last_name, email, phone_number
+        FROM owners
+        WHERE id = ?`;
 
     // db query for reviews
     const reviews_sql = `
@@ -149,7 +147,7 @@ function showApartmens(req, res) {
     from reviews
     where apartment_id = ? `
     // execute the apartment_sql query
-    connection.query(apartment_sql, [ownerId], (err, results) => {
+    connection.query(apartment_sql, Number([ownerId]), (err, results) => {
 
         // handle errors
         if (err) return res.status(500).json({ err: err })
@@ -159,13 +157,15 @@ function showApartmens(req, res) {
         const apartment = results[0]
 
         // execute query for owner
-        connection.query(owner_sql, [ownerId], (err, owner_results) => {
+        connection.query(owner_sql, Number([ownerId]), (err, owner_results) => {
 
             // handle errors
             if (err) return res.status(500).json({ err: err })
 
             // save results as a property of apartment
             apartment.owner = owner_results[0]
+            console.log(apartment.owner);
+
 
             // execute query for services
             connection.query(services_sql, [apartment.id], (err, services_results) => {
