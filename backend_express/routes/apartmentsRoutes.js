@@ -4,8 +4,7 @@ const express = require('express');
 // import middleware for token validation
 const verifyToken = require('../middleware/TokenValidation')
 
-// file middleware
-const multer = require("multer");
+
 // const upload = multer({ dest: "uploads/" }); // Cartella di destinazione per i file caricati
 const upload = require('../middleware/Multer')
 
