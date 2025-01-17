@@ -8,7 +8,7 @@ import ReviewCard from "../components/ApartmentsComponents/ReviewCard";
 
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
-    const { id } = useParams()
+    const { id, title } = useParams()
     const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
 
     const [apartment, setApartment] = useState(null)
@@ -20,7 +20,7 @@ export default function SingleApartmentPage() {
     useEffect(() => {
         const fetchApartmentDetails = async () => {
             try {
-                const response = await fetch(`${apiUrl}/apartments/${id}`);
+                const response = await fetch(`${apiUrl}/apartments/${id}/${title}`);
                 const data = await response.json();
                 console.log(data);
 
@@ -32,7 +32,7 @@ export default function SingleApartmentPage() {
         };
 
         fetchApartmentDetails()
-    }, [id])
+    }, [id, title])
 
     useEffect(() => {
         // Qui possiamo fare qualcosa ogni volta che la lista delle recensioni cambia
