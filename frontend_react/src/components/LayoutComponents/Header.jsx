@@ -56,6 +56,12 @@ export default function Header() {
                                 <li className="mx-3">
                                     <button onClick={handleLogout} className="btn btn-light text-dark text-decoration-none">Logout</button>
                                 </li>
+                                <li className="mx-3">
+                                    <i
+                                        className="bi bi-person-circle fs-3 text-white profile-icon"
+
+                                    />
+                                </li>
                             </>
                         ) : (
 
