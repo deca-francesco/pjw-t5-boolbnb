@@ -113,12 +113,12 @@ export default function NewApartmentPage() {
         formDataToSend.append("address", formData.address);
         formDataToSend.append("city", formData.city);
         // formDataToSend.append("services", JSON.stringify(formData.services));
-        // formDataToSend.append("image", selectedFile);
+        formDataToSend.append("image", selectedFile);
 
-        // Aggiungi il file
-        if (selectedFile) {
-            formDataToSend.append("image", selectedFile);
-        }
+        // // Aggiungi il file
+        // if (selectedFile) {
+        //     formDataToSend.append("image", selectedFile);
+        // }
 
         // Aggiungi i servizi (se ci sono)
         formData.services.forEach(serviceId => {
