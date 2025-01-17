@@ -14,7 +14,7 @@ export default function ApartmentCard({ apartment, setApartments }) {
                     style={{ height: "25rem" }}
                 >
                     <img
-                        src={apartment.image}
+                        src={`${apartment.image}`}
                         alt={apartment.title}
                         className="img-fluid rounded-top"
                         style={{

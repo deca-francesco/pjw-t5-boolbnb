@@ -119,11 +119,6 @@ export default function NewApartmentPage() {
         // formDataToSend.append("services", JSON.stringify(formData.services));
         formDataToSend.append("image", selectedFile);
 
-        // Aggiungi il file
-        if (selectedFile) {
-            formDataToSend.append("image", selectedFile);
-        }
-
         // Aggiungi i servizi (se ci sono)
         formData.services.forEach(serviceId => {
             formDataToSend.append("services[]", serviceId);

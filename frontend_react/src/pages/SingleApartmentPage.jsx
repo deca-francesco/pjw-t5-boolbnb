@@ -22,6 +22,7 @@ export default function SingleApartmentPage() {
                 const response = await fetch(`${apiUrl}/apartments/${id}`);
                 const data = await response.json();
                 console.log(data);
+
                 setApartment(data);
             } catch (err) {
                 console.error(err);

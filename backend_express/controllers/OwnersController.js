@@ -10,7 +10,7 @@ const JWT_SECRET = process.env.JWT_SECRET
 function show(req, res) {
 
     // take values from the request query
-    const { email, password } = req.query
+    const { email, password } = req.body
 
     // console log to check the email and the passwords
     console.log(`email: ${email}. password: ${password}`);

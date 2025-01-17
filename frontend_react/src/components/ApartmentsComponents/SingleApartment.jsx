@@ -19,11 +19,12 @@ const ApartmentCard = ({ apartment, setApartments, setApartment }) => {
               {apartment.image && (
                 <div className="col-6 p-1">
                   <img
-                    src={apartment.image}
+                    src={`${apartment.image}`} // Concatenare il percorso corretto
                     alt={apartment.title}
                     className="img-fluid "
                     style={{ borderTopLeftRadius: "10px", borderBottomLeftRadius: "10px", height: "100%", objectFit: "cover", width: "100%" }}
                   />
+
                 </div>
               )}
 
