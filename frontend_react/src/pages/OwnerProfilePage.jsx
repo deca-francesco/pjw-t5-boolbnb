@@ -8,11 +8,13 @@ export default function OwnerProfilePage() {
     const [ownerApartments, setOwnerApartments] = useState([])
     const [ownerName, setOwnerName] = useState("");
     const [loading, setLoading] = useState(true);
-    const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
+    const baseApiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
+    const show_api_url = baseApiUrl + `/owners/${id}`
+
 
 
     useEffect(() => {
-        fetch(`${apiUrl}/owners/${id}`)
+        fetch(show_api_url)
             .then(res => {
                 if (!res.ok) {
                     throw new Error(`HTTP error! Status: ${res.status}`);
@@ -21,11 +23,13 @@ export default function OwnerProfilePage() {
             })
             .then(data => {
                 console.log(data);
-                setOwnerApartments([data.data]);
                 setOwnerName(data.data.owner.name)
+                setOwnerApartments([data.data]);
                 setLoading(false)
             }).catch(err => console.log(err))
     }, [id])
+
+
 
     if (loading) {
         return <div>Caricamento...</div>;
