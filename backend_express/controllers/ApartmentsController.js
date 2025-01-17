@@ -257,8 +257,13 @@ function vote(req, res) {
 
     // execute query
     connection.query(vote_sql, [id], (err, result) => {
-        if (err) return res.status(500).json({ error: err })
-        index(req, res)
+        if (err) return res.status(500).json({ error: "Errore durante l'aggiornamento del voto" });
+
+        if (result.affectedRows > 0) {
+            res.status(200).json({ message: "Voto aggiornato con successo" });
+        } else {
+            res.status(404).json({ error: "Appartamento non trovato" });
+        }
     })
 }
 

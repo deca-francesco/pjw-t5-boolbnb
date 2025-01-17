@@ -30,7 +30,7 @@ router.post("/review/:id", ApartmentsController.review)
 router.post('/new', verifyToken, upload.single("image"), ApartmentsController.create)
 
 // vote route
-router.get("/vote/:id", ApartmentsController.vote)
+router.post("/vote/:id", ApartmentsController.vote)
 
 router.get('/search', async (req, res) => {
     const { city } = req.query;
