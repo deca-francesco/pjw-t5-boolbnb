@@ -133,6 +133,7 @@ export default function LoginPage() {
         // Determine endpoint and method based on form type (login or registration)
         if (isLogin) {
             endpoint = base_api_url + '/owners/login';
+
             method = "GET";
 
             // Add data as query parameters
@@ -150,6 +151,9 @@ export default function LoginPage() {
             const { confirm_password, ...dataToSend } = formData;
             body = JSON.stringify(dataToSend);
         }
+
+        console.log(endpoint);
+
 
         // Fetch request to backend
         fetch(endpoint, {

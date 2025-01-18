@@ -44,6 +44,9 @@ function show(req, res) {
 
     // get apartment id from request params
     const id = req.params.id
+    let title = req.params.title // Decodifica l'URL
+    title = title.replace(' ', '-');
+    console.log(`Received ID: ${id}, Title: ${title}`)
 
     // db query for single apartment
     const apartment_sql = `SELECT * FROM apartments WHERE id = ? `

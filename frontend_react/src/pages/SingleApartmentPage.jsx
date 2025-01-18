@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SingleApartment from '../components/ApartmentsComponents/SingleApartment'
 import OwnerSingleApartment from "../components/ApartmentsComponents/OwnerSingleApartment"
 import ReviewFormCard from "../components/ApartmentsComponents/ReviewFormCard";
@@ -9,7 +9,11 @@ import ReviewCard from "../components/ApartmentsComponents/ReviewCard";
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
     const { id, title } = useParams()
+    console.log(id, title);
+
     const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
+
+    const navigate = useNavigate()
 
     const [apartment, setApartment] = useState(null)
     const [showForm, setShowForm] = useState(false);
@@ -20,7 +24,10 @@ export default function SingleApartmentPage() {
     useEffect(() => {
         const fetchApartmentDetails = async () => {
             try {
-                const response = await fetch(`${apiUrl}/apartments/${id}/${title}`);
+                const formattedTitle = title.replace(/\s+/g, '-');
+                console.log(`Fetching: ${apiUrl}/apartments/${id}/${formattedTitle}`);
+                navigate(`/apartments/${id}/${formattedTitle}`, { replace: true });
+                const response = await fetch(`${apiUrl}/apartments/${id}/${formattedTitle}`);
                 const data = await response.json();
                 console.log(data);
 
