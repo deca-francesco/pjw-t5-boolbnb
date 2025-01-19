@@ -40,9 +40,9 @@ export default function OwnerProfilePage() {
             <hr className="my-4" />
             <h3 className="my-4" style={{ fontSize: "3rem" }}>I tuoi appartamenti:</h3>
             <div className="row">
-                {ownerApartments.length > 0 ? (
-                    ownerApartments.map((apartment) => (
-                        <div className="col-md-4 mb-4" key={apartment.id}>
+                {!ownerApartments ? (
+                    ownerApartments.map((apartment, index) => (
+                        <div className="col-md-4 mb-4" key={index}>
                             <ApartmentCard
                                 apartment={apartment}
                                 setApartments={setOwnerApartments}
