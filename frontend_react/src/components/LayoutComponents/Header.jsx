@@ -69,7 +69,7 @@ export default function Header() {
                                 {/* If authenticated, show the following options */}
 
                                 <li className="mx-2">
-                                    <a href="/new-apartment" className="btn btn-light text-dark text-decoration-none">Add Apartment</a>
+                                    <a href="/new-apartment" className="btn btn-light text-dark text-decoration-none">Aggiungi Appartamento</a>
                                 </li>
 
                                 <li className="mx-2">
