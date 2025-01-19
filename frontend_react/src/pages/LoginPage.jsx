@@ -210,7 +210,7 @@ export default function LoginPage() {
             handleChange={handleChange}
             handleSubmit={handleSubmit}
             message={errors.general}
-            messageType='errors'
+            messageType='error'
             fieldErrors={errors}
             showPassword={showPassword}
             showConfirmPassword={showConfirmPassword}
