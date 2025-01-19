@@ -1,79 +1,103 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import LoginButton from '../LoginComponents/LoginButton'
-import Searchbar from "../ApartmentsComponents/Searchbar"
+import Searchbar from "./Searchbar"
+
 export default function Header() {
 
+    // State to manage authentication status
     const [isAuthenticated, setIsAuthenticated] = useState(false)
+
+    // State to store the user's ID
+    const [userId, setUserId] = useState(null)
+
+    // Hook for navigation
     const navigate = useNavigate()
 
-    // If the token is found in the localStorage it means that the user is authenticated
+    // Check if the token exists in localStorage to determine if the user is authenticated
     useEffect(() => {
-        const token = localStorage.getItem('authToken')
+        const token = localStorage.getItem('authToken');
         if (token) {
-            setIsAuthenticated(true)
+            console.log("Token trovato:", token);
+            try {
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                console.log("Token decodificato:", decodedToken);
+                setIsAuthenticated(true);
+                setUserId(decodedToken.id);
+            } catch (err) {
+                console.error("Errore nel decodificare il token:", err);
+                setIsAuthenticated(false);
+            }
         } else {
-            setIsAuthenticated(false)
+            setIsAuthenticated(false);
         }
-    }, [])
+    }, []);
 
-    // Logout function
+
+    // Function to log out the user
     const handleLogout = () => {
         localStorage.removeItem('authToken');
         setIsAuthenticated(false);
+        setUserId(null);
         navigate('/');
     };
 
-    // Function to go back to HomePage when the logo is pressed
+    // Function to go back to the HomePage when the logo is clicked
     const handleHomeClick = (e) => {
-        e.preventDefault();  // Previeni il comportamento di navigazione predefinito
+        e.preventDefault();
 
         if (isAuthenticated) {
+            // Navigate to the protected page if the user is authenticated
             navigate('/protected', { replace: true });
+
         } else {
+            // Navigate to the home page if the user is not authenticated
             navigate('/');
         }
     };
 
     return (
-
-        <header className="bg-dark py-3 px-4 shadow position-sticky top-0 z-3">
+        <header className="bg-dark py-3 shadow position-sticky top-0 z-3">
             <div className="container d-flex justify-content-between align-items-center">
                 <div className="logo">
-                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&B</h1></a>
+                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}>
+                        <h1 className="text-white">BoolB&B</h1>
+                    </a>
                 </div>
-                <Searchbar />
-                <nav className="nav">
-                    <ul className="d-flex list-unstyled m-0">
 
+                <div className="d-flex justify-content-center">
+                    <Searchbar />
+                </div>
+
+                <nav className="nav">
+                    <ul className="d-flex list-unstyled align-items-center m-0">
                         {isAuthenticated ? (
                             <>
-                                {/* Link per l'aggiunta dell'appartamento */}
-                                <li className="mx-3">
+                                {/* If authenticated, show the following options */}
+
+                                <li className="mx-2">
                                     <a href="/new-apartment" className="btn btn-light text-dark text-decoration-none">Aggiungi Appartamento</a>
                                 </li>
-                                {/* Link per il logout */}
-                                <li className="mx-3">
+
+                                <li className="mx-2">
                                     <button onClick={handleLogout} className="btn btn-light text-dark text-decoration-none">Logout</button>
                                 </li>
-                                <li className="mx-3">
-                                    <i
-                                        className="bi bi-person-circle fs-3 text-white profile-icon"
 
-                                    />
-                                </li>
+                                {userId && (
+                                    <li className="mx-2">
+                                        <a href={`/owners/${userId}`}>
+                                            <i className="bi bi-person-circle fs-3 text-white profile-icon" />
+                                        </a>
+                                    </li>
+                                )}
                             </>
                         ) : (
-
+                            // If the user is not authenticated, show the login button
                             <LoginButton setIsAuthenticated={setIsAuthenticated} />
-
                         )}
                     </ul>
                 </nav>
-
             </div>
-
         </header>
-
     )
 }

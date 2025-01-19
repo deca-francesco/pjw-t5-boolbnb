@@ -5,10 +5,12 @@ export default function LoginForm({
     handleChange,
     handleSubmit,
     message,
+    messageType,
+    fieldErrors,
     showPassword,
     showConfirmPassword,
     togglePasswordVisibility,
-    toggleConfirmPasswordVisibility
+    toggleConfirmPasswordVisibility,
 }) {
     return (
         <div className="container my-5">
@@ -20,9 +22,18 @@ export default function LoginForm({
                                 {isLogin ? "Login" : "Registrazione"}
                             </h2>
 
-                            <form onSubmit={handleSubmit}>
+                            {/* Messaggio globale */}
+                            {message && (
+                                <div
+                                    className={`alert ${messageType === 'error' ? 'alert-danger' : 'alert-success'}`}
+                                    role="alert"
+                                >
+                                    {message}
+                                </div>
+                            )}
 
-                                {/* Name and Last Name visible only for registration */}
+                            <form onSubmit={handleSubmit}>
+                                {/* Nome e Cognome solo per la registrazione */}
                                 {!isLogin && (
                                     <>
                                         <div className="mb-3">
@@ -33,12 +44,17 @@ export default function LoginForm({
                                                 type="text"
                                                 id="name"
                                                 name="name"
-                                                className={`form-control ${message && message.includes('nome') ? 'is-invalid' : ''}`}
+                                                className={`form-control ${fieldErrors?.name ? 'is-invalid' : ''}`}
                                                 value={formData.name}
                                                 onChange={handleChange}
-                                                required
                                             />
+                                            {fieldErrors?.name && (
+                                                <div className="invalid-feedback">
+                                                    {fieldErrors.name}
+                                                </div>
+                                            )}
                                         </div>
+
                                         <div className="mb-3">
                                             <label htmlFor="last_name" className="form-label">
                                                 <strong>Cognome *</strong>
@@ -47,11 +63,15 @@ export default function LoginForm({
                                                 type="text"
                                                 id="last_name"
                                                 name="last_name"
-                                                className={`form-control ${message && message.includes('cognome') ? 'is-invalid' : ''}`}
+                                                className={`form-control ${fieldErrors?.last_name ? 'is-invalid' : ''}`}
                                                 value={formData.last_name}
                                                 onChange={handleChange}
-                                                required
                                             />
+                                            {fieldErrors?.last_name && (
+                                                <div className="invalid-feedback">
+                                                    {fieldErrors.last_name}
+                                                </div>
+                                            )}
                                         </div>
                                     </>
                                 )}
@@ -59,114 +79,90 @@ export default function LoginForm({
                                 {/* Email */}
                                 <div className="mb-3">
                                     <label htmlFor="email" className="form-label">
-                                        <strong>Email {!isLogin && <span className="text-danger">*</span>}</strong>
+                                        <strong>Email *</strong>
                                     </label>
                                     <input
                                         type="email"
                                         id="email"
                                         name="email"
-                                        className={`form-control ${message && message.includes('email') ? 'is-invalid' : ''}`}
+                                        className={`form-control ${fieldErrors?.email ? 'is-invalid' : ''}`}
                                         value={formData.email}
                                         onChange={handleChange}
-                                        required
                                     />
+                                    {fieldErrors?.email && (
+                                        <div className="invalid-feedback">
+                                            {fieldErrors.email}
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Password */}
                                 <div className="mb-3">
                                     <label htmlFor="password" className="form-label">
-                                        <strong>Password {!isLogin && <span className="text-danger">*</span>}</strong>
+                                        <strong>Password *</strong>
                                     </label>
-                                    <div className="input-group position-relative">
+                                    <div className="input-group">
                                         <input
                                             type={showPassword ? "text" : "password"}
                                             id="password"
                                             name="password"
-                                            className={`form-control rounded ${message && message.includes('password') ? 'border-danger' : ''}`}
+                                            className={`form-control rounded ${fieldErrors?.password ? 'is-invalid' : ''}`}
                                             value={formData.password}
                                             onChange={handleChange}
-                                            required
                                         />
                                         <button
                                             type="button"
-                                            className="btn btn-outline-secondary position-absolute"
+                                            className="btn"
                                             onClick={togglePasswordVisibility}
-                                            style={{
-                                                right: '10px',
-                                                top: '50%',
-                                                transform: 'translateY(-50%)',
-                                                border: 'none',
-                                                background: 'transparent',
-                                                cursor: 'pointer',
-                                                padding: '0',
-                                                fontSize: '1.2rem',
-                                                color: '#6c757d',
-                                                zIndex: 1, // Assicurati che l'icona sia sopra l'input
-                                            }}
                                         >
                                             <i className={`bi ${showPassword ? 'bi-eye-slash text-primary' : 'bi-eye text-primary'}`}></i>
                                         </button>
                                     </div>
+                                    {fieldErrors?.password && (
+                                        <div className="invalid-feedback">
+                                            {fieldErrors.password}
 
-                                    {/* Se c'è un messaggio di errore per la password */}
-                                    {message && message.includes('password') && (
-                                        <div className="text-danger mt-1">
-                                            {message}
                                         </div>
+
                                     )}
                                 </div>
 
-                                {/* Confirm password visible only for registration */}
+                                {/* Conferma Password (solo per registrazione) */}
                                 {!isLogin && (
                                     <div className="mb-3">
                                         <label htmlFor="confirm_password" className="form-label">
                                             <strong>Conferma Password *</strong>
                                         </label>
-                                        <div className="input-group position-relative">
+                                        <div className="input-group">
                                             <input
                                                 type={showConfirmPassword ? "text" : "password"}
                                                 id="confirm_password"
                                                 name="confirm_password"
-                                                className={`form-control rounded ${message && message.includes('conferma password') ? 'border-danger' : ''}`}
+                                                className={`form-control rounded ${fieldErrors?.confirm_password ? 'is-invalid' : ''}`}
                                                 value={formData.confirm_password}
                                                 onChange={handleChange}
-                                                required
                                             />
                                             <button
                                                 type="button"
-                                                className="btn btn-outline-secondary position-absolute"
+                                                className="btn"
                                                 onClick={toggleConfirmPasswordVisibility}
-                                                style={{
-                                                    right: '10px',
-                                                    top: '50%',
-                                                    transform: 'translateY(-50%)',
-                                                    border: 'none',
-                                                    background: 'transparent',
-                                                    cursor: 'pointer',
-                                                    padding: '0',
-                                                    fontSize: '1.2rem',
-                                                    color: '#6c757d',
-                                                    zIndex: 1, // Assicurati che l'icona sia sopra l'input
-                                                }}
                                             >
                                                 <i className={`bi ${showConfirmPassword ? 'bi-eye-slash text-primary' : 'bi-eye text-primary'}`}></i>
                                             </button>
                                         </div>
-
-                                        {/* If there is an error for the confirm password */}
-                                        {message && message.includes('conferma password') && (
-                                            <div className="text-danger mt-1">
-                                                {message}
+                                        {fieldErrors?.confirm_password && (
+                                            <div className="invalid-feedback" style={{ display: "block" }} >
+                                                {fieldErrors.confirm_password}
                                             </div>
                                         )}
                                     </div>
                                 )}
 
-                                {/* Phone number visible only for registration */}
+                                {/* Numero di telefono (solo per registrazione) */}
                                 {!isLogin && (
                                     <div className="mb-3">
                                         <label htmlFor="phone_number" className="form-label">
-                                            <strong>Numero di telefono</strong>
+                                            <strong>Numero di Telefono</strong>
                                         </label>
                                         <input
                                             type="text"
@@ -179,11 +175,6 @@ export default function LoginForm({
                                     </div>
                                 )}
 
-                                {!isLogin && (
-                                    <div className="pb-3">
-                                        I campi contrassegnati da "*" sono <strong>obbligatori</strong>
-                                    </div>
-                                )}
                                 <div className="d-flex justify-content-between">
                                     <button type="submit" className="btn btn-primary">
                                         {isLogin ? "Accedi" : "Registrati"}
