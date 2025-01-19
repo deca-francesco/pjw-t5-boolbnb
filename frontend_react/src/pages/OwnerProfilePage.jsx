@@ -10,6 +10,8 @@ export default function OwnerProfilePage() {
     const [loading, setLoading] = useState(true);
     const baseApiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
     const show_api_url = baseApiUrl + `/owners/${id}`
+    console.log(show_api_url);
+
 
 
 
@@ -49,6 +51,7 @@ export default function OwnerProfilePage() {
                                 setApartments={setOwnerApartments}
                             />
                         </div>
+
                     ))
                 ) : (
                     <p className="text-center">Nessun appartamento trovato per questo proprietario.</p>

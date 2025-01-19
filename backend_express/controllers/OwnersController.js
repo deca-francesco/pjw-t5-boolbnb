@@ -3,6 +3,9 @@ const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const Joi = require('joi')
 
+HOST = process.env.HOST
+PORT = process.env.PORT
+
 // secret key
 const JWT_SECRET = process.env.JWT_SECRET
 
@@ -121,7 +124,7 @@ function store(req, res) {
     })
 
 }
-function showApartmens(req, res) {
+function showApartments(req, res) {
 
     const ownerId = req.params.id
 
@@ -155,6 +158,11 @@ function showApartmens(req, res) {
 
         // save result
         const apartment = results[0]
+
+        if (apartment.image) {
+            // Replace backslashes with forward slashes for URL compatibility
+            apartment.image = `${HOST}:${PORT}/${apartment.image.replace(/\\/g, '/')}`;
+        }
 
         // execute query for owner
         connection.query(owner_sql, Number([ownerId]), (err, owner_results) => {
@@ -203,5 +211,5 @@ function showApartmens(req, res) {
 module.exports = {
     show,
     store,
-    showApartmens
+    showApartments
 }
