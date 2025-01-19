@@ -131,7 +131,7 @@ export default function NewApartmentPage() {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${authToken}`,
+                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
                 },
                 body: formDataToSend,
             });

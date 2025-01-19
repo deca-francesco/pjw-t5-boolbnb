@@ -16,16 +16,23 @@ export default function Header() {
 
     // Check if the token exists in localStorage to determine if the user is authenticated
     useEffect(() => {
-        const token = localStorage.getItem('authToken')
+        const token = localStorage.getItem('authToken');
         if (token) {
-            setIsAuthenticated(true);
-            // Decode the token to get the user's ID
-            const decodedToken = JSON.parse(atob(token.split('.')[1]));
-            setUserId(decodedToken.id);
+            console.log("Token trovato:", token);
+            try {
+                const decodedToken = JSON.parse(atob(token.split('.')[1]));
+                console.log("Token decodificato:", decodedToken);
+                setIsAuthenticated(true);
+                setUserId(decodedToken.id);
+            } catch (err) {
+                console.error("Errore nel decodificare il token:", err);
+                setIsAuthenticated(false);
+            }
         } else {
-            setIsAuthenticated(false)
+            setIsAuthenticated(false);
         }
-    }, [])
+    }, []);
+
 
     // Function to log out the user
     const handleLogout = () => {
