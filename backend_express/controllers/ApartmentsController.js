@@ -224,12 +224,14 @@ function create(req, res) {
         }
 
         const apartmentId = result.insertId;
+        const apartmentTitle = result.insertTitle
 
         // Se non ci sono servizi, ritorna una risposta di successo
         if (services.length === 0) {
             return res.status(201).json({
                 success: true,
-                new_apartment_id: apartmentId
+                new_apartment_id: apartmentId,
+                new_apartment_title: apartmentTitle
             });
         }
 

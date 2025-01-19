@@ -1,7 +1,8 @@
 const express = require('express');
 const server = express();
 const ApartmentsRoutes = require('./routes/apartmentsRoutes');
-const ownerRoutes = require('./routes/ownerRoutes');
+const OwnerRoutes = require('./routes/ownerRoutes');
+const ContactRoutes = require('./routes/ContactRoutes')
 const cors = require('cors');
 const NotFound = require('./middleware/NotFound');
 const ServerErrorsHandler = require('./middleware/ServerErrorsHandler');
@@ -36,7 +37,10 @@ server.get('/', (req, res) => {
 server.use('/apartments', ApartmentsRoutes);
 
 // Owners' Routes
-server.use('/owners', ownerRoutes);
+server.use('/owners', OwnerRoutes);
+
+// Contact's Routes
+server.use('/contact', ContactRoutes)
 
 // Handle 404 errors
 server.use(NotFound);

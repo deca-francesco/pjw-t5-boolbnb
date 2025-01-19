@@ -155,7 +155,7 @@ export default function NewApartmentPage() {
             alert("Appartamento creato con successo!");
 
             // Reindirizza alla pagina dell'appartamento appena creato
-            navigate(`/apartments/${data.new_apartment_id}`);
+            navigate(`/apartments/${data.new_apartment_id}/${data.new_apartment_title}`);
 
             // Reset del form
             setFormData({

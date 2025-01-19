@@ -1,12 +1,16 @@
 import { useState } from "react";
 
-export default function ContactOwner() {
+export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appartamento come prop
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [error, setError] = useState('');
+    const [loading, setLoading] = useState(false); // Stato per indicare che il modulo è in invio
+
+    const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
+    const url = `${base_api_url}/contact/${apartmentId}`; // Aggiungi l'ID dell'appartamento nell'URL
 
     const handleButtonClick = () => {
         setIsFormVisible(!isFormVisible);
@@ -17,7 +21,7 @@ export default function ContactOwner() {
         setMessage('');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         // Validazione dei campi
@@ -32,7 +36,30 @@ export default function ContactOwner() {
         }
 
         setError('');
-        setFormSubmitted(true);
+        setLoading(true);
+
+        // Invio dei dati al backend
+        try {
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ name, email, message }), // Invia i dati al backend
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                setFormSubmitted(true);
+            } else {
+                setError(data.message || "Errore nell'invio del messaggio.");
+            }
+        } catch (err) {
+            setError("Errore di rete. Riprova più tardi.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     // Funzione per validare l'email
@@ -97,8 +124,12 @@ export default function ContactOwner() {
                                 ></textarea>
                             </div>
 
-                            <button type="submit" className="btn btn-success">
-                                Invia
+                            <button
+                                type="submit"
+                                className="btn btn-success"
+                                disabled={loading} // Disabilita il pulsante durante il caricamento
+                            >
+                                {loading ? "Invio in corso..." : "Invia"}
                             </button>
                         </form>
                     ) : (
@@ -111,6 +142,3 @@ export default function ContactOwner() {
         </div>
     );
 }
-
-
-
