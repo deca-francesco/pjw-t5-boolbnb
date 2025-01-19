@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import LoginButton from '../LoginComponents/LoginButton'
-import Searchbar from "../ApartmentsComponents/Searchbar"
+import Searchbar from "./Searchbar"
 export default function Header() {
 
     const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -37,43 +37,42 @@ export default function Header() {
 
     return (
 
-        <header className="bg-dark py-3 px-4 shadow position-sticky top-0 z-3">
+        <header className="bg-dark py-3 shadow position-sticky top-0 z-3">
             <div className="container d-flex justify-content-between align-items-center">
                 <div className="logo">
-                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}><h1 className="text-white">BoolB&B</h1></a>
+                    <a className="text-decoration-none" href="/protected" onClick={handleHomeClick}>
+                        <h1 className="text-white">BoolB&B</h1>
+                    </a>
                 </div>
-                <Searchbar />
-                <nav className="nav">
-                    <ul className="d-flex list-unstyled m-0">
 
+                {/* Centro la searchbar orizzontalmente */}
+                <div className="d-flex justify-content-center">
+                    <Searchbar />
+                </div>
+
+                <nav className="nav">
+                    <ul className="d-flex list-unstyled align-items-center m-0">
                         {isAuthenticated ? (
                             <>
-                                {/* Link per l'aggiunta dell'appartamento */}
-                                <li className="mx-3">
+                                <li className="mx-2">
                                     <a href="/new-apartment" className="btn btn-light text-dark text-decoration-none">Aggiungi Appartamento</a>
                                 </li>
-                                {/* Link per il logout */}
-                                <li className="mx-3">
+                                <li className="mx-2">
                                     <button onClick={handleLogout} className="btn btn-light text-dark text-decoration-none">Logout</button>
                                 </li>
-                                <li className="mx-3">
-                                    <i
-                                        className="bi bi-person-circle fs-3 text-white profile-icon"
-
-                                    />
+                                <li className="mx-2">
+                                    <i className="bi bi-person-circle fs-3 text-white profile-icon " />
                                 </li>
                             </>
                         ) : (
-
                             <LoginButton setIsAuthenticated={setIsAuthenticated} />
-
                         )}
                     </ul>
                 </nav>
-
             </div>
-
         </header>
+
+
 
     )
 }
