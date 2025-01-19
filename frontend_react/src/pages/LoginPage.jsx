@@ -28,9 +28,8 @@ export default function LoginPage() {
     // State to handle the function show the confirm password
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    // State for message display
-    const [message, setMessage] = useState("");
-    const [messageType, setMessageType] = useState(""); // 'success' or 'error'
+    // State for error messages (field-specific)
+    const [errors, setErrors] = useState({});
 
     // Hook for redirection
     const navigate = useNavigate();
@@ -47,10 +46,17 @@ export default function LoginPage() {
 
     // Handle the data's changes in the form
     const handleChange = (e) => {
+
+        const { name, value } = e.target
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
+            [name]: value,
         });
+
+        setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: "",
+        }));
     };
 
     // Function for show password on button toggle
@@ -72,58 +78,48 @@ export default function LoginPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
+        const newErrors = {}
+
         // Validation for required fields
         if (isLogin) {
-
-            // Validation for login (email and password only)
-            if (!formData.email.trim() || !formData.password.trim()) {
-                setMessage("Compila tutti i campi correttamente.");
-                setMessageType('error');
-                return;
+            // Validation for login
+            if (!formData.email.trim()) {
+                newErrors.email = "L'email è obbligatoria.";
+            }
+            if (!formData.password.trim()) {
+                newErrors.password = "La password è obbligatoria.";
             }
         } else {
-
-            // Validation for registration fields
-            if (!formData.name.trim() || !formData.email.trim() || !formData.password.trim() || !formData.confirm_password.trim()) {
-                setMessage("Compila tutti i campi obbligatori.");
-                setMessageType('error');
-                return;
+            // Validation for registration
+            if (!formData.name.trim()) {
+                newErrors.name = "Il nome è obbligatorio.";
+            } else if (formData.name.trim().length < 3) {
+                newErrors.name = "Il nome deve contenere almeno 3 caratteri.";
             }
 
-            // Validate name
-            if (formData.name.trim().length < 3) {
-                setMessage("Il nome deve contenere almeno 3 caratteri.");
-                setMessageType('error');
-                return;
+            if (!formData.last_name.trim()) {
+                newErrors.last_name = "Il cognome è obbligatorio.";
+            } else if (formData.last_name.trim().length < 3) {
+                newErrors.last_name = "Il cognome deve contenere almeno 3 caratteri.";
             }
 
-            // Validate last_name
-            if (formData.last_name.trim().length < 3) {
-                setMessage("Il cognome deve contenere almeno 3 caratteri.");
-                setMessageType('error');
-                return;
-            }
-
-            // Validate email
             if (!validateEmail(formData.email)) {
-                setMessage("Inserisci un'email valida (almeno 3 caratteri, '@' e '.').");
-                setMessageType('error');
-                return;
+                newErrors.email = "Inserisci un'email valida.";
             }
 
-            // Validate password
             if (formData.password.trim().length < 8) {
-                setMessage("La password deve contenere almeno 8 caratteri.");
-                setMessageType('error');
-                return;
+                newErrors.password = "La password deve contenere almeno 8 caratteri.";
             }
 
-            // Validate password confirmation
-            if (formData.password !== formData.confirm_password) {
-                setMessage("Le password non corrispondono.");
-                setMessageType('error');
-                return;
+            if (formData.confirm_password !== formData.password) {
+                newErrors.confirm_password = "Le password non corrispondono.";
             }
+        }
+
+        // If there are errors, set them and stop submission
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+            return;
         }
 
         let endpoint;
@@ -147,13 +143,11 @@ export default function LoginPage() {
         } else {
             endpoint = base_api_url + '/owners/new';
             method = "POST";
+
             // Removing the password confirm before sending the request to the backend
             const { confirm_password, ...dataToSend } = formData;
             body = JSON.stringify(dataToSend);
         }
-
-        console.log(endpoint);
-
 
         // Fetch request to backend
         fetch(endpoint, {
@@ -166,22 +160,20 @@ export default function LoginPage() {
             .then((response) => {
                 if (!response.ok) {
                     return response.json().then((data) => {
-                        // If the response has an error, throw an error with specific backend message
-                        const errorMessage = data.error || { general: data.message };
-                        throw new Error(JSON.stringify(errorMessage)); // Lancia un errore specifico
+                        const errorMessage = data.error || data.message || "Errore generico.";
+                        console.log(errorMessage);
+
+                        throw new Error(errorMessage);
+
+
                     });
                 }
                 return response.json();
             })
             .then((data) => {
-
-
                 if (data.token) {
-                    // If there is a token, the owner is authenticated
                     localStorage.setItem("authToken", data.token);
                     setIsAuthenticated(true);
-                    setMessage(isLogin ? "Login effettuato con successo" : "Registrazione completata con successo");
-                    setMessageType('success');
 
                     if (!isLogin) {
                         setIsLogin(true);
@@ -193,49 +185,19 @@ export default function LoginPage() {
                             phone_number: "",
                             confirm_password: ""
                         });
-
-                        alert('Registrazione completata con successo')
-                        navigate('/protected');
-
-                    } else {
-                        alert('Login effettuato con successo')
+                        alert("Registrazione completata con successo!");
                         const ownerId = data.utente.id;
                         navigate(`/owners/${ownerId}`);
-                    }
-                } else {
-                    // In case of an errore, we handle the message given by the backend
-                    if (data.error && data.error.general) {
-                        setMessage(data.error.general);
-                        setMessageType('error');
 
-                    } else if (data.message) {
-                        setMessage(data.message);
-                        setMessageType('error');
+                    } else {
+                        alert("Login effettuato con successo!");
+                        const ownerId = data.utente.id;
+                        navigate(`/owners/${ownerId}`);
                     }
                 }
             })
             .catch((error) => {
-
-                // Check if the error message contains a 'general' key
-                if (error.message && error.message.includes('general')) {
-
-                    // Parse the error details from the error message
-                    const errorDetails = JSON.parse(error.message);
-
-                    // Display the general error message if present, otherwise a fallback message
-                    setMessage(errorDetails.general || "An error occurred. Please try again later.");
-
-                } else {
-
-                    // If the error doesn't contain a 'general' key, show a generic error message
-                    setMessage("An error occurred. Please try again later.");
-                }
-
-                // Set the message type to 'error' to display it with an error style
-                setMessageType('error');
-
-                // Log the error for debugging purposes
-                console.error("Error:", error);
+                setErrors({ general: error.message });
             });
 
     };
@@ -247,7 +209,9 @@ export default function LoginPage() {
             formData={formData}
             handleChange={handleChange}
             handleSubmit={handleSubmit}
-            message={message}
+            message={errors.general}
+            messageType='errors'
+            fieldErrors={errors}
             showPassword={showPassword}
             showConfirmPassword={showConfirmPassword}
             toggleConfirmPasswordVisibility={toggleConfirmPasswordVisibility}
