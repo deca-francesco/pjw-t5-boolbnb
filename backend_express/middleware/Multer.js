@@ -13,20 +13,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({
     storage,
-    limits: { fileSize: 5 * 1024 * 1024 }, // Limite di 5 MB
+    limits: { fileSize: 5 * 1024 * 1024 }, // Limite di 5 MB per ogni file
     fileFilter: (req, file, cb) => {
         const filetypes = /jpeg|jpg|png/;
         const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
         const mimetype = filetypes.test(file.mimetype);
 
         if (extname && mimetype) {
-            console.log("File valid: ", file);
             return cb(null, true);
         } else {
-            console.log("Invalid file: ", file);
-            return cb(new Error('Only images are allowed.'));
+            return cb(new Error('Sono ammessi solo file di immagine.'));
         }
-    },
+    }
 });
 
+// Esportiamo il middleware 'upload'
 module.exports = upload;
+
+

@@ -1,8 +1,6 @@
 // import connection
 const Joi = require('joi');
 const connection = require('../database/connection');
-const upload = require("../middleware/Multer")
-const verifyToken = require('../middleware/TokenValidation')
 
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
@@ -177,17 +175,17 @@ function review(req, res) {
 // create apartment
 function create(req, res) {
     console.log("Dati ricevuti:", req.body);
-    console.log("File caricato:", req.file); // Mostra i dettagli del file caricato
+    console.log("File caricati:", req.files); // Mostra i dettagli dei file caricati
 
-    // Verifica che l'immagine sia stata caricata
-    if (!req.file) {
-        return res.status(400).json({ error: "Immagine richiesta." });
+    // Verifica che siano stati caricati dei file
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ error: "Almeno un'immagine è richiesta." });
     }
 
     // Estrai l'ID dell'utente dal token (già presente nel middleware)
     const { id: userId } = req.user;
 
-    // Validazione del corpo della richiesta (formato dei dati, senza l'immagine)
+    // Validazione del corpo della richiesta (formato dei dati, senza le immagini)
     const schema = Joi.object({
         title: Joi.string().min(3).required(),
         rooms: Joi.number().integer().min(1).required(),
@@ -205,33 +203,28 @@ function create(req, res) {
         return res.status(400).json({ error: error.details[0].message });
     }
 
-    // Dati dell'immagine
-    const imagePath = req.file.path;  // Percorso dell'immagine salvata da Multer
-
     // Dati provenienti dal body
     const { title, rooms, beds, bathrooms, square_meters, address, city, services = [] } = req.body;
 
     // Query SQL per inserire il nuovo appartamento
     const newApartmentSql = `
-        INSERT INTO apartments (owner_id, title, rooms, beds, bathrooms, square_meters, address, city, image)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO apartments (owner_id, title, rooms, beds, bathrooms, square_meters, address, city)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    connection.query(newApartmentSql, [userId, title, rooms, beds, bathrooms, square_meters, address, city, imagePath], (err, result) => {
+    connection.query(newApartmentSql, [userId, title, rooms, beds, bathrooms, square_meters, address, city], (err, result) => {
         if (err) {
             console.error("Errore nell'inserimento dell'appartamento:", err);
             return res.status(500).json({ error: 'Errore nel salvataggio dell\'appartamento.' });
         }
 
         const apartmentId = result.insertId;
-        const apartmentTitle = result.insertTitle
 
         // Se non ci sono servizi, ritorna una risposta di successo
         if (services.length === 0) {
             return res.status(201).json({
                 success: true,
                 new_apartment_id: apartmentId,
-                new_apartment_title: apartmentTitle
             });
         }
 
@@ -247,16 +240,32 @@ function create(req, res) {
                 console.error("Errore nell'inserimento dei servizi:", err);
                 return res.status(500).json({ error: 'Errore nell\'associazione dei servizi.' });
             }
+        });
+
+        // Salvataggio delle immagini nella tabella apartment_images
+        const imagePaths = req.files.map(file => file.path);  // Array di percorsi delle immagini
+        const apartmentImagesValues = imagePaths.map(imagePath => [apartmentId, imagePath]);
+
+        const apartmentImagesSql = `
+            INSERT INTO apartment_images (apartment_id, image_path) VALUES ?
+        `;
+
+        connection.query(apartmentImagesSql, [apartmentImagesValues], (err) => {
+            if (err) {
+                console.error("Errore nell'inserimento delle immagini:", err);
+                return res.status(500).json({ error: 'Errore nel salvataggio delle immagini.' });
+            }
 
             // Risposta di successo con l'ID del nuovo appartamento
             res.status(201).json({
                 success: true,
                 new_apartment_id: apartmentId,
-                image_path: req.file.path
+                image_paths: imagePaths,
             });
         });
     });
 }
+
 
 
 // vote
