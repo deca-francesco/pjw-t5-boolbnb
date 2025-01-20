@@ -1,14 +1,14 @@
 const sgMail = require('@sendgrid/mail');
-const db = require('../database/connection');
+const db = require('../database/connection'); // Importa la connessione al database
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sender = process.env.EMAIL_SENDER
 
 const sendContactEmail = (req, res) => {
     const { name, message } = req.body;
-    const apartmentId = req.params.apartment_id;
+    const apartmentId = req.params.apartmentId;
 
-    // Sql query to get owner's email based on apartment_id
+    // SQL query per ottenere l'email del proprietario basata sull'ID dell'appartamento Sql query to get owner's email based on apaz
     const sql = `
         SELECT owners.email AS owner_email 
         FROM owners 
@@ -29,7 +29,7 @@ const sendContactEmail = (req, res) => {
 
         const ownerEmail = result[0].owner_email;
 
-        //  Message to send with SendGrid
+        // Configura il messaggio da inviare tramite SendGrid
         const msg = {
             to: ownerEmail,
             from: sender,
