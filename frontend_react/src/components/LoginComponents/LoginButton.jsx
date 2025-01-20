@@ -43,6 +43,7 @@ export default function LoginButton({ setIsAuthenticated }) {
                         Logout
                     </button>
 
+
                 </>
             ) : (
                 <button

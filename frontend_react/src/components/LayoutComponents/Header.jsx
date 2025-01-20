@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import LoginButton from "../LoginComponents/LoginButton";
 import Searchbar from "./Searchbar";
 
 export default function Header() {
+    const { id } = useParams()
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
@@ -23,7 +24,7 @@ export default function Header() {
         } else {
             setIsAuthenticated(false);
         }
-    }, []);
+    }, [id]);
 
     const handleLogout = () => {
         localStorage.removeItem("authToken");
@@ -97,9 +98,9 @@ export default function Header() {
                                 </li>
                                 {userId && (
                                     <li className="mx-2">
-                                        <a href={`/owners/${userId}`}>
+                                        <Link to={`/owners/${userId}`}>
                                             <i className="bi bi-person-circle fs-3 text-white profile-icon" />
-                                        </a>
+                                        </Link>
                                     </li>
                                 )}
                             </>
@@ -111,11 +112,13 @@ export default function Header() {
             </div>
 
             {/* Searchbar for mobile (visible only when the menu is open) */}
-            {isMenuOpen && (
-                <div className="d-lg-none mt-3">
-                    <Searchbar />
-                </div>
-            )}
-        </header>
+            {
+                isMenuOpen && (
+                    <div className="d-lg-none mt-3">
+                        <Searchbar />
+                    </div>
+                )
+            }
+        </header >
     );
 }
