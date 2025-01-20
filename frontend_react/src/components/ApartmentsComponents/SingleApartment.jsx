@@ -1,6 +1,6 @@
 import HeartIconVote from './HeartIconVote'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCar, faDumbbell, faMugHot, faPaw, faPersonSwimming, faTv, faWind, faShirt, faWifi } from '@fortawesome/free-solid-svg-icons'
+import { faPanorama, faCar, faDumbbell, faMugHot, faPaw, faPersonSwimming, faTv, faWind, faShirt, faWifi } from '@fortawesome/free-solid-svg-icons'
 
 const ApartmentCard = ({ apartment, setApartment }) => {
   // Controlla se esistono immagini
@@ -25,7 +25,10 @@ const ApartmentCard = ({ apartment, setApartment }) => {
       return <FontAwesomeIcon icon={faPaw} /> // Icona Animali ammessi
     } else if (service === 'TV via cavo') {
       return <FontAwesomeIcon icon={faTv} />// Icona TV
-    } else {
+    } else if (service === 'Terrazza panoramica') {
+      return <FontAwesomeIcon icon={faPanorama} />
+    }
+    else {
       return null; // In caso di servizio non definito
     }
   }
