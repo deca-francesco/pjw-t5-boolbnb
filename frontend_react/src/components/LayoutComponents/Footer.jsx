@@ -1,7 +1,7 @@
 export default function Footer() {
     return (
         <>
-            <footer className="bg-dark py-5 text-white">
+            <footer className="py-5 text-white footer">
                 <div className="container">
                     <div className="row row-cols-1 row-cols-md-3 row-cols-lg-3">
                         {/* About Us Section - Hidden in Mobile */}
