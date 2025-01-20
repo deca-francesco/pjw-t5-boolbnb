@@ -194,38 +194,42 @@ export default function NewApartmentPage() {
                 <h2 className="mt-3">Inserisci i dati del nuovo appartamento</h2>
                 <form onSubmit={handleSubmit} className="mt-5 card p-4">
                     <div className="mb-3">
-                        <label className="form-label">* Nome appartamento:</label>
+                        <label className="form-label">Nome appartamento *</label>
                         <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Stanze:</label>
+                        <label className="form-label">Stanze *</label>
                         <input type="number" min="1" className="form-control" name="rooms" value={formData.rooms} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Letti:</label>
+                        <label className="form-label">Letti *</label>
                         <input type="number" min="1" className="form-control" name="beds" value={formData.beds} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Bagni:</label>
+                        <label className="form-label">Bagni *</label>
                         <input type="number" min="1" className="form-control" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Metri Quadri:</label>
+                        <label className="form-label">Metri Quadri *</label>
                         <input type="number" min="1" className="form-control" name="square_meters" value={formData.square_meters} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Indirizzo:</label>
+                        <label className="form-label">Indirizzo *</label>
                         <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required />
                     </div>
                     <div className="mb-3">
-                        <label className="form-label">* Città:</label>
+                        <label className="form-label">Città *</label>
                         <input type="text" className="form-control" name="city" value={formData.city} onChange={handleChange} required />
                     </div>
 
                     {/* Aggiungi più campi per le immagini */}
                     {imageFields.map((field, index) => (
                         <div className="mb-3" key={index}>
-                            <label className="form-label">* Immagine {index + 1}:</label>
+                            <label className="form-label">
+                                {index === 0
+                                    ? "Immagine copertina (è l'immagine visibile nella homepage e la prima immagine che l'utente visualizzerà nella pagina di dettaglio)."
+                                    : `Immagine ${index + 1}:`}
+                            </label>
                             <input
                                 type="file"
                                 className="form-control"
@@ -238,17 +242,18 @@ export default function NewApartmentPage() {
                         </div>
                     ))}
 
+
                     <button
                         type="button"
                         onClick={addImageField}
                         className="btn btn-primary mb-3"
                         disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
                     >
-                        Aggiungi un altro campo immagine
+                        Aggiungi un'altra immagine
                     </button>
 
                     <fieldset >
-                        <legend>Servizi (Opzionali)</legend>
+                        <legend>Servizi</legend>
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-5">
                             <div className="col">
                                 <input type="checkbox" name="services" value={1} checked={formData.services.includes(1)} onChange={handleServiceChange} className="me-2" />
@@ -301,6 +306,8 @@ export default function NewApartmentPage() {
                             </div>
                         </div>
                     </fieldset >
+
+                    <div className="pb-2">I campi contrassegnati da "<strong>*</strong>" sono obbligatori</div>
                     {message && (
                         <div className={`alert mt-3 ${messageType === "success" ? "alert-success" : "alert-danger"}`}>
                             {message}
