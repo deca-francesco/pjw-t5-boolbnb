@@ -23,7 +23,7 @@ export default function OwnerProfilePage() {
             .then(data => {
                 console.log(data);
                 setOwnerName(data.data.owner.name)
-                setOwnerApartments(data.data.apartments || []);  // Imposta un array vuoto se non ci sono appartamenti
+                setOwnerApartments(data.apartments || []);  // Imposta un array vuoto se non ci sono appartamenti
                 setLoading(false)
             }).catch(err => console.log(err))
     }, [id])

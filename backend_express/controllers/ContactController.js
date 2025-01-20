@@ -6,9 +6,9 @@ const sender = process.env.EMAIL_SENDER
 
 const sendContactEmail = (req, res) => {
     const { name, message } = req.body;
-    const apartmentId = req.params.apartmentId; // Prendi l'ID dell'appartamento dai parametri
+    const apartmentId = req.params.apartmentId;
 
-    // SQL query per ottenere l'email del proprietario basata sull'ID dell'appartamento
+    // SQL query per ottenere l'email del proprietario basata sull'ID dell'appartamento Sql query to get owner's email based on apaz
     const sql = `
         SELECT owners.email AS owner_email 
         FROM owners 
@@ -16,7 +16,7 @@ const sendContactEmail = (req, res) => {
         WHERE apartments.id = ?;
     `;
 
-    // Esegui la query per ottenere l'email del proprietario
+    // Execute the sql query to get owner's email
     db.query(sql, [apartmentId], (err, result) => {
         if (err) {
             console.error('Errore nella query:', err);
@@ -40,15 +40,14 @@ const sendContactEmail = (req, res) => {
 
         console.log(msg);
 
-
-        // Invia l'email
+        // Send email
         sgMail.send(msg)
             .then(() => {
                 res.status(200).json({ success: true, message: 'Messaggio inviato!' });
             })
             .catch((error) => {
                 console.error('Errore nell\'invio dell\'email:', error);
-                console.error('Errore dettagliato:', error.response.body); // Aggiungi questa linea
+                console.error('Errore dettagliato:', error.response.body);
                 res.status(500).json({ success: false, message: 'Errore nell\'invio della mail.' });
             });
 
