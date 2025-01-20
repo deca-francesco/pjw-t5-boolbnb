@@ -12,7 +12,9 @@ export default function HeartIconVote({ data_apartment, setApartments, setApartm
 
         const voteUrl = `${base_api_url}/apartments/vote/${data_apartment.id}`;
         const indexUrl = `${base_api_url}/apartments`; // Rotta per tutti gli appartamenti
-        const showUrl = `${base_api_url}/apartments/${data_apartment.id}`; // Rotta per un singolo appartamento
+
+        const formattedTitle = data_apartment.title.replace(/\s+/g, '-')
+        const showUrl = `${base_api_url}/apartments/${data_apartment.id}/${formattedTitle}`; // Rotta per un singolo appartamento
 
         try {
             // Chiamata per incrementare il voto
