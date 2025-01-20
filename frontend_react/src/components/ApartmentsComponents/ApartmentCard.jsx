@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import HeartIconVote from './HeartIconVote';
 
-export default function ApartmentCard({ apartment, setApartments }) {
+export default function ApartmentCard({ apartment, setApartments, setFilteredApartments }) {
     // Se l'appartamento ha immagini
     const images = apartment.images && apartment.images.length > 0 ? apartment.images : [];
 
@@ -34,7 +34,7 @@ export default function ApartmentCard({ apartment, setApartments }) {
                 </p>
             </Link>
             <div className="pt-2">
-                <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
+                <HeartIconVote data_apartment={apartment} setApartments={setApartments} setFilteredApartments={setFilteredApartments} />
             </div>
 
         </div>

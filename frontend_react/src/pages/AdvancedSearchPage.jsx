@@ -147,7 +147,7 @@ export default function AdvancedSearchPage() {
                                         to={`/apartments/${apartment.id}`}
                                         style={{ textDecoration: 'none', color: 'inherit' }}
                                     >
-                                        <ApartmentCard apartment={apartment} setApartments={setApartments} />
+                                        <ApartmentCard apartment={apartment} setApartments={setApartments} setFilteredApartments={setFilteredApartments} />
                                     </Link>
                                 </div>
                             ))
