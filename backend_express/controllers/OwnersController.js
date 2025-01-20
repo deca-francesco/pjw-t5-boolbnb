@@ -124,82 +124,96 @@ function store(req, res) {
     })
 
 }
-function showApartments(req, res) {
+function queryPromise(sql, params) {
+    return new Promise((resolve, reject) => {
+        connection.query(sql, params, (err, results) => {
+            if (err) {
+                reject(err); // Se c'è un errore, la promessa viene rifiutata
+            } else {
+                resolve(results); // Se va tutto bene, risolvi la promessa con i risultati
+            }
+        });
+    });
+}
+
+async function showApartments(req, res) {
     const ownerId = req.params.id;
 
-    // db query per il proprietario
-    const owner_sql = `
-        SELECT id, name, last_name, email, phone_number
-        FROM owners
-        WHERE id = ?`;
+    try {
+        // db query per il proprietario
+        const owner_sql = `
+            SELECT id, name, last_name, email, phone_number
+            FROM owners
+            WHERE id = ?`;
 
-    // db query per gli appartamenti
-    const apartment_sql = `SELECT * FROM apartments WHERE owner_id = ?`;
+        // db query per gli appartamenti
+        const apartment_sql = `SELECT * FROM apartments WHERE owner_id = ?`;
 
-    // db query per i servizi
-    const services_sql = `
-    select services.label
-    from services
-    join services_apartments
-    on services.id = services_apartments.service_id
-    where services_apartments.apartment_id = ?`;
+        // db query per i servizi
+        const services_sql = `
+            SELECT services.label
+            FROM services
+            JOIN services_apartments
+            ON services.id = services_apartments.service_id
+            WHERE services_apartments.apartment_id = ?`;
 
-    // db query per le recensioni
-    const reviews_sql = `
-    select *
-    from reviews
-    where apartment_id = ?`;
+        // db query per le recensioni
+        const reviews_sql = `
+            SELECT *
+            FROM reviews
+            WHERE apartment_id = ?`;
 
-    // esegui la query per il proprietario
-    connection.query(owner_sql, [ownerId], (err, owner_results) => {
-        if (err) return res.status(500).json({ err: err });
+        // Esegui la query per il proprietario
+        const ownerResults = await queryPromise(owner_sql, [ownerId]);
 
-        // Verifica se il proprietario esiste
-        if (!owner_results[0]) return res.status(404).json({ err: 'Proprietario non trovato' });
+        if (!ownerResults[0]) {
+            return res.status(404).json({ err: 'Proprietario non trovato' });
+        }
 
         // Recupera i dati del proprietario
-        const owner = owner_results[0];
+        const owner = ownerResults[0];
 
         // Esegui la query per gli appartamenti
-        connection.query(apartment_sql, [ownerId], (err, apartment_results) => {
-            if (err) return res.status(500).json({ err: err });
+        const apartmentResults = await queryPromise(apartment_sql, [ownerId]);
 
-            // Se non ci sono appartamenti, invia comunque i dati del proprietario
-            if (apartment_results.length === 0) {
-                return res.status(200).json({ data: { owner: owner, apartments: [] } });
-            }
+        // Se non ci sono appartamenti, invia comunque i dati del proprietario
+        if (apartmentResults.length === 0) {
+            return res.status(200).json({ data: { owner: owner, apartments: [] } });
+        }
 
-            // Se ci sono appartamenti, aggiungi i dati relativi a ciascun appartamento
-            const apartments = apartment_results.map(apartment => {
+        // Recupera i dati relativi a ciascun appartamento
+        const apartments = await Promise.all(
+            apartmentResults.map(async (apartment) => {
                 if (apartment.image) {
                     apartment.image = `${HOST}:${PORT}/${apartment.image.replace(/\\/g, '/')}`;
                 }
 
-                // Esegui la query per i servizi di ogni appartamento
-                connection.query(services_sql, [apartment.id], (err, services_results) => {
-                    if (err) return res.status(500).json({ err: err });
+                // Recupera i servizi per ogni appartamento
+                const servicesResults = await queryPromise(services_sql, [apartment.id]);
+                apartment.services = servicesResults.map(service => service.label);
 
-                    apartment.services = services_results.map(service => service.label);
+                // Recupera le recensioni per ogni appartamento
+                const reviewsResults = await queryPromise(reviews_sql, [apartment.id]);
+                apartment.reviews = reviewsResults;
 
-                    // Esegui la query per le recensioni di ogni appartamento
-                    connection.query(reviews_sql, [apartment.id], (err, reviews_results) => {
-                        if (err) return res.status(500).json({ err: err });
+                return apartment;
+            })
+        );
 
-                        apartment.reviews = reviews_results;
-
-                        // Rispondi una volta che tutte le query per l'appartamento sono state completate
-                        return res.status(200).json({
-                            data: {
-                                owner: owner,
-                                apartments: apartments
-                            }
-                        });
-                    });
-                });
-            });
+        // Rispondi con i dati finali (proprietario e appartamenti)
+        return res.status(200).json({
+            data: {
+                owner: owner,
+                apartments: apartments
+            }
         });
-    });
+
+    } catch (err) {
+        // Gestione degli errori
+        return res.status(500).json({ err: err.message });
+    }
 }
+
 
 module.exports = {
     show,
