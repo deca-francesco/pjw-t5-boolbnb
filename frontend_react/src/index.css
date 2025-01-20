@@ -11,4 +11,8 @@
 
 .header{
     background-color: var(--boolbeb-yellow);
+    color: rgb(80, 78, 78);
+}
+.footer{
+    background-color: rgb(80, 78, 78);
 }
