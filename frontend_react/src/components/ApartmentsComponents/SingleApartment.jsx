@@ -49,7 +49,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                 {!images ? (
                   <p>No images available</p>  // Se non ci sono immagini
                 ) : (
-                  <div className="col-12 col-md-6 p-1">
+                  <div className="col-12 col-md-6 p-1 bg-light">
                     <img
                       src={images[0]} // Usa la prima immagine nell'array images
                       alt={apartment.title}
@@ -64,7 +64,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                 )}
 
                 {/* Colonna per le immagini piccole */}
-                <div className="col-12 col-md-6 p-1">
+                <div className="col-12 col-md-6 p-1 bg-light">
                   <div className="row g-1">
                     {images && images.length > 1 && (
                       images.slice(1, 5).map((image, index) => ( // Prende le prime 4 immagini
