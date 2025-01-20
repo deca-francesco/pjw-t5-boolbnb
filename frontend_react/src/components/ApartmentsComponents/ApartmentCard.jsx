@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import HeartIconVote from './HeartIconVote'
-export default function ApartmentCard({ apartment, setApartments }) {
+export default function ApartmentCard({ apartment, setApartments, setFilteredApartments }) {
     // console.log(apartment);
 
 
@@ -34,7 +34,7 @@ export default function ApartmentCard({ apartment, setApartments }) {
                     </p>
                 </Link>
                 <div className="pt-2">
-                    <HeartIconVote data_apartment={apartment} setApartments={setApartments} />
+                    <HeartIconVote data_apartment={apartment} setApartments={setApartments} setFilteredApartments={setFilteredApartments} />
                 </div>
             </div>
 
