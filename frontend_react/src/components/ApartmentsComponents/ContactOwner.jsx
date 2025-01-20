@@ -69,12 +69,13 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
 
     return (
         <div>
-            <button className="btn btn-dark" onClick={handleButtonClick}>
-                {isFormVisible ? "Chiudi il modulo" : "Contatta il proprietario"}
+            <button className="btn btn-dark m-3" onClick={handleButtonClick}>
+                {isFormVisible ? <i className="bi bi-x-circle-fill"></i> : "Contatta il proprietario"}
             </button>
 
+
             {isFormVisible && (
-                <div className="card p-3 mt-4">
+                <div className="card p-3 mt-1 bg-light">
                     {!formSubmitted ? (
                         <form onSubmit={handleSubmit}>
                             {error && <div className="alert alert-danger">{error}</div>}
@@ -126,7 +127,7 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
 
                             <button
                                 type="submit"
-                                className="btn btn-success"
+                                className="btn btn-success m-2"
                                 disabled={loading} // Disabilita il pulsante durante il caricamento
                             >
                                 {loading ? "Invio in corso..." : "Invia"}

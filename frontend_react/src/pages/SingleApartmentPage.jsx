@@ -64,9 +64,12 @@ export default function SingleApartmentPage() {
 
                 {/* Display the OwnerInfo component if the owner information is available */}
                 <hr />
+                <div className=''>
                 {apartment && apartment.data && apartment.data.owner && (
                     <OwnerSingleApartment owner={apartment.data.owner} />
                 )}
+                <ContactOwner apartmentId={id}></ContactOwner>
+                </div>
                 <hr />
                 <div className="container d-flex align-items-center">
                     <div>
@@ -75,7 +78,7 @@ export default function SingleApartmentPage() {
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
                     </div>
-                    <ContactOwner apartmentId={id}></ContactOwner>
+                    
                 </div>
                 <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>
             </div>
