@@ -4,7 +4,7 @@ import LoginButton from "../LoginComponents/LoginButton";
 import Searchbar from "./Searchbar";
 
 export default function Header() {
-    const { id } = useParams()
+    const { id } = useParams();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [userId, setUserId] = useState(null);
     const navigate = useNavigate();
@@ -56,6 +56,11 @@ export default function Header() {
                         </a>
                     </div>
 
+                    {/* Mobile Searchbar (Visible between the logo and the hamburger menu) */}
+                    <div className="d-flex d-lg-none flex-grow-1 justify-content-center mx-3">
+                        <Searchbar />
+                    </div>
+
                     {/* Toggle Button for Hamburger Menu */}
                     <button
                         className="navbar-toggler d-lg-none border-0 text-white"
@@ -69,9 +74,13 @@ export default function Header() {
                         <i className="bi bi-list fs-1"></i>
                     </button>
 
-                    {/* Desktop Navigation */}
-                    <div className="d-none d-lg-flex justify-content-center align-items-center">
-                        <Searchbar className="me-3" /> {/* Searchbar visibile in desktop */}
+                    {/* Desktop Searchbar (Visible only in Desktop, on the same row) */}
+                    <div className="d-none d-lg-flex flex-grow-1 justify-content-center mx-3">
+                        <Searchbar />
+                    </div>
+
+                    {/* Desktop Navigation (On the same row) */}
+                    <div className="d-none d-lg-flex">
                         <nav>
                             <ul className="list-unstyled m-0 d-flex align-items-center">
                                 {isAuthenticated ? (
@@ -154,11 +163,6 @@ export default function Header() {
                             )}
                         </ul>
                     </nav>
-
-                    {/* Mobile Searchbar */}
-                    <div className="mt-3">
-                        <Searchbar />
-                    </div>
                 </div>
             </div>
         </header>
