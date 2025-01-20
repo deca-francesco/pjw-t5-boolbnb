@@ -1,8 +1,26 @@
 export default function HeartIconVote({ data_apartment, setApartments, setFilteredApartments, setApartment }) {
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
 
+    // Ottieni il token e decodificalo in modo sicuro
+    const token = localStorage.getItem("authToken");
+    let decodedToken;
+    try {
+        decodedToken = token ? JSON.parse(atob(token.split(".")[1])) : null;
+    } catch (error) {
+        console.error("Errore nella decodifica del token:", error);
+        decodedToken = null;
+    }
+
+    // Verifica se l'utente loggato è il proprietario dell'appartamento
+    const isOwner = decodedToken && decodedToken.id === data_apartment?.owner_id;
+
     const handleHeartClick = async (e) => {
         e.preventDefault();
+
+        if (isOwner) {
+            console.log("L'utente è il proprietario: il cuore non è cliccabile.");
+            return
+        }
 
         if (!data_apartment || !data_apartment.id) {
             console.error("ID appartamento non valido o mancante.");
@@ -41,8 +59,8 @@ export default function HeartIconVote({ data_apartment, setApartments, setFilter
                 const showResponse = await fetch(showUrl);
                 if (showResponse.ok) {
                     const data = await showResponse.json();
-                    setApartment && setApartment(data.data); // Se hai un singolo stato
-                    console.log("SetApartment aggiornato:", data);
+                    setApartment && setApartment(data.data);
+                    console.log("SetApartment aggiornato:", data.data);
                 } else {
                     console.error("Errore durante il recupero del dettaglio dell'appartamento:", showResponse.statusText);
                 }
@@ -75,7 +93,11 @@ export default function HeartIconVote({ data_apartment, setApartments, setFilter
 
     return (
         <div className="d-flex align-items-center justify-content-end p-2">
-            <i className="bi bi-heart" onClick={handleHeartClick}></i>
+            <i
+                className={`bi bi-heart ${isOwner ? 'text-muted' : ''}`}
+                style={isOwner ? { cursor: 'not-allowed' } : { cursor: "pointer" }}
+                onClick={isOwner ? undefined : handleHeartClick}
+            ></i>
             <span className="ms-1">{data_apartment?.vote || 0}</span>
         </div>
     );
