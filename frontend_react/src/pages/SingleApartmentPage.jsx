@@ -70,11 +70,13 @@ export default function SingleApartmentPage() {
                 )}
                 <ContactOwner apartmentId={id}></ContactOwner>
                 </div>
+
                 <hr />
-                <div className="container d-flex align-items-center">
+
+                <div className="container">
                     <div>
-                        <button className='btn btn-dark m-4 text-white' onClick={toggleForm}>
-                            {showForm ? 'Chiudi' : 'Inserisci Una Recesione'}
+                        <button className='btn btn-dark mt-5  mb-3 m-1 text-white' onClick={toggleForm}>
+                            {showForm ? <i className="bi bi-x-circle-fill"></i> : 'Scrivi Una Recesione'}
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
                     </div>
