@@ -1,8 +1,34 @@
 import HeartIconVote from './HeartIconVote'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCar, faDumbbell, faMugHot, faPaw, faPersonSwimming, faTv, faWind, faShirt, faWifi } from '@fortawesome/free-solid-svg-icons'
 
 const ApartmentCard = ({ apartment, setApartment }) => {
   // Controlla se esistono immagini
   const images = apartment.images;
+
+  const getServiceIcon = (service) => {
+    if (service === 'Wi-Fi gratuito') {
+      return <FontAwesomeIcon icon={faWifi} /> // Icona Wi-Fi
+    } else if (service === 'Parcheggio privato') {
+      return <FontAwesomeIcon icon={faCar} /> // Icona Parcheggio
+    } else if (service === 'Piscina') {
+      return <FontAwesomeIcon icon={faPersonSwimming} /> // Icona Piscina
+    } else if (service === 'Aria condizionata') {
+      return <FontAwesomeIcon icon={faWind} /> // Icona Aria condizionata
+    } else if (service === 'Lavatrice') {
+      return <FontAwesomeIcon icon={faShirt} />// Icona Lavatrice
+    } else if (service === 'Colazione inclusa') {
+      return <FontAwesomeIcon icon={faMugHot} /> // Icona Colazione
+    } else if (service === 'Palestra') {
+      return <FontAwesomeIcon icon={faDumbbell} /> // Icona Palestra
+    } else if (service === 'Animali ammessi') {
+      return <FontAwesomeIcon icon={faPaw} /> // Icona Animali ammessi
+    } else if (service === 'TV via cavo') {
+      return <FontAwesomeIcon icon={faTv} />// Icona TV
+    } else {
+      return null; // In caso di servizio non definito
+    }
+  }
 
   return (
     <>
@@ -77,7 +103,10 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                 <h5>Servizi:</h5>
                 <ul>
                   {apartment.services.map((service, index) => (
-                    <li key={index}>{service}</li>
+                    <li key={index} className="d-flex align-items-center justify-content-start">
+                      <span className="me-2">{getServiceIcon(service)}</span>
+                      <span>{service}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
