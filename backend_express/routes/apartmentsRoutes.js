@@ -27,7 +27,7 @@ router.get('/:id/:title', ApartmentsController.show)
 router.post("/review/:id", ApartmentsController.review)
 
 // create apartment route
-router.post('/new', verifyToken, upload.single("image"), ApartmentsController.create)
+router.post('/new', verifyToken, upload.array("images", 10), ApartmentsController.create)
 
 // vote route
 router.post("/vote/:id", ApartmentsController.vote)

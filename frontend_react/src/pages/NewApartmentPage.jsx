@@ -11,12 +11,14 @@ export default function NewApartmentPage() {
         square_meters: "",
         address: "",
         city: "",
-        image: null,
         services: []
     });
 
-    // Stato per la gestione del file immagine selezionato
-    const [selectedFile, setSelectedFile] = useState(null);
+    // Stato per la gestione dei file immagine selezionati
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    // Stato per la gestione dei nuovi campi di input immagine
+    const [imageFields, setImageFields] = useState([1]);
 
     // Stato per gestire i messaggi di successo o errore
     const [message, setMessage] = useState("");
@@ -52,13 +54,23 @@ export default function NewApartmentPage() {
         });
     };
 
-    // Funzione per gestire la selezione del file immagine
-    const handleFileChange = (e) => {
-        setSelectedFile(e.target.files[0]);  // Aggiorna il file selezionato
-        console.log('File selezionato:', e.target.files[0]);  // Log per verificarlo
+    // Funzione per gestire la selezione dei file immagine
+    const handleFileChange = (e, index) => {
+        const files = e.target.files;
+        const newFiles = Array.from(files);
+        setSelectedFiles((prevFiles) => {
+            const updatedFiles = [...prevFiles];
+            updatedFiles[index] = newFiles;
+            return updatedFiles;
+        });
     };
 
-
+    // Funzione per aggiungere un nuovo campo immagine
+    const addImageField = () => {
+        if (imageFields.length < 5) {
+            setImageFields((prevFields) => [...prevFields, prevFields.length + 1]);
+        }
+    };
 
     // Funzione di validazione del modulo
     const validateFormData = () => {
@@ -70,17 +82,18 @@ export default function NewApartmentPage() {
         if (!formData.address.trim()) return "Indirizzo richiesto.";
         if (!formData.city.trim()) return "Città richiesta.";
 
-        // Validazione dell'immagine
-        if (!selectedFile) {
-            return "Immagine richiesta.";
-        }
+        // Validazione delle immagini
         const validImageTypes = ["image/jpeg", "image/png", "image/jpg"];
-        if (!validImageTypes.includes(selectedFile.type)) {
-            return "Il file deve essere un'immagine JPEG o PNG.";
-        }
-        const maxSize = 5 * 1024 * 1024; // 5MB
-        if (selectedFile.size > maxSize) {
-            return "L'immagine non può essere più grande di 5MB.";
+        for (const fileGroup of selectedFiles) {
+            for (const file of fileGroup) {
+                if (!validImageTypes.includes(file.type)) {
+                    return "Tutti i file devono essere immagini JPEG o PNG.";
+                }
+                const maxSize = 5 * 1024 * 1024; // 5MB
+                if (file.size > maxSize) {
+                    return "Ogni immagine non può essere più grande di 5MB.";
+                }
+            }
         }
 
         return null;
@@ -90,8 +103,6 @@ export default function NewApartmentPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage("");
-
-        console.log('Form Data:', formData);
 
         const authToken = localStorage.getItem("authToken");
         if (!authToken) {
@@ -107,7 +118,7 @@ export default function NewApartmentPage() {
             return;
         }
 
-        // Creazione dell'oggetto FormData per inviare il modulo insieme al file
+        // Creazione dell'oggetto FormData per inviare il modulo insieme ai file
         const formDataToSend = new FormData();
         formDataToSend.append("title", formData.title);
         formDataToSend.append("rooms", Number(formData.rooms));
@@ -116,22 +127,22 @@ export default function NewApartmentPage() {
         formDataToSend.append("square_meters", Number(formData.square_meters));
         formDataToSend.append("address", formData.address);
         formDataToSend.append("city", formData.city);
-        // formDataToSend.append("services", JSON.stringify(formData.services));
-        formDataToSend.append("image", selectedFile);
-
-        // Aggiungi i servizi (se ci sono)
-        formData.services.forEach(serviceId => {
+        formData.services.forEach((serviceId) => {
             formDataToSend.append("services[]", serviceId);
-        })
+        });
 
-        console.log(formDataToSend);
-
+        // Aggiungi tutte le immagini
+        selectedFiles.forEach((fileGroup) => {
+            fileGroup.forEach((file) => {
+                formDataToSend.append("images", file);
+            });
+        });
 
         try {
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
-                    "Authorization": `Bearer ${localStorage.getItem('authToken')}`
+                    "Authorization": `Bearer ${authToken}`,
                 },
                 body: formDataToSend,
             });
@@ -166,17 +177,16 @@ export default function NewApartmentPage() {
                 square_meters: "",
                 address: "",
                 city: "",
-                image: "",
                 services: [],
             });
+            setSelectedFiles([]);
+            setImageFields([1]); // Reset dei campi immagine
         } catch (error) {
             console.error("Error adding apartment:", error);
             setMessage(error.message);
             setMessageType("error");
-            // alert(error.message);
         }
-    }
-
+    };
 
     return (
         <>
@@ -211,14 +221,33 @@ export default function NewApartmentPage() {
                         <label className="form-label">* Città:</label>
                         <input type="text" className="form-control" name="city" value={formData.city} onChange={handleChange} required />
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">* Immagine:</label>
-                        <input type="file" className="form-control" name="image" accept="image/*" onChange={handleFileChange} required />
-                    </div>
-                    <div className="my-3">
-                        I campi con "*" sono obbligatori
-                    </div>
-                    <fieldset>
+
+                    {/* Aggiungi più campi per le immagini */}
+                    {imageFields.map((field, index) => (
+                        <div className="mb-3" key={index}>
+                            <label className="form-label">* Immagine {index + 1}:</label>
+                            <input
+                                type="file"
+                                className="form-control"
+                                name="images"
+                                accept="image/*"
+                                onChange={(e) => handleFileChange(e, index)}
+                                multiple
+                                required
+                            />
+                        </div>
+                    ))}
+
+                    <button
+                        type="button"
+                        onClick={addImageField}
+                        className="btn btn-secondary mb-3"
+                        disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
+                    >
+                        Aggiungi un altro campo immagine
+                    </button>
+
+                    <fieldset >
                         <legend>Servizi (Opzionali)</legend>
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-5">
                             <div className="col">
@@ -271,14 +300,16 @@ export default function NewApartmentPage() {
                                 <label>TV via cavo</label>
                             </div>
                         </div>
-                    </fieldset>
-                    {/* {errorMessage && <div className="error btn btn-danger disabled my-3">{errorMessage}</div>} */}
+                    </fieldset >
                     {message && (
-                        <div className={`alert mt-3 ${messageType === "success" ? "alert-success" : "alert-danger"}`}>{message}</div>
+                        <div className={`alert mt-3 ${messageType === "success" ? "alert-success" : "alert-danger"}`}>
+                            {message}
+                        </div>
                     )}
+
                     <button type="submit" className="btn btn-primary">Salva nuovo appartamento</button>
                 </form>
             </div>
         </>
-    )
+    );
 }
