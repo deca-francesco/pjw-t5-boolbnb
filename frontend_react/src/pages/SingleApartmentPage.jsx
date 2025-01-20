@@ -19,13 +19,13 @@ export default function SingleApartmentPage() {
     const [showForm, setShowForm] = useState(false);
     const [reviews, setReviews] = useState([])
 
+    const [isOwner, setIsOwner] = useState(false)
 
     //useEffect to load apartment details
     useEffect(() => {
         const fetchApartmentDetails = async () => {
             try {
                 const formattedTitle = title.replace(/\s+/g, '-');
-                // console.log(`Fetching: ${apiUrl}/apartments/${id}/${formattedTitle}`);
                 navigate(`/apartments/${id}/${formattedTitle}`, { replace: true });
                 const response = await fetch(`${apiUrl}/apartments/${id}/${formattedTitle}`);
                 const data = await response.json();
@@ -33,6 +33,15 @@ export default function SingleApartmentPage() {
 
                 setApartment(data.data);
                 setReviews(data.data.reviews);
+
+                // Recupera l'utente loggato
+                const token = localStorage.getItem("authToken");
+                if (token) {
+                    const decodedToken = JSON.parse(atob(token.split(".")[1]));
+                    if (decodedToken.id === data.data.owner.id) {
+                        setIsOwner(true); // Verifica se l'utente è il proprietario
+                    }
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -68,18 +77,24 @@ export default function SingleApartmentPage() {
                     {apartment && (
                         <OwnerSingleApartment owner={apartment.owner} />
                     )}
-                    <ContactOwner apartmentId={id}></ContactOwner>
+
+                    {!isOwner && (
+                        <ContactOwner apartmentId={id} />
+                    )}
+
                 </div>
 
                 <hr />
 
                 <div className="container">
-                    <div>
-                        <button className='btn btn-dark mt-5  mb-3 m-1 text-white' onClick={toggleForm}>
-                            {showForm ? <i className="bi bi-x-circle-fill"></i> : 'Scrivi Una Recesione'}
-                        </button>
-                        {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
-                    </div>
+                    {!isOwner && (
+                        <div>
+                            <button className='btn btn-dark mt-5  mb-3 m-1 text-white' onClick={toggleForm}>
+                                {showForm ? <i className="bi bi-x-circle-fill"></i> : 'Scrivi Una Recesione'}
+                            </button>
+                            {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
+                        </div>
+                    )}
 
                 </div>
                 <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>

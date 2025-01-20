@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
 import LoginButton from "../LoginComponents/LoginButton";
 import Searchbar from "./Searchbar";
+import Bool_Logo from '../../assets/logo_yellow_2.svg';
 
 export default function Header() {
     const { id } = useParams();
@@ -42,7 +43,7 @@ export default function Header() {
     };
 
     return (
-        <header className="bg-dark py-3 shadow position-sticky top-0 z-3">
+        <header className="py-3 shadow position-sticky top-0 z-3 header">
             <div className="container">
                 <div className="d-flex justify-content-between align-items-center">
                     {/* Logo */}
@@ -52,7 +53,8 @@ export default function Header() {
                             href="/protected"
                             onClick={handleHomeClick}
                         >
-                            <h1 className="text-white">BoolB&B</h1>
+                            <img src={Bool_Logo} className="logo" alt="BoolB&B logo" style={{ width: 250 }} />
+                            
                         </a>
                     </div>
 
