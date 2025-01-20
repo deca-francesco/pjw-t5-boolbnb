@@ -65,8 +65,8 @@ export default function SingleApartmentPage() {
                 {/* Display the OwnerInfo component if the owner information is available */}
                 <hr />
                 <div className=''>
-                    {apartment && apartment.data && apartment.data.owner && (
-                        <OwnerSingleApartment owner={apartment.data.owner} />
+                    {apartment && (
+                        <OwnerSingleApartment owner={apartment.owner} />
                     )}
                     <ContactOwner apartmentId={id}></ContactOwner>
                 </div>
