@@ -3,3 +3,12 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root{
+
+    --boolbeb-yellow: #f4bc4c;
+}
+
+.header{
+    background-color: var(--boolbeb-yellow);
+}
