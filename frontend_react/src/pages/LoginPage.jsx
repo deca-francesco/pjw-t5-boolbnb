@@ -176,7 +176,7 @@ export default function LoginPage() {
                     setIsAuthenticated(true);
 
                     if (!isLogin) {
-                        setIsLogin(true);
+                        setIsLogin(false);
                         setFormData({
                             name: "",
                             last_name: "",
