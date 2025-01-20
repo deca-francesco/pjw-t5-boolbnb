@@ -9,7 +9,7 @@ import ReviewCard from "../components/ApartmentsComponents/ReviewCard";
 export default function SingleApartmentPage() {
     //Retrieve the 'id' parameter from the URL using useParams.
     const { id, title } = useParams()
-    console.log(id, title);
+    // console.log(id, title);
 
     const apiUrl = import.meta.env.VITE_EXPRESS_API_SERVER
 
@@ -25,11 +25,11 @@ export default function SingleApartmentPage() {
         const fetchApartmentDetails = async () => {
             try {
                 const formattedTitle = title.replace(/\s+/g, '-');
-                console.log(`Fetching: ${apiUrl}/apartments/${id}/${formattedTitle}`);
+                // console.log(`Fetching: ${apiUrl}/apartments/${id}/${formattedTitle}`);
                 navigate(`/apartments/${id}/${formattedTitle}`, { replace: true });
                 const response = await fetch(`${apiUrl}/apartments/${id}/${formattedTitle}`);
                 const data = await response.json();
-                console.log(data);
+                console.log(data.data);
 
                 setApartment(data.data);
                 setReviews(data.data.reviews);
@@ -43,7 +43,7 @@ export default function SingleApartmentPage() {
 
     useEffect(() => {
         // Qui possiamo fare qualcosa ogni volta che la lista delle recensioni cambia
-        console.log('Recensioni aggiornate:', reviews);
+        // console.log('Recensioni aggiornate:', reviews);
     }, [reviews]);
 
     const toggleForm = () => {

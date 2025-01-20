@@ -10,7 +10,7 @@ export default function HomePage() {
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER
     const apartment_api_url = base_api_url + '/apartments'
     const [apartments, setApartments] = useState([]);
-    console.log(apartment_api_url);
+    // console.log(apartment_api_url);
 
 
     useEffect(() => {
