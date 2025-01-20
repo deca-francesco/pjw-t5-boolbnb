@@ -14,11 +14,11 @@ export default function Searchbar() {
     return (
         <div>
             {/* Search form */}
-            <form onSubmit={handleSearchForm} className="d-flex align-items-center">
-
+            <form onSubmit={handleSearchForm} className="d-flex align-items-center position-relative">
+                {/* Input di ricerca */}
                 <input
                     type="search"
-                    className="form-control me-2"
+                    className="form-control me-2 pe-5"
                     name="searchText"
                     id="searchText"
                     aria-describedby="searchHelper"
@@ -27,10 +27,16 @@ export default function Searchbar() {
                     onChange={e => setSearch(e.target.value)}
                 />
 
-                <button type="submit" className="btn btn-primarybtn btn-light text-dark text-decoration-none">
-                    Cerca
+                {/* Icona di ricerca */}
+                <button
+                    type="submit"
+                    className="btn btn position-absolute end-0 me-1 text-decoration-none"
+                    style={{ top: '50%', transform: 'translateY(-50%)' }}
+                >
+                    <i className="bi bi-search"></i>
                 </button>
             </form>
         </div>
+
     );
 }
