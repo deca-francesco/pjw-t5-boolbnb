@@ -31,7 +31,7 @@ export default function SingleApartmentPage() {
                 const data = await response.json();
                 console.log(data);
 
-                setApartment(data);
+                setApartment(data.data);
                 setReviews(data.data.reviews);
             } catch (err) {
                 console.error(err);
@@ -55,7 +55,7 @@ export default function SingleApartmentPage() {
             <div className="container">
                 {apartment ? (
                     // Pass the apartment data as a prop to the ApartmentCard component
-                    <SingleApartment apartment={apartment.data} setApartment={setApartment} />
+                    <SingleApartment apartment={apartment} setApartment={setApartment} />
                 ) : (
                     // Show a loading message while the apartment data is being fetched
                     <p>Loading...</p>
@@ -65,10 +65,10 @@ export default function SingleApartmentPage() {
                 {/* Display the OwnerInfo component if the owner information is available */}
                 <hr />
                 <div className=''>
-                {apartment && apartment.data && apartment.data.owner && (
-                    <OwnerSingleApartment owner={apartment.data.owner} />
-                )}
-                <ContactOwner apartmentId={id}></ContactOwner>
+                    {apartment && apartment.data && apartment.data.owner && (
+                        <OwnerSingleApartment owner={apartment.data.owner} />
+                    )}
+                    <ContactOwner apartmentId={id}></ContactOwner>
                 </div>
 
                 <hr />
@@ -80,7 +80,7 @@ export default function SingleApartmentPage() {
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
                     </div>
-                    
+
                 </div>
                 <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>
             </div>
