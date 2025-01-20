@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 import LoginForm from "../components/LoginComponents/LoginForm";
 
 const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
@@ -164,8 +166,6 @@ export default function LoginPage() {
                         console.log(errorMessage);
 
                         throw new Error(errorMessage);
-
-
                     });
                 }
                 return response.json();
@@ -183,39 +183,73 @@ export default function LoginPage() {
                             email: "",
                             password: "",
                             phone_number: "",
-                            confirm_password: ""
+                            confirm_password: "",
                         });
-                        alert("Registrazione completata con successo!");
+                        toast.success("Registrazione completata con successo!", {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true
+                        });
                         const ownerId = data.utente.id;
-                        navigate(`/owners/${ownerId}`);
+                        setTimeout(() => {
+                            navigate(`/owners/${ownerId}`);
+                        }, 2000);
 
                     } else {
-                        alert("Login effettuato con successo!");
+                        toast.success("Login effettuato con successo!", {
+                            position: "top-center",
+                            autoClose: 2000,
+                            hideProgressBar: true,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true
+                        });
                         const ownerId = data.utente.id;
-                        navigate(`/owners/${ownerId}`);
+                        setTimeout(() => {
+                            navigate(`/owners/${ownerId}`);
+                        }, 2000);
                     }
                 }
             })
             .catch((error) => {
                 setErrors({ general: error.message });
+                toast.error(error.message, {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true
+                });
             });
+
 
     };
 
     return (
-        <LoginForm
-            isLogin={isLogin}
-            setIsLogin={setIsLogin}
-            formData={formData}
-            handleChange={handleChange}
-            handleSubmit={handleSubmit}
-            message={errors.general}
-            messageType='error'
-            fieldErrors={errors}
-            showPassword={showPassword}
-            showConfirmPassword={showConfirmPassword}
-            toggleConfirmPasswordVisibility={toggleConfirmPasswordVisibility}
-            togglePasswordVisibility={togglePasswordVisibility}
-        />
+        <>
+
+
+            <LoginForm
+                isLogin={isLogin}
+                setIsLogin={setIsLogin}
+                formData={formData}
+                handleChange={handleChange}
+                handleSubmit={handleSubmit}
+                message={errors.general}
+                messageType='error'
+                fieldErrors={errors}
+                showPassword={showPassword}
+                showConfirmPassword={showConfirmPassword}
+                toggleConfirmPasswordVisibility={toggleConfirmPasswordVisibility}
+                togglePasswordVisibility={togglePasswordVisibility}
+            />
+
+            <ToastContainer />
+
+        </>
     );
 }
