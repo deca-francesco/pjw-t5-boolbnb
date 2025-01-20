@@ -17,7 +17,7 @@ export default function ReviewCard({ reviews }) {
         }, [id]) */
 
     return (
-        <div className="container">
+        <div className="container mt-3 ms-1">
             <h2>Recensioni</h2>
             {reviews.length === 0 ? (
                 <p>Nessuna recensione disponibile.</p>

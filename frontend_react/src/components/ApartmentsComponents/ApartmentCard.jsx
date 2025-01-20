@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import HeartIconVote from './HeartIconVote'
+
+
 export default function ApartmentCard({ apartment, setApartments }) {
     // console.log(apartment);
 
