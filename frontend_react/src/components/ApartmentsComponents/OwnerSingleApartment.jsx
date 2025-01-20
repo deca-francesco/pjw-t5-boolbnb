@@ -9,10 +9,10 @@ const OwnerInfo = ({ owner }) => {
     return (
         <div className="owner-info p-3">
             <h5>Proprietario</h5>
-            <p><srong><i class="bi bi-person-fill m-1"></i></srong>{owner.name + " "+ owner.last_name}</p>
+            <p><strong><i className="bi bi-person-fill m-1"></i></strong>{owner.name + " " + owner.last_name}</p>
             <p></p>
-            <p><strong><i class="bi bi-envelope-fill m-1"></i></strong> {owner.email}</p>
-            <p><strong><i class="bi bi-telephone-fill m-1"></i></strong> {owner.phone_number}</p>
+            <p><strong><i className="bi bi-envelope-fill m-1"></i></strong> {owner.email}</p>
+            <p><strong><i className="bi bi-telephone-fill m-1"></i></strong> {owner.phone_number}</p>
         </div>
     );
 };

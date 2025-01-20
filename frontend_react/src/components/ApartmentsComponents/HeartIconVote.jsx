@@ -41,7 +41,7 @@ export default function HeartIconVote({ data_apartment, setApartments, setFilter
                 const showResponse = await fetch(showUrl);
                 if (showResponse.ok) {
                     const data = await showResponse.json();
-                    setApartment && setApartment(data); // Se hai un singolo stato
+                    setApartment && setApartment(data.data); // Se hai un singolo stato
                     console.log("SetApartment aggiornato:", data);
                 } else {
                     console.error("Errore durante il recupero del dettaglio dell'appartamento:", showResponse.statusText);
