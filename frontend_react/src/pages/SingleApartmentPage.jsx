@@ -75,7 +75,7 @@ export default function SingleApartmentPage() {
                         </button>
                         {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
                     </div>
-                    <ContactOwner apartmentId={id}></ContactOwner>
+                    <ContactOwner apartment_id={id}></ContactOwner>
                 </div>
                 <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>
             </div>

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appartamento come prop
+export default function ContactOwner({ apartment_id }) { // Ricevi l'ID dell'appartamento come prop
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [name, setName] = useState('');
@@ -10,7 +10,7 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
     const [loading, setLoading] = useState(false); // Stato per indicare che il modulo è in invio
 
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
-    const url = `${base_api_url}/contact/${apartmentId}`; // Aggiungi l'ID dell'appartamento nell'URL
+    const url = `${base_api_url}/contact/${apartment_id}`; // Aggiungi l'ID dell'appartamento nell'URL
 
     const handleButtonClick = () => {
         setIsFormVisible(!isFormVisible);
