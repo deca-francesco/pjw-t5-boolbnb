@@ -5,7 +5,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 const sender = process.env.EMAIL_SENDER
 
 const sendContactEmail = (req, res) => {
-    const { name, message } = req.body;
+    const { name, email, message } = req.body;
     const apartmentId = req.params.apartmentId;
 
     // SQL query per ottenere l'email del proprietario basata sull'ID dell'appartamento Sql query to get owner's email based on apaz
@@ -35,7 +35,8 @@ const sendContactEmail = (req, res) => {
             from: sender,
             subject: `Messaggio da ${name}`,
             text: message,
-            html: `<p>${message}</p>`,
+            html: `<p>${message}</p>
+            <div>Email cliente: ${email}</div>`,
         };
 
         console.log(msg);
