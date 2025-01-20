@@ -5,33 +5,53 @@ const connection = require('../database/connection');
 const HOST = process.env.HOST;
 const PORT = process.env.PORT;
 
-// index
 function index(req, res) {
     const { city } = req.query;  // Ottieni il parametro della città dalla query, se presente
 
     let sql = 'SELECT * FROM apartments ORDER BY vote DESC';  // Query di base
 
-    // Se c'è un parametro city, modifica la query per filtrare per città
     if (city) {
         sql = 'SELECT * FROM apartments WHERE city LIKE ? ORDER BY vote DESC';
     }
 
-    // Esegui la query
+    console.log('SQL Query:', sql);  // Aggiungi un log per la query SQL
+
     connection.query(sql, city ? [`%${city}%`] : [], (err, results) => {
-        if (err) return res.status(500).json({ err: err });  // Gestione errori
+        if (err) {
+            console.error('Database error:', err);  // Log degli errori del database
+            return res.status(500).json({ error: 'Internal Server Error', details: err });  // Risposta più dettagliata
+        }
+
+        // Log per i risultati della query
+        console.log('Query Results:', results);
 
         // Ciclo per correggere l'URL di ogni immagine
         results.forEach(apartment => {
             if (apartment.image) {
-                // Formatta il percorso dell'immagine per il frontend
                 apartment.image = `${req.protocol}://${req.get('host')}/${apartment.image.replace(/\\/g, '/')}`;
             }
-        });
 
-        // Risposta con gli appartamenti trovati
-        res.status(200).json({
-            count: results.length,
-            data: results
+            if (apartment.id) {
+                const sqlImages = 'SELECT image_path FROM apartment_images WHERE apartment_id = ?';
+                connection.query(sqlImages, [apartment.id], (err, imageResults) => {
+                    if (err) {
+                        console.error('Error fetching images:', err);
+                        return res.status(500).json({ error: 'Error fetching images', details: err });
+                    }
+
+                    apartment.images = imageResults.map(image => {
+                        return `${req.protocol}://${req.get('host')}/${image.image_path.replace(/\\/g, '/')}`;
+                    });
+
+                    // Dopo aver elaborato tutte le immagini, invia la risposta
+                    if (results.indexOf(apartment) === results.length - 1) {
+                        return res.status(200).json({
+                            count: results.length,
+                            data: results
+                        });
+                    }
+                });
+            }
         });
     });
 }
@@ -39,96 +59,76 @@ function index(req, res) {
 
 // show
 function show(req, res) {
-
-    // get apartment id from request params
-    const id = req.params.id
-    let title = req.params.title // Decodifica l'URL
+    const id = req.params.id;
+    let title = req.params.title; // Decodifica l'URL
     title = title.replace(' ', '-');
-    console.log(`Received ID: ${id}, Title: ${title}`)
+    console.log(`Received ID: ${id}, Title: ${title}`);
 
-    // db query for single apartment
-    const apartment_sql = `SELECT * FROM apartments WHERE id = ? `
-
-    // db query for owner
+    // SQL queries
+    const apartment_sql = `SELECT * FROM apartments WHERE id = ?`;
     const owner_sql = `
-    select owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
-    from owners
-    join apartments
-    on apartments.owner_id = owners.id
-    where apartments.id = ? `
-
-    // db query for services
+        SELECT owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
+        FROM owners
+        JOIN apartments ON apartments.owner_id = owners.id
+        WHERE apartments.id = ?`;
     const services_sql = `
-    select services.label
-    from services
-    join services_apartments
-    on services.id = services_apartments.service_id
-    where services_apartments.apartment_id = ? `
+        SELECT services.label
+        FROM services
+        JOIN services_apartments ON services.id = services_apartments.service_id
+        WHERE services_apartments.apartment_id = ?`;
+    const reviews_sql = `SELECT * FROM reviews WHERE apartment_id = ?`;
+    const images_sql = `SELECT image_path FROM apartment_images WHERE apartment_id = ?`;
 
-    // db query for reviews
-    const reviews_sql = `
-    select *
-    from reviews
-    where apartment_id = ? `
+    // Helper function to create URL for images
+    const createImageUrl = (imagePath) => {
+        return `${HOST}:${PORT}/${imagePath.replace(/\\/g, '/')}`;
+    };
 
-    // execute the apartment_sql query
-    connection.query(apartment_sql, Number([id]), (err, results) => {
+    // Fetch apartment details
+    connection.query(apartment_sql, [id], (err, results) => {
+        if (err) return res.status(500).json({ err: err });
+        if (!results[0]) return res.status(404).json({ err: '404! Apartment not found' });
 
-        // handle errors
-        if (err) return res.status(500).json({ err: err })
-        if (!results[0]) return res.status(404).json({ err: '404! Apartment not found' })
+        const apartment = results[0];
 
-        // save result
-        const apartment = results[0]
-
-        // If image exists, create a URL for the image
+        // Process apartment image if it exists
         if (apartment.image) {
-            // Replace backslashes with forward slashes for URL compatibility
-            apartment.image = `${HOST}:${PORT}/${apartment.image.replace(/\\/g, '/')}`;
+            apartment.image = createImageUrl(apartment.image);
         }
 
-        // execute query for owner
-        connection.query(owner_sql, Number([id]), (err, owner_results) => {
+        // Fetch owner details
+        connection.query(owner_sql, [id], (err, owner_results) => {
+            if (err) return res.status(500).json({ err: err });
+            apartment.owner = owner_results[0];
 
-            // handle errors
-            if (err) return res.status(500).json({ err: err })
+            // Fetch apartment services
+            connection.query(services_sql, [id], (err, services_results) => {
+                if (err) return res.status(500).json({ err: err });
+                apartment.services = services_results.map(service => service.label);
 
-            // save results as a property of apartment
-            apartment.owner = owner_results[0]
+                // Fetch apartment reviews
+                connection.query(reviews_sql, [id], (err, reviews_results) => {
+                    if (err) return res.status(500).json({ err: err });
+                    apartment.reviews = reviews_results;
 
-            // execute query for services
-            connection.query(services_sql, Number([id]), (err, services_results) => {
+                    // Fetch apartment images
+                    connection.query(images_sql, [id], (err, images_results) => {
+                        if (err) return res.status(500).json({ err: err });
 
-                // handle errors
-                if (err) return res.status(500).json({ err: err })
+                        apartment.images = images_results.map(image => {
+                            return `${HOST}:${PORT}/${image.image_path.replace(/\\/g, '/')}`;
+                        });
 
-                // save results as a property of apartment
-                const services_labels = services_results.map(service => service.label)
-                apartment.services = services_labels
-
-                // execute query for reviews
-                connection.query(reviews_sql, Number([id]), (err, reviews_results) => {
-                    // handle errors
-                    if (err) return res.status(500).json({ err: err })
-
-                    // save results as a property of apartment
-                    apartment.reviews = reviews_results
-
-                    // create the response
-                    const responseData = {
-                        data: apartment
-                    }
-
-                    console.log(responseData);
-
-                    // return the response
-                    res.status(200).json(responseData)
-                })
-            })
-        })
-    })
+                        // Send the response
+                        const responseData = { data: apartment };
+                        console.log(responseData);
+                        res.status(200).json(responseData);
+                    });
+                });
+            });
+        });
+    });
 }
-
 
 // review
 function review(req, res) {
