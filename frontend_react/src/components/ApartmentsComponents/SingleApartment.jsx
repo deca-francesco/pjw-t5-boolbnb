@@ -77,7 +77,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                               style={{
                                 objectFit: "cover", // Copri l'area senza distorcere l'immagine
                                 width: "100%", // Imposta la larghezza al 100% del contenitore
-                                height: "200px", // Imposta l'altezza fissa per tutte le immagini
+                                height: "100%", // Imposta l'altezza fissa per tutte le immagini
                               }}
                             />
                           </div>
