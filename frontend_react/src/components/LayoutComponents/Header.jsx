@@ -67,9 +67,50 @@ export default function Header() {
                     >
                         <i className="bi bi-list fs-1"></i>
                     </button>
+
+                    {/* Desktop Navigation */}
+                    <div className="d-none d-lg-flex justify-content-center align-items-center">
+                        <Searchbar className="me-3" /> {/* Searchbar visibile in desktop */}
+                        <nav>
+                            <ul className="list-unstyled m-0 d-flex align-items-center">
+                                {isAuthenticated ? (
+                                    <>
+                                        <li className="mx-2">
+                                            <a
+                                                href="/new-apartment"
+                                                className="btn btn-transparent text-white text-decoration-none"
+                                            >
+                                                Aggiungi Appartamento
+                                            </a>
+                                        </li>
+                                        <li className="mx-2">
+                                            <button
+                                                onClick={handleLogout}
+                                                className="btn btn-transparent text-white text-decoration-none"
+                                            >
+                                                Logout
+                                            </button>
+                                        </li>
+                                        {userId && (
+                                            <li className="mx-2">
+                                                <a href={`/owners/${userId}`}>
+                                                    <i className="bi bi-person-circle fs-3 text-white profile-icon" />
+                                                </a>
+                                            </li>
+                                        )}
+                                    </>
+                                ) : (
+                                    <LoginButton
+                                        setIsAuthenticated={setIsAuthenticated}
+                                        className="btn btn-transparent text-white text-decoration-none"
+                                    />
+                                )}
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
 
-                {/* Collapsible Navigation Menu */}
+                {/* Collapsible Mobile Navigation */}
                 <div className="collapse navbar-collapse" id="navbarMenu">
                     <nav className="nav flex-column align-items-end mt-3">
                         <ul className="list-unstyled m-0 p-0 w-100">
@@ -112,11 +153,11 @@ export default function Header() {
                             )}
                         </ul>
                     </nav>
-                </div>
 
-                {/* Mobile Searchbar (visible only when menu is open) */}
-                <div className="d-lg-none mt-3">
-                    <Searchbar />
+                    {/* Mobile Searchbar */}
+                    <div className="mt-3">
+                        <Searchbar />
+                    </div>
                 </div>
             </div>
         </header>
