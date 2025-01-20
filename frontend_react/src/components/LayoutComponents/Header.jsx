@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginButton from "../LoginComponents/LoginButton";
 import Searchbar from "./Searchbar";
+import Bool_logo from '../../assets/logo_yellow_2.svg'
 
 export default function Header() {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -46,21 +47,19 @@ export default function Header() {
     };
 
     return (
-        <header className="bg-dark py-3 shadow position-sticky top-0 z-3">
-            <div className="container d-flex justify-content-between align-items-center">
-                <div className="logo">
-                    <a
-                        className="text-decoration-none"
-                        href="/protected"
-                        onClick={handleHomeClick}
-                    >
-                        <h1 className="text-white">BoolB&B</h1>
-                    </a>
-                </div>
+        <header className="py-3 shadow position-sticky top-0 z-3 header">
+            <div className="container d-flex justify-content-between align-items-center ">
+            <div className="logo">
+            <a className="text-decoration-none d-flex align-items-center" href="/protected" onClick={handleHomeClick}>
+            <img src={Bool_logo} className="logo" alt="Vite logo" style={{width: 250 }} />
+                
+            </a>
+            </div>
+
 
                 {/* Hamburger menu for mobile */}
                 <button
-                    className="navbar-toggler d-lg-none border-0 text-white"
+                    className="navbar-toggler d-lg-none border-0 text-white button_header"
                     type="button"
                     onClick={toggleMenu}
                 >
@@ -90,7 +89,7 @@ export default function Header() {
                                 <li className="mx-2">
                                     <button
                                         onClick={handleLogout}
-                                        className="btn btn-light text-dark text-decoration-none"
+                                        className="btn btn-light text-dark text-decoration-none button_header"
                                     >
                                         Logout
                                     </button>
