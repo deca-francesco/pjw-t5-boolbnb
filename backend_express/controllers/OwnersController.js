@@ -124,6 +124,7 @@ function store(req, res) {
     })
 
 }
+
 function queryPromise(sql, params) {
     return new Promise((resolve, reject) => {
         connection.query(sql, params, (err, results) => {
@@ -163,6 +164,11 @@ async function showApartments(req, res) {
             FROM reviews
             WHERE apartment_id = ?`;
 
+        const images_sql = `
+            SELECT image_path 
+            FROM apartment_images 
+            WHERE apartment_id = ?`;
+
         // Esegui la query per il proprietario
         const ownerResults = await queryPromise(owner_sql, [ownerId]);
 
@@ -196,11 +202,15 @@ async function showApartments(req, res) {
                 const reviewsResults = await queryPromise(reviews_sql, [apartment.id]);
                 apartment.reviews = reviewsResults;
 
+                // Recupera le immagini per ogni appartamento
+                const imagesResults = await queryPromise(images_sql, [apartment.id]);
+                apartment.images = imagesResults.map(image => `${HOST}:${PORT}/${image.image_path.replace(/\\/g, '/')}`);
+
                 return apartment;
             })
         );
 
-        // Rispondi con i dati finali (proprietario e appartamenti)
+        // Rispondi con i dati finali (proprietario, appartamenti, e immagini)
         return res.status(200).json({
             data: {
                 owner: owner,
@@ -213,6 +223,7 @@ async function showApartments(req, res) {
         return res.status(500).json({ err: err.message });
     }
 }
+
 
 
 module.exports = {

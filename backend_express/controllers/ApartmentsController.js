@@ -65,19 +65,32 @@ function show(req, res) {
     console.log(`Received ID: ${id}, Title: ${title}`);
 
     // SQL queries
-    const apartment_sql = `SELECT * FROM apartments WHERE id = ?`;
+    const apartment_sql = `
+    SELECT * 
+    FROM apartments 
+    WHERE id = ?`;
+
     const owner_sql = `
-        SELECT owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
-        FROM owners
-        JOIN apartments ON apartments.owner_id = owners.id
-        WHERE apartments.id = ?`;
+    SELECT owners.id, owners.name, owners.last_name, owners.email, owners.phone_number
+    FROM owners
+    JOIN apartments ON apartments.owner_id = owners.id
+    WHERE apartments.id = ?`;
+
     const services_sql = `
-        SELECT services.label
-        FROM services
-        JOIN services_apartments ON services.id = services_apartments.service_id
-        WHERE services_apartments.apartment_id = ?`;
-    const reviews_sql = `SELECT * FROM reviews WHERE apartment_id = ?`;
-    const images_sql = `SELECT image_path FROM apartment_images WHERE apartment_id = ?`;
+    SELECT services.label
+    FROM services
+    JOIN services_apartments ON services.id = services_apartments.service_id
+    WHERE services_apartments.apartment_id = ?`;
+
+    const reviews_sql = `
+    SELECT * 
+    FROM reviews
+    WHERE apartment_id = ?`;
+
+    const images_sql = `
+    SELECT image_path 
+    FROM apartment_images 
+    WHERE apartment_id = ?`;
 
     // Helper function to create URL for images
     const createImageUrl = (imagePath) => {

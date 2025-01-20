@@ -241,7 +241,7 @@ export default function NewApartmentPage() {
                     <button
                         type="button"
                         onClick={addImageField}
-                        className="btn btn-secondary mb-3"
+                        className="btn btn-primary mb-3"
                         disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
                     >
                         Aggiungi un altro campo immagine
