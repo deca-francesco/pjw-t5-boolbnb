@@ -23,7 +23,7 @@ export default function OwnerProfilePage() {
             .then(data => {
                 console.log(data);
                 setOwnerName(data.data.owner.name)
-                setOwnerApartments(data.apartments || []);  // Imposta un array vuoto se non ci sono appartamenti
+                setOwnerApartments(data.data.apartments || []);  // Imposta un array vuoto se non ci sono appartamenti
                 setLoading(false)
             }).catch(err => console.log(err))
     }, [id])
@@ -40,7 +40,7 @@ export default function OwnerProfilePage() {
             <hr className="my-4" />
             <h3 className="my-4" style={{ fontSize: "3rem" }}>I tuoi appartamenti:</h3>
             <div className="row">
-                {!ownerApartments ? (
+                {ownerApartments.length > 0 ? (
                     ownerApartments.map((apartment, index) => (
                         <div className="col-md-4 mb-4" key={index}>
                             <ApartmentCard
