@@ -23,14 +23,14 @@ export default function LoginForm({
                             </h2>
 
                             {/* Messaggio globale */}
-                            {message && (
+                            {/* {message && (
                                 <div
                                     className={`alert ${messageType === 'error' ? 'alert-danger' : 'alert-success'}`}
                                     role="alert"
                                 >
                                     {message}
                                 </div>
-                            )}
+                            )} */}
 
                             <form onSubmit={handleSubmit}>
                                 {/* Nome e Cognome solo per la registrazione */}

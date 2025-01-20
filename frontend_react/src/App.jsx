@@ -19,6 +19,7 @@ function App() {
   return (
     <>
       <BrowserRouter>
+
         <Routes>
           <Route element={<AppLayout />}>
 
@@ -29,6 +30,7 @@ function App() {
               <PrivateRoute>
                 <ProtectedHomePage />
               </PrivateRoute>} />
+
             <Route path='/login' element={<LoginPage />} />
             <Route path='/new-apartment' element={
               <PrivateRoute>

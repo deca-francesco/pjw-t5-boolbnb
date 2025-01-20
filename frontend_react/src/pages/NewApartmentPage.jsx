@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NewApartmentPage() {
     // Stato per raccogliere i dati del modulo
@@ -163,10 +165,20 @@ export default function NewApartmentPage() {
             // Alert di conferma
             setMessage("Appartamento creato con successo!");
             setMessageType("success");
-            alert("Appartamento creato con successo!");
+            toast.success("Appartamento creato con successo!", {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
 
             // Reindirizza alla pagina dell'appartamento appena creato
-            navigate(`/apartments/${data.new_apartment_id}/${data.new_apartment_title}`);
+            setTimeout(() => {
+                navigate(`/apartments/${data.new_apartment_id}/${data.new_apartment_title}`);
+            }, 2000);
+
 
             // Reset del form
             setFormData({
@@ -185,6 +197,14 @@ export default function NewApartmentPage() {
             console.error("Error adding apartment:", error);
             setMessage(error.message);
             setMessageType("error");
+            toast.error(error.message, {
+                position: "top-center",
+                autoClose: 2000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true
+            });
         }
     };
 
@@ -308,15 +328,12 @@ export default function NewApartmentPage() {
                     </fieldset >
 
                     <div className="pb-2">I campi contrassegnati da "<strong>*</strong>" sono obbligatori</div>
-                    {message && (
-                        <div className={`alert mt-3 ${messageType === "success" ? "alert-success" : "alert-danger"}`}>
-                            {message}
-                        </div>
-                    )}
 
                     <button type="submit" className="btn btn-primary">Salva nuovo appartamento</button>
                 </form>
             </div>
+
+            <ToastContainer />
         </>
     );
 }
