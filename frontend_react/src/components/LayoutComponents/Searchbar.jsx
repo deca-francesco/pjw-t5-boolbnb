@@ -18,7 +18,7 @@ export default function Searchbar() {
                 {/* Input di ricerca */}
                 <input
                     type="search"
-                    className="form-control me-2 pe-5"
+                    className="form-control me-2 pe-5 fs-4"
                     name="searchText"
                     id="searchText"
                     aria-describedby="searchHelper"

@@ -90,7 +90,7 @@ export default function Header() {
                                         <li className="mx-2">
                                             <a
                                                 href="/new-apartment"
-                                                className="btn btn-transparent text-white text-decoration-none"
+                                                className="btn btn-transparent text-white text-decoration-none fs-4"
                                             >
                                                 Aggiungi Appartamento
                                             </a>
@@ -98,7 +98,7 @@ export default function Header() {
                                         <li className="mx-2">
                                             <button
                                                 onClick={handleLogout}
-                                                className="btn btn-transparent text-white text-decoration-none"
+                                                className="btn btn-transparent text-white text-decoration-none fs-4"
                                             >
                                                 Logout
                                             </button>
