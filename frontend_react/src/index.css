@@ -4,21 +4,27 @@
     box-sizing: border-box;
 }
 
-:root{
+:root {
 
     --boolbeb-yellow: #f4bc4c;
 }
 
-.header{
+.header {
     background-color: var(--boolbeb-yellow);
     color: rgb(80, 78, 78);
 }
-.footer{
+
+.footer {
     background-color: rgb(80, 78, 78);
 }
 
-.btn-sm{
+.btn-sm {
 
     width: 200px;
 }
 
+.bi.bi-heart {
+    &:hover {
+        color: red;
+    }
+}
