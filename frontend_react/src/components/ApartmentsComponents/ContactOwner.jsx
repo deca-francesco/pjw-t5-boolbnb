@@ -1,7 +1,6 @@
 import { useState } from "react";
 
 export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appartamento come prop
-    const [isFormVisible, setIsFormVisible] = useState(false);
     const [formSubmitted, setFormSubmitted] = useState(false);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -12,14 +11,6 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
     const base_api_url = import.meta.env.VITE_EXPRESS_API_SERVER;
     const url = `${base_api_url}/contact/${apartmentId}`; // Aggiungi l'ID dell'appartamento nell'URL
 
-    const handleButtonClick = () => {
-        setIsFormVisible(!isFormVisible);
-        setFormSubmitted(false);
-        setError('');
-        setName('');
-        setEmail('');
-        setMessage('');
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -69,77 +60,72 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
 
     return (
         <div>
-            <button className="btn btn-dark m-3" onClick={handleButtonClick}>
-                {isFormVisible ? <i className="bi bi-x-circle-fill"></i> : "Contatta il proprietario"}
-            </button>
 
+            <h2 className="mt-3">Contatta subito il proprietario!</h2>
+            <div className="card p-3 mt-1 bg-light">
+                {!formSubmitted ? (
+                    <form onSubmit={handleSubmit}>
+                        {error && <div className="alert alert-danger">{error}</div>}
 
-            {isFormVisible && (
-                <div className="card p-3 mt-1 bg-light">
-                    {!formSubmitted ? (
-                        <form onSubmit={handleSubmit}>
-                            {error && <div className="alert alert-danger">{error}</div>}
-
-                            <div className="mb-3">
-                                <label htmlFor="name" className="form-label">
-                                    Nome <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    id="name"
-                                    placeholder="Inserisci il tuo nome"
-                                    value={name}
-                                    onChange={(e) => setName(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="email" className="form-label">
-                                    Email <span className="text-danger">*</span>
-                                </label>
-                                <input
-                                    type="email"
-                                    className="form-control"
-                                    id="email"
-                                    placeholder="Inserisci la tua email"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    required
-                                />
-                            </div>
-
-                            <div className="mb-3">
-                                <label htmlFor="message" className="form-label">
-                                    Messaggio <span className="text-danger">*</span>
-                                </label>
-                                <textarea
-                                    className="form-control"
-                                    id="message"
-                                    rows="5"
-                                    placeholder="Scrivi il tuo messaggio"
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    required
-                                ></textarea>
-                            </div>
-
-                            <button
-                                type="submit"
-                                className="btn btn-success m-2"
-                                disabled={loading} // Disabilita il pulsante durante il caricamento
-                            >
-                                {loading ? "Invio in corso..." : "Invia"}
-                            </button>
-                        </form>
-                    ) : (
-                        <div className="alert alert-success" role="alert">
-                            Messaggio inviato al proprietario!
+                        <div className="mb-3">
+                            <label htmlFor="name" className="form-label">
+                                Nome <span className="text-danger">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                id="name"
+                                placeholder="Inserisci il tuo nome"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
                         </div>
-                    )}
-                </div>
-            )}
+
+                        <div className="mb-3">
+                            <label htmlFor="email" className="form-label">
+                                Email <span className="text-danger">*</span>
+                            </label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                id="email"
+                                placeholder="Inserisci la tua email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                required
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label htmlFor="message" className="form-label">
+                                Messaggio <span className="text-danger">*</span>
+                            </label>
+                            <textarea
+                                className="form-control"
+                                id="message"
+                                rows="5"
+                                placeholder="Scrivi il tuo messaggio"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                required
+                            ></textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="btn btn-success m-2"
+                            disabled={loading} // Disabilita il pulsante durante il caricamento
+                        >
+                            {loading ? "Invio in corso..." : "Invia"}
+                        </button>
+                    </form>
+                ) : (
+                    <div className="alert alert-success" role="alert">
+                        Messaggio inviato al proprietario!
+                    </div>
+                )}
+            </div>
         </div>
-    );
+    )
 }

@@ -75,8 +75,8 @@ export default function ReviewFormCard({ apartment_id, setReviews }) {
     }
 
     return (
-        <div className="container">
-            <div className="card m-4 bg-white text-dark">
+        <>
+            <div className="card my-4 bg-white text-dark">
                 <div className="card-body">
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-3">
@@ -143,7 +143,7 @@ export default function ReviewFormCard({ apartment_id, setReviews }) {
                     )}
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

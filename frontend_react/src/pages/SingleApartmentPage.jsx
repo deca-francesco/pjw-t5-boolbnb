@@ -84,19 +84,15 @@ export default function SingleApartmentPage() {
 
                 </div>
 
-                <hr />
 
-                <div className="container">
-                    {!isOwner && (
-                        <div>
-                            <button className='btn btn-dark mt-5  mb-3 m-1 text-white' onClick={toggleForm}>
-                                {showForm ? <i className="bi bi-x-circle-fill"></i> : 'Scrivi Una Recesione'}
-                            </button>
-                            {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
-                        </div>
-                    )}
-
-                </div>
+                {!isOwner && (
+                    <div>
+                        <button className='btn btn-dark mt-5  mb-3 text-white' onClick={toggleForm}>
+                            {showForm ? <i className="bi bi-x-circle-fill"></i> : 'Scrivi Una Recesione'}
+                        </button>
+                        {showForm && <ReviewFormCard apartment_id={id} setReviews={setReviews} />}
+                    </div>
+                )}
                 <ReviewCard reviews={reviews} setReviews={setReviews}></ReviewCard>
             </div>
 
