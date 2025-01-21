@@ -211,129 +211,142 @@ export default function NewApartmentPage() {
     return (
         <>
             <div className="container mb-5">
-                <h2 className="mt-3">Inserisci i dati del nuovo appartamento</h2>
-                <form onSubmit={handleSubmit} className="mt-5 card p-4">
-                    <div className="mb-3">
-                        <label className="form-label">Nome appartamento *</label>
-                        <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} required />
+                <div> <h1 className="display-4 text-center mt-3" style={{ fontSize: "4rem", fontFamily: "Montserrat" }}><strong>Inserisci i dati del nuovo appartamento</strong> </h1></div>
+                <form onSubmit={handleSubmit} className="mt-5 card p-4 fs-5 shadow">
+                    <div className="row mb-3">
+                        <div className="col-md-6">
+                            <label className="form-label">Nome appartamento *</label>
+                            <input type="text" className="form-control" name="title" value={formData.title} onChange={handleChange} required />
+                        </div>
+                        <div className="col-md-6">
+                            <label className="form-label">Stanze *</label>
+                            <input type="number" min="1" className="form-control" name="rooms" value={formData.rooms} onChange={handleChange} required />
+                        </div>
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Stanze *</label>
-                        <input type="number" min="1" className="form-control" name="rooms" value={formData.rooms} onChange={handleChange} required />
+                    <div className="row mb-3">
+                        <div className="col-md-6">
+                            <label className="form-label">Letti *</label>
+                            <input type="number" min="1" className="form-control" name="beds" value={formData.beds} onChange={handleChange} required />
+                        </div>
+                        <div className="col-md-6">
+                            <label className="form-label">Bagni *</label>
+                            <input type="number" min="1" className="form-control" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required />
+                        </div>
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Letti *</label>
-                        <input type="number" min="1" className="form-control" name="beds" value={formData.beds} onChange={handleChange} required />
+                    <div className="row mb-3">
+                        <div className="col-md-6">
+                            <label className="form-label">Metri Quadri *</label>
+                            <input type="number" min="1" className="form-control" name="square_meters" value={formData.square_meters} onChange={handleChange} required />
+                        </div>
+                        <div className="col-md-6">
+                            <label className="form-label">Indirizzo *</label>
+                            <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required />
+                        </div>
                     </div>
-                    <div className="mb-3">
-                        <label className="form-label">Bagni *</label>
-                        <input type="number" min="1" className="form-control" name="bathrooms" value={formData.bathrooms} onChange={handleChange} required />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Metri Quadri *</label>
-                        <input type="number" min="1" className="form-control" name="square_meters" value={formData.square_meters} onChange={handleChange} required />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Indirizzo *</label>
-                        <input type="text" className="form-control" name="address" value={formData.address} onChange={handleChange} required />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label">Città *</label>
-                        <input type="text" className="form-control" name="city" value={formData.city} onChange={handleChange} required />
+                    <div className="row mb-3">
+                        <div className="col-md-6">
+                            <label className="form-label">Città *</label>
+                            <input type="text" className="form-control" name="city" value={formData.city} onChange={handleChange} required />
+                        </div>
                     </div>
 
                     {/* Aggiungi più campi per le immagini */}
-                    {imageFields.map((field, index) => (
-                        <div className="mb-3" key={index}>
-                            <label className="form-label">
-                                {index === 0
-                                    ? "Immagine copertina (è l'immagine visibile nella homepage e la prima immagine che l'utente visualizzerà nella pagina di dettaglio)."
-                                    : `Immagine ${index + 1}:`}
-                            </label>
-                            <input
-                                type="file"
-                                className="form-control"
-                                name="images"
-                                accept="image/*"
-                                onChange={(e) => handleFileChange(e, index)}
-                                multiple
-                                required
-                            />
-                        </div>
-                    ))}
+                    <div className="row mb-3">
+                        {imageFields.map((field, index) => (
+                            <div className="col-md-6" key={index}>
+                                <label className="form-label mt-3">
+                                    {index === 0
+                                        ? "Immagine copertina *"
+                                        : `Immagine ${index + 1}:`}
+                                </label>
+                                <input
+                                    type="file"
+                                    className="form-control"
+                                    name="images"
+                                    accept="image/*"
+                                    onChange={(e) => handleFileChange(e, index)}
+                                    multiple
+                                    required
+                                />
+                            </div>
+                        ))}
+                    </div>
+                    <div className="col d-flex justify-content-center">
 
+                        <button
+                            type="button"
+                            onClick={addImageField}
+                            className="btn btn-dark my-3 p-2 fs-5"
+                            disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
+                        >
+                            Aggiungi un'altra immagine
+                        </button>
+                    </div>
 
-                    <button
-                        type="button"
-                        onClick={addImageField}
-                        className="btn btn-dark mb-4 btn-sm"
-                        disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
-                    >
-                        Aggiungi un'altra immagine
-                    </button>
-
-                    <fieldset >
-                        <legend>Servizi</legend>
+                    <fieldset>
+                        <legend><strong>Servizi</strong></legend>
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-5">
                             <div className="col">
-                                <input type="checkbox" name="services" value={1} checked={formData.services.includes(1)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={1} checked={formData.services.includes(1)} onChange={handleServiceChange} className="me-2 form-check-input form-check-input" />
                                 <label>Wi-Fi gratuito</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={2} checked={formData.services.includes(2)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={2} checked={formData.services.includes(2)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Parcheggio privato</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={3} checked={formData.services.includes(3)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={3} checked={formData.services.includes(3)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Piscina</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={4} checked={formData.services.includes(4)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={4} checked={formData.services.includes(4)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Aria condizionata</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={5} checked={formData.services.includes(5)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={5} checked={formData.services.includes(5)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Lavatrice</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={6} checked={formData.services.includes(6)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={6} checked={formData.services.includes(6)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Colazione inclusa</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={7} checked={formData.services.includes(7)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={7} checked={formData.services.includes(7)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Palestra</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={8} checked={formData.services.includes(8)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={8} checked={formData.services.includes(8)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Animali ammessi</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={9} checked={formData.services.includes(9)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={9} checked={formData.services.includes(9)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>Terrazza panoramica</label>
                             </div>
 
                             <div className="col">
-                                <input type="checkbox" name="services" value={10} checked={formData.services.includes(10)} onChange={handleServiceChange} className="me-2" />
+                                <input type="checkbox" name="services" value={10} checked={formData.services.includes(10)} onChange={handleServiceChange} className="me-2 form-check-input" />
                                 <label>TV via cavo</label>
                             </div>
                         </div>
-                    </fieldset >
+                    </fieldset>
 
                     <div className="pb-2">I campi contrassegnati da "<strong>*</strong>" sono obbligatori</div>
-
-                    <button type="submit" className="btn btn-dark btn-sm">Salva nuovo appartamento</button>
+                    <div className="col d-flex justify-content-center">
+                        <button type="submit" className="btn btn-dark text-center p-2 my-3 fs-5">Salva nuovo appartamento</button>
+                    </div>
                 </form>
             </div>
 
             <ToastContainer />
         </>
     );
+
 }
