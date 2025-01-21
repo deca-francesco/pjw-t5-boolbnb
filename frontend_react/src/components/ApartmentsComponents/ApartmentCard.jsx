@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import HeartIconVote from './HeartIconVote';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBathtub, faBed, faBroom, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
+import { faBathtub, faBed, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 
 export default function ApartmentCard({ apartment, setApartments, setFilteredApartments }) {
     // Se l'appartamento ha immagini
