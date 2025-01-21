@@ -98,7 +98,7 @@ export default function AdvancedSearchPage() {
                                 </div>
                             ))}
                             <div className="col-12 mt-3">
-                                <button className="btn btn-primary w-100 my-4 fs-5" onClick={() => applyFilters()}>
+                                <button className="btn btn-dark my-4 fs-5" onClick={() => applyFilters()}>
                                     Applica Filtri
                                 </button>
                                 <p className="mt-2 fs-5">Appartamenti trovati: {filteredApartments.length}</p>
