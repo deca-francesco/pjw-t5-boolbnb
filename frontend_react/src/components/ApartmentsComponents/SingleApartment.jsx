@@ -94,31 +94,31 @@ const ApartmentCard = ({ apartment, setApartment }) => {
               <p className="mb-1"><strong>
                 <FontAwesomeIcon icon={faBed} /> Letti:
               </strong>
-                {apartment.beds}
+                <span className='ms-1'>{apartment.beds}</span>
               </p>
               <p className="mb-1">
                 <strong>
                   <FontAwesomeIcon icon={faBathtub} /> Bagni:
                 </strong>
-                {apartment.bathrooms}
+                <span className='ms-1'>{apartment.bathrooms}</span>
               </p>
               <p className="mb-1">
                 <strong>
                   <FontAwesomeIcon icon={faRuler} />  Metri Quadri:
                 </strong>
-                {apartment.square_meters} m²
+                <span className='ms-1'>{apartment.square_meters}m²</span>
               </p>
               <p className="mb-1">
                 <strong>
                   <FontAwesomeIcon icon={faDoorClosed} /> Stanze:
                 </strong>
-                {apartment.rooms}
+                <span className='ms-1'>{apartment.rooms}</span>
               </p>
               <p className="mb-1">
                 <strong>
                   <FontAwesomeIcon icon={faMapLocationDot} /> Indirizzo:
                 </strong>
-                {apartment.address}, {apartment.city}
+                <span className='ms-1'>{apartment.address}, {apartment.city}</span>
               </p>
             </div>
 
