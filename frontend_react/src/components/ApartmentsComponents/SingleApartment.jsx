@@ -47,7 +47,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
               <div className="row g-0">
                 {/* Colonna per l'immagine grande */}
                 {!images ? (
-                  <p>No images available</p>  // Se non ci sono immagini
+                  <p>No images available</p> // Se non ci sono immagini
                 ) : (
                   <div className="col-12 col-md-6 p-1 bg-light">
                     <img
@@ -55,9 +55,9 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                       alt={apartment.title}
                       className="img-fluid"
                       style={{
-                        height: "100%",
-                        objectFit: "cover",
-                        width: "100%",
+                        height: "404px", // Altezza fissa per l'immagine grande
+                        objectFit: "cover", // Copri l'area senza distorcere l'immagine
+                        width: "100%", // Larghezza al 100% del contenitore
                       }}
                     />
                   </div>
@@ -68,7 +68,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                   <div className="row g-1">
                     {images && images.length > 1 && (
                       images.slice(1, 5).map((image, index) => ( // Prende le prime 4 immagini
-                        <div key={index} className="col-6">
+                        <div key={index} className="col-6 col-sm-6 col-md-6">
                           <div className="d-flex justify-content-center align-items-center fs-5">
                             <img
                               src={image} // Ogni immagine è un URL
@@ -77,7 +77,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                               style={{
                                 objectFit: "cover", // Copri l'area senza distorcere l'immagine
                                 width: "100%", // Imposta la larghezza al 100% del contenitore
-                                height: "100%", // Imposta l'altezza fissa per tutte le immagini
+                                height: "200px", // Altezza fissa per le immagini piccole
                               }}
                             />
                           </div>
@@ -88,6 +88,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                 </div>
               </div>
             </div>
+
 
             {/* Display apartment details */}
             <div className="col-4 fs-5">
