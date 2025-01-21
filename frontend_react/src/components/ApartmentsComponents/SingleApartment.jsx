@@ -1,6 +1,6 @@
 import HeartIconVote from './HeartIconVote'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPanorama, faCar, faDumbbell, faMugHot, faPaw, faPersonSwimming, faTv, faWind, faShirt, faWifi } from '@fortawesome/free-solid-svg-icons'
+import { faPanorama, faCar, faDumbbell, faMugHot, faPaw, faPersonSwimming, faTv, faWind, faShirt, faWifi, faBed, faBathtub, faRuler, faDoorClosed, faMailBulk, faMapLocationDot } from '@fortawesome/free-solid-svg-icons'
 
 const ApartmentCard = ({ apartment, setApartment }) => {
   // Controlla se esistono immagini
@@ -91,11 +91,35 @@ const ApartmentCard = ({ apartment, setApartment }) => {
 
             {/* Display apartment details */}
             <div className="col-4 fs-5">
-              <p className="mb-1"><strong>Letti:</strong> {apartment.beds}</p>
-              <p className="mb-1"><strong>Bagni:</strong> {apartment.bathrooms}</p>
-              <p className="mb-1"><strong>Metri Quadri:</strong> {apartment.square_meters} m²</p>
-              <p className="mb-1"><strong>Stanze:</strong> {apartment.rooms}</p>
-              <p className="mb-1"><strong>Indirizzo:</strong> {apartment.address}, {apartment.city}</p>
+              <p className="mb-1"><strong>
+                <FontAwesomeIcon icon={faBed} /> Letti:
+              </strong>
+                {apartment.beds}
+              </p>
+              <p className="mb-1">
+                <strong>
+                  <FontAwesomeIcon icon={faBathtub} /> Bagni:
+                </strong>
+                {apartment.bathrooms}
+              </p>
+              <p className="mb-1">
+                <strong>
+                  <FontAwesomeIcon icon={faRuler} />  Metri Quadri:
+                </strong>
+                {apartment.square_meters} m²
+              </p>
+              <p className="mb-1">
+                <strong>
+                  <FontAwesomeIcon icon={faDoorClosed} /> Stanze:
+                </strong>
+                {apartment.rooms}
+              </p>
+              <p className="mb-1">
+                <strong>
+                  <FontAwesomeIcon icon={faMapLocationDot} /> Indirizzo:
+                </strong>
+                {apartment.address}, {apartment.city}
+              </p>
             </div>
 
             {/* Display the services if available */}
