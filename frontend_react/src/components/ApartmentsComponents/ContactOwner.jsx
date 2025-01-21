@@ -61,7 +61,7 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
     return (
         <div>
 
-            <h2 className="mt-3">Contatta subito il proprietario!</h2>
+            <h5 className="mt-3">Contatta subito il proprietario!</h5>
             <div className="card p-3 mt-1 bg-light">
                 {!formSubmitted ? (
                     <form onSubmit={handleSubmit}>

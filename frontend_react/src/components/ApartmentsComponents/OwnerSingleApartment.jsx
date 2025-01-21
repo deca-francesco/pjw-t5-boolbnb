@@ -7,7 +7,7 @@ const OwnerInfo = ({ owner }) => {
     if (!owner) return null;
 
     return (
-        <div className="owner-info p">
+        <div className="owner-info p fs-5">
             <h5>Proprietario</h5>
             <p className='m-0'><strong><i className="bi bi-person-fill"></i></strong>{owner.name + " " + owner.last_name}</p>
             {owner.phone_number && <p className='m-0'><strong><i className="bi bi-telephone-fill"></i></strong> {owner.phone_number}</p>}
