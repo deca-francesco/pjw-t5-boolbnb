@@ -79,14 +79,14 @@ export default function AdvancedSearchPage() {
                     {/* Filters Section */}
                     <div className="advanced-search mb-4">
                         <h1>Ricerca Avanzata</h1>
-                        <div className="filters row align-items-end">
+                        <div className="filters row align-items-end my-4 fs-5">
                             {/* Filter by Beds */}
                             <div className="col-md-3">
-                                <label>Beds:</label>
+                                <label>Letti:</label>
                                 <input
                                     type="number"
                                     min="1"
-                                    placeholder="Minimum Beds"
+                                    placeholder="Numero minimo letti"
                                     className="form-control"
                                     value={filters.letti}
                                     onChange={(e) => setFilters({ ...filters, letti: e.target.value })}
@@ -94,11 +94,11 @@ export default function AdvancedSearchPage() {
                             </div>
                             {/* Filter by Bathrooms */}
                             <div className="col-md-3">
-                                <label>Bathrooms:</label>
+                                <label>Bagni:</label>
                                 <input
                                     type="number"
                                     min="1"
-                                    placeholder="Minimum Bathrooms"
+                                    placeholder="Numero minimo bagni"
                                     className="form-control"
                                     value={filters.bagni}
                                     onChange={(e) => setFilters({ ...filters, bagni: e.target.value })}
@@ -106,11 +106,11 @@ export default function AdvancedSearchPage() {
                             </div>
                             {/* Filter by Square Meters */}
                             <div className="col-md-3">
-                                <label>Square Meters:</label>
+                                <label>Metri quadri:</label>
                                 <input
                                     type="number"
                                     min="1"
-                                    placeholder="Minimum Square Meters"
+                                    placeholder="Numero minimo metri quadri"
                                     className="form-control"
                                     value={filters.metriQuadri}
                                     onChange={(e) => setFilters({ ...filters, metriQuadri: e.target.value })}
@@ -118,11 +118,11 @@ export default function AdvancedSearchPage() {
                             </div>
                             {/* Filter by Rooms */}
                             <div className="col-md-3">
-                                <label>Rooms:</label>
+                                <label>Stanze:</label>
                                 <input
                                     type="number"
                                     min="1"
-                                    placeholder="Minimum Rooms"
+                                    placeholder="Numero minimo stanze"
                                     className="form-control"
                                     value={filters.stanze}
                                     onChange={(e) => setFilters({ ...filters, stanze: e.target.value })}
@@ -130,7 +130,7 @@ export default function AdvancedSearchPage() {
                             </div>
                             {/* Apply Filters Button */}
                             <div className="col-12 mt-3">
-                                <button className="btn btn-primary w-100" onClick={applyFilters}>
+                                <button className="btn btn-primary w-100 my-4 fs-5" onClick={applyFilters}>
                                     Applica Filtri
                                 </button>
                             </div>
@@ -153,8 +153,8 @@ export default function AdvancedSearchPage() {
                             ))
                         ) : (
                             // Display message when no apartments match filters
-                            <div className="col-12 text-center">
-                                <p>No apartments found.</p>
+                            <div className="col-12 text-center fs-3 text-nowrap w-100">
+                                <p>Nessun appartamento trovato con i filtri inseriti</p>
                             </div>
                         )}
                     </div>
