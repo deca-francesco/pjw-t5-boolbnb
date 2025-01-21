@@ -266,7 +266,7 @@ export default function NewApartmentPage() {
                     <button
                         type="button"
                         onClick={addImageField}
-                        className="btn btn-secondary mb-3"
+                        className="btn btn-dark mb-3"
                         disabled={imageFields.length >= 5} // Disabilita se ci sono già 5 campi
                     >
                         Aggiungi un'altra immagine
@@ -329,7 +329,7 @@ export default function NewApartmentPage() {
 
                     <div className="pb-2">I campi contrassegnati da "<strong>*</strong>" sono obbligatori</div>
 
-                    <button type="submit" className="btn btn-secondary">Salva nuovo appartamento</button>
+                    <button type="submit" className="btn btn-dark">Salva nuovo appartamento</button>
                 </form>
             </div>
 

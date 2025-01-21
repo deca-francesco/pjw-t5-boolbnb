@@ -1,4 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 export default function LoginButton({ setIsAuthenticated }) {
     const navigate = useNavigate();
@@ -30,14 +32,14 @@ export default function LoginButton({ setIsAuthenticated }) {
 
                     <button
                         onClick={handleCreateApartment}
-                        className="btn btn-light text-dark mx-3"
+                        className="btn btn-light text-dark mx-3 fs-4"
                         style={{ zIndex: 10, marginLeft: '10px' }}
                     >
                         Crea Appartamento
                     </button>
                     <button
                         onClick={handleLogout}
-                        className="btn btn-light text-dark mx-3"
+                        className="btn btn-light text-dark mx-3 fs-4"
                         style={{ zIndex: 10 }}
                     >
                         Logout
@@ -48,10 +50,10 @@ export default function LoginButton({ setIsAuthenticated }) {
             ) : (
                 <button
                     onClick={handleLogin}
-                    className="btn btn-light"
+                    className="btn btn-transparent text-white text-decoration-none fs-4"
                     style={{ zIndex: 10 }}
                 >
-                    Login / Registrati
+                    <p className="fs-4"><FontAwesomeIcon icon={faRightToBracket}/> / Registrati</p>
                 </button>
             )}
         </div>
