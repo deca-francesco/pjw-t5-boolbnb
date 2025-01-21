@@ -3,7 +3,7 @@ export default function ReviewCard({ reviews }) {
 
     return (
         <>
-            <h2>{reviews.length} Recensioni</h2>
+            <h4>{reviews.length} Recensioni</h4>
             {reviews.length === 0 ? (
                 <p>Nessuna recensione disponibile.</p>
             ) : (
