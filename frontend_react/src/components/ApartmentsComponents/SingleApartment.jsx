@@ -69,7 +69,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                     {images && images.length > 1 && (
                       images.slice(1, 5).map((image, index) => ( // Prende le prime 4 immagini
                         <div key={index} className="col-6">
-                          <div className="d-flex justify-content-center align-items-center">
+                          <div className="d-flex justify-content-center align-items-center fs-5">
                             <img
                               src={image} // Ogni immagine è un URL
                               alt={`${apartment.title} Small ${index + 1}`}
@@ -90,7 +90,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
             </div>
 
             {/* Display apartment details */}
-            <div className="col-4">
+            <div className="col-4 fs-5">
               <p className="mb-1"><strong>Letti:</strong> {apartment.beds}</p>
               <p className="mb-1"><strong>Bagni:</strong> {apartment.bathrooms}</p>
               <p className="mb-1"><strong>Metri Quadri:</strong> {apartment.square_meters} m²</p>
@@ -105,7 +105,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
                 <h5>Servizi:</h5>
                 <ul className='px-0'>
                   {apartment.services.map((service, index) => (
-                    <li key={index} className="d-flex align-items-center justify-content-start">
+                    <li key={index} className="d-flex align-items-center justify-content-start fs-5">
                       <span className="me-2">{getServiceIcon(service)}</span>
                       <span>{service}</span>
                     </li>
