@@ -34,6 +34,8 @@ export default function ApartmentCard({ apartment, setApartments, setFilteredApa
                 <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
                     <strong>{apartment.city}</strong>
                 </p>
+            </Link>
+            <div className="pt-2 d-flex justify-content-between">
                 <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
                     <strong>
                         <FontAwesomeIcon icon={faDoorClosed} /> {apartment.rooms}
@@ -49,8 +51,6 @@ export default function ApartmentCard({ apartment, setApartments, setFilteredApa
                         </strong>
                     </span>
                 </p>
-            </Link>
-            <div className="pt-2">
                 <HeartIconVote data_apartment={apartment} setApartments={setApartments} setFilteredApartments={setFilteredApartments} />
             </div>
 
