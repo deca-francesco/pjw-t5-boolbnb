@@ -89,7 +89,7 @@ export default function AdvancedSearchPage() {
                                     <label>{field.charAt(0).toUpperCase() + field.slice(1)}:</label>
                                     <input
                                         type="number"
-                                        min="1"
+                                        min={field === 'metriQuadri' ? 20 : 1}
                                         placeholder={`Numero minimo ${field}`}
                                         className="form-control"
                                         value={filters[field]}
