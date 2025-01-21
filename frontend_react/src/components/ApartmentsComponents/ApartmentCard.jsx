@@ -20,7 +20,7 @@ export default function ApartmentCard({ apartment, setApartments, setFilteredApa
                     alt={apartment.title}
                     className="img-fluid rounded-top"
                     style={{
-                        height: "270px",
+                        height: "250px",
                         objectFit: "cover",
                         width: "100%",
                     }}
