@@ -114,7 +114,7 @@ export default function ContactOwner({ apartmentId }) { // Ricevi l'ID dell'appa
 
                         <button
                             type="submit"
-                            className="btn btn-dark m-2 btn-sm"
+                            className="btn btn-dark my-2 btn-sm"
                             disabled={loading} // Disabilita il pulsante durante il caricamento
                         >
                             {loading ? "Invio in corso..." : "Contatta"}
