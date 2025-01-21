@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import HeartIconVote from './HeartIconVote';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBathtub, faBed, faDoorClosed } from '@fortawesome/free-solid-svg-icons';
 
 export default function ApartmentCard({ apartment, setApartments, setFilteredApartments }) {
     // Se l'appartamento ha immagini
@@ -31,6 +33,21 @@ export default function ApartmentCard({ apartment, setApartments, setFilteredApa
                 </p>
                 <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
                     <strong>{apartment.city}</strong>
+                </p>
+                <p className="address p-2 m-0 text-muted" style={{ fontSize: "1rem" }}>
+                    <strong>
+                        <FontAwesomeIcon icon={faDoorClosed} /> {apartment.rooms}
+                    </strong>
+                    <span className='ms-2'>
+                        <strong>
+                            <FontAwesomeIcon icon={faBed} /> {apartment.beds}
+                        </strong>
+                    </span>
+                    <span className='ms-2'>
+                        <strong>
+                            <FontAwesomeIcon icon={faBathtub} /> {apartment.bathrooms}
+                        </strong>
+                    </span>
                 </p>
             </Link>
             <div className="pt-2">

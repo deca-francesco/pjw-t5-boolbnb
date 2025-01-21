@@ -283,8 +283,6 @@ export default function NewApartmentPage() {
                         </button>
                     </div>
 
-
-
                     <fieldset>
                         <legend><strong>Servizi</strong></legend>
                         <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 mb-5">
@@ -342,7 +340,6 @@ export default function NewApartmentPage() {
 
                     <div className="pb-2">I campi contrassegnati da "<strong>*</strong>" sono obbligatori</div>
                     <div className="col d-flex justify-content-center">
-
                         <button type="submit" className="btn btn-dark text-center p-2 my-3 fs-5">Salva nuovo appartamento</button>
                     </div>
                 </form>
