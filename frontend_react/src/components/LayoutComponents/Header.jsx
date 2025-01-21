@@ -45,44 +45,45 @@ export default function Header() {
     return (
         <header className="py-3 shadow position-sticky top-0 z-3 header">
             <div className="container">
-                <div className="d-flex justify-content-between align-items-center">
+                <div className="row align-items-center">
                     {/* Logo */}
-                    <div className="logo">
+                    <div className="col-12 col-md-auto text-center text-md-start mb-3 mb-md-0">
                         <a
                             className="text-decoration-none"
                             href="/protected"
                             onClick={handleHomeClick}
                         >
                             <img src={Bool_Logo} className="logo" alt="BoolB&B logo" style={{ width: 250 }} />
-                            
                         </a>
                     </div>
 
                     {/* Mobile Searchbar (Visible between the logo and the hamburger menu) */}
-                    <div className="d-flex d-lg-none flex-grow-1 justify-content-center mx-3">
+                    <div className="col-12 d-flex d-lg-none justify-content-center mb-3 mb-lg-0">
                         <Searchbar />
                     </div>
 
                     {/* Toggle Button for Hamburger Menu */}
-                    <button
-                        className="navbar-toggler d-lg-none border-0 text-white"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarMenu"
-                        aria-controls="navbarMenu"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
-                        <i className="bi bi-list fs-1"></i>
-                    </button>
+                    <div className="col-auto d-lg-none">
+                        <button
+                            className="navbar-toggler border-0 text-white"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarMenu"
+                            aria-controls="navbarMenu"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <i className="bi bi-list fs-1"></i>
+                        </button>
+                    </div>
 
                     {/* Desktop Searchbar (Visible only in Desktop, on the same row) */}
-                    <div className="d-none d-lg-flex flex-grow-1 justify-content-center mx-3">
+                    <div className="col d-none d-lg-flex justify-content-center">
                         <Searchbar />
                     </div>
 
                     {/* Desktop Navigation (On the same row) */}
-                    <div className="d-none d-lg-flex">
+                    <div className="col-auto d-none d-lg-flex">
                         <nav>
                             <ul className="list-unstyled m-0 d-flex align-items-center">
                                 {isAuthenticated ? (
