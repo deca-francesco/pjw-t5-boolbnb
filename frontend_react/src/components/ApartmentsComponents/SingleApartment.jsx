@@ -95,8 +95,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
               <p className="mb-1"><strong>Bagni:</strong> {apartment.bathrooms}</p>
               <p className="mb-1"><strong>Metri Quadri:</strong> {apartment.square_meters} m²</p>
               <p className="mb-1"><strong>Stanze:</strong> {apartment.rooms}</p>
-              <p className="mb-1"><strong>Indirizzo:</strong> {apartment.address}</p>
-              <p className="mb-1"><strong>Città:</strong> {apartment.city}</p>
+              <p className="mb-1"><strong>Indirizzo:</strong> {apartment.address}, {apartment.city}</p>
             </div>
 
             {/* Display the services if available */}
@@ -104,7 +103,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
               <div className="services-section">
                 <hr />
                 <h5>Servizi:</h5>
-                <ul>
+                <ul className='px-0'>
                   {apartment.services.map((service, index) => (
                     <li key={index} className="d-flex align-items-center justify-content-start">
                       <span className="me-2">{getServiceIcon(service)}</span>
@@ -120,9 +119,7 @@ const ApartmentCard = ({ apartment, setApartment }) => {
         <div>Loading apartment...</div>
       )}
     </>
-  );
-
-
+  )
 }
 
 export default ApartmentCard;
