@@ -43,7 +43,6 @@ Web App che permette di:
 <img src="./screenshots/new-apartment.png" width="30%">
 <br>
 
-
 ### DIPENDENZE BACK-END
 - express
 - mysql2
